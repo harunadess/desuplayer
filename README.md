@@ -1,2 +1,2 @@
 # console-music-player
-Console application written in C++
+Console music player written in C++
