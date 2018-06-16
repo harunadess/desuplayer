@@ -64,10 +64,17 @@ void test_io(int argc)
 	delete io;
 }
 
+void test_keypress(int argc)
+{
+	IOHandler* io = new IOHandler();
+	io->test_keypress();
+}
+
 int main(int argc)
 {
-	start(argc); //hand off to start function
-	//test_io(argc);
+	//start(argc); //hand off to start function for music player
+	//test_io(argc); //testing io handler
+	test_keypress(argc); //testing keypress stuff
 	//program end
 	cout << "Press any key to continue.." << endl;
 	cin.clear();

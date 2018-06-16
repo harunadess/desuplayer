@@ -36,3 +36,18 @@ void IOHandler::outputHeading(const char* output)
 		<< "  " << output << endl 
 		<< headingLine_ << endl;
 }
+
+void IOHandler::test_keypress()
+{
+	cout << "Press a key for an int value" << endl
+		<< "Press ESC to EXIT" << endl;
+	
+	int keyValue = 0;
+	char c = '.';
+	while (true)
+	{
+		keyValue = _getwch();
+		c = keyValue;
+		cout << c << "->" << keyValue << endl;
+	}
+}

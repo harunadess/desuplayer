@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <conio.h>
 
 using std::string;
 using std::cout;
@@ -22,8 +23,10 @@ public:
 	void outputText(const char* output);
 	void outputTextWithSpacing(const char* output);
 	void outputHeading(const char* output);
+	void test_keypress();
 private:
-	const char* headingLine_ = "========================================================";
+	const string headingLine_ = "========================================================";
+	string input_ = "/";
 };
 
 #endif // !IO_HANDLER_H
