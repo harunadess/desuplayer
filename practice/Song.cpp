@@ -3,8 +3,8 @@
 Song::Song(string title, Album* album, Artist* artist)
 {
 	this->title_ = title;
-	this->album_ = new Album(album->getTitle());
-	this->artist_ = new Artist(artist->getName());
+	this->album_ = new Album(*album);
+	this->artist_ = new Artist(*artist);
 }
 
 Song::~Song()

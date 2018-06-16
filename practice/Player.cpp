@@ -17,6 +17,7 @@ Player::Player()
 
 Player::~Player()
 {
+	delete this->extraDriverData_;
 }
 
 void(*Common_Private_Error)(FMOD_RESULT, const char *, int);
@@ -64,134 +65,140 @@ void Player::initialize()
 
 void Player::systemCreate()
 {
-	result = FMOD::System_Create(&system);
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = FMOD::System_Create(&system_);
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::checkFmodVersion()
 {
-	if (version < FMOD_VERSION) //ensure library version matches files
+	if (version_ < FMOD_VERSION) //ensure library version matches files
 	{
-		cout << ("FMOD lib version %08x doesn't match header version %08x", version, FMOD_VERSION) << endl;
+		cout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
 		exit(0);
 	}
 }
 
 void Player::getFmodVersion()
 {
-	result = system->getVersion(&version);
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->getVersion(&version_);
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::systemInitialize()
 {
-	result = system->init(32, FMOD_INIT_NORMAL, extraDriverData); //initialize system with driver data
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->init(32, FMOD_INIT_NORMAL, extraDriverData_); //initialize system with driver data
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::createStream(const char *songLocation)
 {
 	//result = system->createStream("../media/sound.mp3", FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound); //create stream to play
-	result = system->createStream(songLocation, FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound); //create stream to play
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->createStream(songLocation, FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound_); //create stream to play
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::playSound()
 {
-	result = system->playSound(sound, 0, false, &channel); //actual call to play sound
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->playSound(sound_, 0, false, &channel_); //actual call to play sound
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::corePlayLoop() //currently plays song in repeat
 {
 	char c = '/'; //control character
-	cout << "Use 'p' to pause, 'e' to exit.";
+	cout << "Use 'p' to pause, 'e' to exit." << endl;
 	
-	do //control for main play loop
+	while (true)
 	{
-		//ToDo: create input handler to deal with input
 		cin >> c; //use this to get user input for controlling the player: currently a char, but should probably be a key press.
 		if (c == 'p')
 		{
 			bool paused;
-			result = channel->getPaused(&paused);
-			ERRCHECK_fn(result, __FILE__, __LINE__);
-			result = channel->setPaused(!paused);
+			result_ = channel_->getPaused(&paused);
+			ERRCHECK_fn(result_, __FILE__, __LINE__);
+			result_ = channel_->setPaused(!paused);
 		}
 
 		this->systemUpdate();
 
 		{
-			unsigned int ms = 0; //not used - potentially needed to display "time left"
-			unsigned int lenms = 0; //not used - as above ^
+			unsigned int ms = 0;
+			unsigned int lenms = 0;
 			bool         playing = false; //control flag for playing
 			bool         paused = false; //control flag for paused
 
-			if (channel)
+			if (channel_)
 			{
-				this->isPlaying(playing);
-
-				this->isPaused(paused);
-
-				this->getPosition(ms);
+				this->checkIsPlaying(playing);
+				this->checkIsPaused(paused);
+				this->getSeekPosition(ms);
 			}
-			cout << (paused ? "Paused " : playing ? "Playing" : "Stopped") << endl;
-		} //playing block
+			if (paused)
+				cout << "Paused" << endl;
+			else if (playing)
+				cout << "Playing: " << (ms * 1000) << "s" << endl;
+			else
+				cout << "Stopped" << endl;
+		}
 
 		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possbile
-	} while (c != 'e'); //exit condition
+
+		if (c == 'e')
+			break;
+	}
 }
 
 void Player::systemUpdate()
 {
-	result = system->update(); //post init update function
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->update(); //post init update function
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
-bool Player::isPlaying(bool playing)
+bool Player::checkIsPlaying(bool& playing)
 {
-	result = channel->isPlaying(&playing);
-	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE))
+	result_ = channel_->isPlaying(&playing);
+	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
-		ERRCHECK_fn(result, __FILE__, __LINE__);
+		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
 	return playing;
 }
 
-bool Player::isPaused(bool paused)
+bool Player::checkIsPaused(bool& paused)
 {
-	result = channel->getPaused(&paused);
-	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE))
+	result_ = channel_->getPaused(&paused);
+	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
-		ERRCHECK_fn(result, __FILE__, __LINE__);
+		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
 	return paused;
 }
 
-void Player::getPosition(unsigned int ms)
+unsigned int Player::getSeekPosition(unsigned int ms)
 {
-	result = channel->getPosition(&ms, FMOD_TIMEUNIT_MS);
-	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE))
+	result_ = channel_->getPosition(&ms, FMOD_TIMEUNIT_MS);
+	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
-		ERRCHECK_fn(result, __FILE__, __LINE__);
+		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
+	return ms;
 }
 
 void Player::soundRelease()
 {
-	result = sound->release(); //release parent, not the sound that was retrieved with getSubSound
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = sound_->release(); //release parent, not the sound that was retrieved with getSubSound
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::systemClose()
 {
-	result = system->close(); //close system as we are done playing
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->close(); //close system as we are done playing
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
 void Player::systemRelease()
 {
-	result = system->release(); //release system now we are finished
-	ERRCHECK_fn(result, __FILE__, __LINE__);
+	result_ = system_->release(); //release system now we are finished
+	ERRCHECK_fn(result_, __FILE__, __LINE__);
 
 }

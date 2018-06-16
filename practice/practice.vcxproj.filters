@@ -33,6 +33,9 @@
     <ClCompile Include="Artist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IOHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Artist.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files\fmod</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IOHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

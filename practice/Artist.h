@@ -7,14 +7,14 @@ using std::string;
 class Artist
 {
 public:
-	Artist(std::string name);
+	Artist(string name);
 	~Artist();
 
-	std::string getName();
-	void setName(std::string name);
+	string getName();
+	void setName(string name);
 
 private:
-	std::string name_;
+	string name_;
 
 };
 
