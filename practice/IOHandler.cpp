@@ -37,17 +37,63 @@ void IOHandler::outputHeading(const char* output)
 		<< headingLine_ << endl;
 }
 
+string IOHandler::lookupKeyCode(int keyCode)
+{
+	switch (keyCode)
+	{
+	case KeyCode::ESC:
+		return "Escape";
+	case KeyCode::SPC:
+		return "Spacebar";
+	case KeyCode::A:
+		return "A";
+	case KeyCode::D:
+		return "D";
+	case KeyCode::E:
+		return "E";
+	case KeyCode::L:
+		return "L";
+	case KeyCode::P:
+		return "P";
+	case KeyCode::Q:
+		return "Q";
+	case KeyCode::R:
+		return "R";
+	case KeyCode::S:
+		return "S";
+	case KeyCode::W:
+		return "W";
+	//Arrow key initially returns this keycode
+	case KeyCode::ARROW_INIT:
+		return "";
+	//Arrow key returns actual keycode after initial
+	case KeyCode::ARROW_UP:
+		return "Arrow Up";
+	case KeyCode::ARROW_LEFT:
+		return "Arrow Left";
+	case KeyCode::ARROW_RIGHT:
+		return "Arrow Right";
+	case KeyCode::ARROW_DOWN:
+		return "Arrow Down";
+	default:
+		return "";
+	}
+}
+
 void IOHandler::test_keypress()
 {
-	cout << "Press a key for an int value" << endl
-		<< "Press ESC to EXIT" << endl;
+	cout << "Press a key." << endl;
 	
 	int keyValue = 0;
-	char c = '.';
+	string keyPressed;
 	while (true)
 	{
+		keyPressed = "/";
 		keyValue = _getwch();
-		c = keyValue;
-		cout << c << "->" << keyValue << endl;
+		keyPressed = lookupKeyCode(keyValue);
+		if (keyPressed != "")
+		{
+			cout << keyPressed << endl;
+		}
 	}
 }

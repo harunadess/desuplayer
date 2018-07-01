@@ -149,6 +149,7 @@
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_errors.h" />
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_output.h" />
     <ClInclude Include="IOHandler.h" />
+    <ClInclude Include="KeyCodes.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Song.h" />
   </ItemGroup>
