@@ -104,7 +104,9 @@ void Player::playSound()
 }
 
 void Player::corePlayLoop() //currently plays song in repeat
-{
+{   
+	//todo: modify current play loop with IOHandler to control operation 
+
 	char c = '/'; //control character
 	cout << "Use 'p' to pause, 'e' to exit." << endl;
 	
@@ -141,7 +143,7 @@ void Player::corePlayLoop() //currently plays song in repeat
 				cout << "Stopped" << endl;
 		}
 
-		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possbile
+		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possible
 
 		if (c == 'e')
 			break;

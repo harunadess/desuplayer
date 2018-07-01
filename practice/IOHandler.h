@@ -25,8 +25,6 @@ public:
 	void outputHeading(const char* output);
 	void test_keypress();
 private:
-	string lookupKeyCode(int keyCode);
-
 	const string headingLine_ = "========================================================";
 	string input_ = "/";
 	enum KeyCode 
@@ -48,6 +46,9 @@ private:
 		ARROW_RIGHT = 77,
 		ARROW_DOWN = 80
 	};
+
+	string lookupKeyCode(int keyCode);
+
 };
 
 #endif // !IO_HANDLER_H

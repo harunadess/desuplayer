@@ -12,7 +12,7 @@ using std::endl;
 	ToDo list:
 		* xxxx Comment more on parts of the Play function to understand what all the bits are doing.
 		* xxxx Split out functions into managable functions that make sense (in same file).
-		* xx Split out main loop into core play function. (could do more to fix this
+		* xx Split out main loop into core play function. (could do more to fix this)
 		* Modify current io to use new fangled io handler
 		
 		* Research ways of scanning directories for files
