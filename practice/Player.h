@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Song.h"
+#include "IOHandler.h"
 #include "ThirdParty/lowlevel/inc/fmod.hpp"
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
 
@@ -17,12 +18,20 @@ public:
 	unsigned int getSeekPosition(unsigned int ms);
 
 private:
-	FMOD::System	*system_; //system obj: will play sound
-	FMOD::Sound		*sound_; //sounds we play: initial reference to sound & actual sound we play (potentially useful for referencing
-	FMOD::Channel	*channel_ = 0; //channel we are going to play in
-	FMOD_RESULT		result_; //error checking result for play operations
-	unsigned int	version_; //version of fmod being used
-	void			*extraDriverData_ = 0; //extra driver data that is initialised - good practice to get this (helps to play directly, I assume)
+	//system obj: will play sound
+	FMOD::System* system_;
+	//actual audio
+	FMOD::Sound* sound_;
+	//current audio channel
+	FMOD::Channel* channel_ = 0;
+	//error checking result for most actions taken by FMOD
+	FMOD_RESULT result_;
+	//version of fmod being used
+	unsigned int version_;
+	//extra driver data of audio subsystem
+
+	void* extraDriverData_ = 0;	
+	IOHandler *io_;
 
 	void initialize();
 	void systemCreate();

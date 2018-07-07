@@ -23,12 +23,13 @@ public:
 	void outputText(const char* output);
 	void outputTextWithSpacing(const char* output);
 	void outputHeading(const char* output);
+	
 	void test_keypress();
-private:
-	const string headingLine_ = "========================================================";
-	string input_ = "/";
-	enum KeyCode 
+
+protected:
+	enum KeyCode
 	{
+		UNMATCHED = -1,
 		ESC = 27,
 		SPC = 32,
 		A = 97,
@@ -46,9 +47,12 @@ private:
 		ARROW_RIGHT = 77,
 		ARROW_DOWN = 80
 	};
+	int keyboardKeyCode_ = KeyCode::UNMATCHED;
 
-	string lookupKeyCode(int keyCode);
+	IOHandler::KeyCode lookupKeyCode(int keyCode);
 
+private:
+	const string headingLine_ = "========================================================";
 };
 
 #endif // !IO_HANDLER_H

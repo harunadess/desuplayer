@@ -37,60 +37,61 @@ void IOHandler::outputHeading(const char* output)
 		<< headingLine_ << endl;
 }
 
-string IOHandler::lookupKeyCode(int keyCode)
+IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
 {
 	switch (keyCode)
 	{
 	case KeyCode::ESC:
-		return "Escape";
+		return KeyCode::ESC;
 	case KeyCode::SPC:
-		return "Spacebar";
+		return KeyCode::SPC;
 	case KeyCode::A:
-		return "A";
+		return KeyCode::A;
 	case KeyCode::D:
-		return "D";
+		return KeyCode::D;
 	case KeyCode::E:
-		return "E";
+		return KeyCode::E;
 	case KeyCode::L:
-		return "L";
+		return KeyCode::L;
 	case KeyCode::P:
-		return "P";
+		return KeyCode::P;
 	case KeyCode::Q:
-		return "Q";
+		return KeyCode::Q;
 	case KeyCode::R:
-		return "R";
+		return KeyCode::R;
 	case KeyCode::S:
-		return "S";
+		return KeyCode::S;
 	case KeyCode::W:
-		return "W";
+		return KeyCode::W;
 	//Arrow key initially returns this keycode
 	case KeyCode::ARROW_INIT:
-		return "";
+		return KeyCode::ARROW_INIT;
 	//Arrow key returns actual keycode after initial
 	case KeyCode::ARROW_UP:
-		return "Arrow Up";
+		return KeyCode::ARROW_UP;
 	case KeyCode::ARROW_LEFT:
-		return "Arrow Left";
+		return KeyCode::ARROW_LEFT;
 	case KeyCode::ARROW_RIGHT:
-		return "Arrow Right";
+		return KeyCode::ARROW_RIGHT;
 	case KeyCode::ARROW_DOWN:
-		return "Arrow Down";
+		return KeyCode::ARROW_DOWN;
 	default:
-		return "";
+		return KeyCode::UNMATCHED;
 	}
 }
+
+
 
 void IOHandler::test_keypress()
 {
 	cout << "Press a key." << endl;
 	
-	int keyValue = 0;
 	string keyPressed;
 	while (true)
 	{
 		keyPressed = "/";
-		keyValue = _getwch();
-		keyPressed = lookupKeyCode(keyValue);
+		keyboardKeyCode_ = _getwch();
+		keyPressed = lookupKeyCode(keyboardKeyCode_);
 		if (keyPressed != "")
 		{
 			cout << keyPressed << endl;

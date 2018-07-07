@@ -61,6 +61,7 @@ void Player::initialize()
 	this->getFmodVersion();
 	this->checkFmodVersion();
 	this->systemInitialize();
+	io_ = new IOHandler();
 }
 
 void Player::systemCreate()

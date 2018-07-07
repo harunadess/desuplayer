@@ -13,6 +13,7 @@ using std::endl;
 		* xxxx Comment more on parts of the Play function to understand what all the bits are doing.
 		* xxxx Split out functions into managable functions that make sense (in same file).
 		* xx Split out main loop into core play function. (could do more to fix this)
+		* xxxx Make new fangled io handler
 		* Modify current io to use new fangled io handler
 		
 		* Research ways of scanning directories for files
@@ -75,6 +76,8 @@ int main(int argc)
 	//start(argc); //hand off to start function for music player
 	//test_io(argc); //testing io handler
 	test_keypress(argc); //testing keypress stuff
+
+
 	//program end
 	cout << "Press any key to continue.." << endl;
 	cin.clear();
