@@ -10,7 +10,8 @@ public:
 	~PlayerIOHandlerr();
 
 	IOHandler::KeyCode processInput();
-
+	bool isPauseKey();
+	bool isExitKey();
 private:
 
 

@@ -61,7 +61,7 @@ void Player::initialize()
 	this->getFmodVersion();
 	this->checkFmodVersion();
 	this->systemInitialize();
-	io_ = new IOHandler();
+	this->io_ = new PlayerIOHandlerr();
 }
 
 void Player::systemCreate()
@@ -93,7 +93,6 @@ void Player::systemInitialize()
 
 void Player::createStream(const char *songLocation)
 {
-	//result = system->createStream("../media/sound.mp3", FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound); //create stream to play
 	result_ = system_->createStream(songLocation, FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound_); //create stream to play
 	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
@@ -108,13 +107,15 @@ void Player::corePlayLoop() //currently plays song in repeat
 {   
 	//todo: modify current play loop with IOHandler to control operation 
 
-	char c = '/'; //control character
-	cout << "Use 'p' to pause, 'e' to exit." << endl;
+	//char c = '/'; //control character
+	//cout << "Use 'p' to pause, 'e' to exit." << endl;
+	this->io_->outputText("Use 'P' to Pause, 'Q' to exit.");
 	
 	while (true)
 	{
-		cin >> c; //use this to get user input for controlling the player: currently a char, but should probably be a key press.
-		if (c == 'p')
+		//cin >> c; //use this to get user input for controlling the player: currently a char, but should probably be a key press.
+		this->io_->processInput();
+		if (this->io_->isPauseKey())
 		{
 			bool paused;
 			result_ = channel_->getPaused(&paused);
@@ -137,16 +138,27 @@ void Player::corePlayLoop() //currently plays song in repeat
 				this->getSeekPosition(ms);
 			}
 			if (paused)
-				cout << "Paused" << endl;
+			{
+				//cout << "Paused" << endl;
+				this->io_->outputText("Paused");
+			}
 			else if (playing)
-				cout << "Playing: " << (ms * 1000) << "s" << endl;
+			{
+				/*cout << "Playing: " << (ms * 1000) << "s" << endl;*/
+				this->io_->outputTextInline("Playing " + (ms * 1000));
+				this->io_->outputTextInline("s");
+				this->io_->outputNewline();
+			}
 			else
-				cout << "Stopped" << endl;
+			{
+				//cout << "Stopped" << endl;
+				this->io_->outputText("Stopped");
+			}
 		}
 
 		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possible
 
-		if (c == 'e')
+		if (this->io_->isExitKey())
 			break;
 	}
 }

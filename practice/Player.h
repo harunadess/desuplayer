@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Song.h"
-#include "IOHandler.h"
+#include "PlayerIOHandlerr.h"
 #include "ThirdParty/lowlevel/inc/fmod.hpp"
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
 
@@ -31,7 +31,7 @@ private:
 	//extra driver data of audio subsystem
 
 	void* extraDriverData_ = 0;	
-	IOHandler *io_;
+	PlayerIOHandlerr *io_;
 
 	void initialize();
 	void systemCreate();

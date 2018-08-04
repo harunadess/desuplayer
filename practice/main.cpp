@@ -2,6 +2,7 @@
 #include <string>
 #include "Player.h"
 #include "IOHandler.h"
+#include "PlayerIOHandlerr.h"
 
 using std::cout;
 using std::cin;
@@ -14,7 +15,8 @@ using std::endl;
 		* xxxx Split out functions into managable functions that make sense (in same file).
 		* xx Split out main loop into core play function. (could do more to fix this)
 		* xxxx Make new fangled io handler
-		* Modify current io to use new fangled io handler
+		* oooo Modify current io to use new fangled io handler
+			* Split current IOHandler into one for text input and another for keyboard keycodes
 		
 		* Research ways of scanning directories for files
 		* save ^ data somehow
@@ -67,16 +69,23 @@ void test_io(int argc)
 
 void test_keypress(int argc)
 {
-	IOHandler* io = new IOHandler();
+	/*IOHandler* io = new IOHandler();
+	io->test_keypress();*/
+	PlayerIOHandlerr* io = new PlayerIOHandlerr();
 	io->test_keypress();
+}
+
+void test_fileSystem(int argc)
+{
+
 }
 
 int main(int argc)
 {
-	//start(argc); //hand off to start function for music player
+	start(argc); //hand off to start function for music player
 	//test_io(argc); //testing io handler
-	test_keypress(argc); //testing keypress stuff
-
+	//test_keypress(argc); //testing keypress stuff
+	//test_fileSystem(argc); //testing file stuff
 
 	//program end
 	cout << "Press any key to continue.." << endl;

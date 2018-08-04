@@ -11,6 +11,16 @@ PlayerIOHandlerr::~PlayerIOHandlerr()
 
 IOHandler::KeyCode PlayerIOHandlerr::processInput()
 {
-	keyboardKeyCode_ = _getwch();
-	return IOHandler::lookupKeyCode(keyboardKeyCode_);
+	this->keyboardKeyCode_ = _getwch();
+	return IOHandler::lookupKeyCode(this->keyboardKeyCode_);
+}
+
+bool PlayerIOHandlerr::isPauseKey()
+{
+	return (this->keyboardKeyCode_ == IOHandler::KeyCode::P);
+}
+
+bool PlayerIOHandlerr::isExitKey()
+{
+	return (this->keyboardKeyCode_ == IOHandler::KeyCode::Q);
 }
