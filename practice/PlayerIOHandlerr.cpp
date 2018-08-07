@@ -17,10 +17,10 @@ IOHandler::KeyCode PlayerIOHandlerr::processInput()
 
 bool PlayerIOHandlerr::isPauseKey()
 {
-	return (this->keyboardKeyCode_ == IOHandler::KeyCode::P);
+	return (this->keyboardKeyCode_ == IOHandler::KeyCode::SPC);
 }
 
 bool PlayerIOHandlerr::isExitKey()
 {
-	return (this->keyboardKeyCode_ == IOHandler::KeyCode::Q);
+	return (this->keyboardKeyCode_ == IOHandler::KeyCode::ESC);
 }

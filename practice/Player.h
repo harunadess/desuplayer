@@ -15,7 +15,7 @@ public:
 	void play(Song* song);
 	bool checkIsPlaying(bool& playing);
 	bool checkIsPaused(bool& paused);
-	unsigned int getSeekPosition(unsigned int ms);
+	unsigned int getSeekPosition(unsigned int& ms);
 
 private:
 	//system obj: will play sound

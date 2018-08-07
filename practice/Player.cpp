@@ -14,7 +14,6 @@ Player::Player()
 {
 }
 
-
 Player::~Player()
 {
 	delete this->extraDriverData_;
@@ -105,15 +104,11 @@ void Player::playSound()
 
 void Player::corePlayLoop() //currently plays song in repeat
 {   
-	//todo: modify current play loop with IOHandler to control operation 
-
-	//char c = '/'; //control character
-	//cout << "Use 'p' to pause, 'e' to exit." << endl;
-	this->io_->outputText("Use 'P' to Pause, 'Q' to exit.");
+	this->io_->outputText("Now playing..");
+	this->io_->outputText("Press Spacebar to pause/resume. Hit Escape to exit.");
 	
 	while (true)
 	{
-		//cin >> c; //use this to get user input for controlling the player: currently a char, but should probably be a key press.
 		this->io_->processInput();
 		if (this->io_->isPauseKey())
 		{
@@ -128,8 +123,8 @@ void Player::corePlayLoop() //currently plays song in repeat
 		{
 			unsigned int ms = 0;
 			unsigned int lenms = 0;
-			bool         playing = false; //control flag for playing
-			bool         paused = false; //control flag for paused
+			bool         playing = false;
+			bool         paused = false;
 
 			if (channel_)
 			{
@@ -138,22 +133,15 @@ void Player::corePlayLoop() //currently plays song in repeat
 				this->getSeekPosition(ms);
 			}
 			if (paused)
-			{
-				//cout << "Paused" << endl;
 				this->io_->outputText("Paused");
-			}
 			else if (playing)
 			{
-				/*cout << "Playing: " << (ms * 1000) << "s" << endl;*/
 				this->io_->outputTextInline("Playing " + (ms * 1000));
 				this->io_->outputTextInline("s");
 				this->io_->outputNewline();
 			}
 			else
-			{
-				//cout << "Stopped" << endl;
 				this->io_->outputText("Stopped");
-			}
 		}
 
 		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possible
@@ -189,7 +177,7 @@ bool Player::checkIsPaused(bool& paused)
 	return paused;
 }
 
-unsigned int Player::getSeekPosition(unsigned int ms)
+unsigned int Player::getSeekPosition(unsigned int& ms)
 {
 	result_ = channel_->getPosition(&ms, FMOD_TIMEUNIT_MS);
 	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
