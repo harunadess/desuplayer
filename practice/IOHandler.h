@@ -6,8 +6,8 @@
 #include <conio.h>
 
 using std::string;
-using std::cout;
-using std::cin;
+using std::wcout;
+using std::wcin;
 using std::endl;
 using std::flush;
 using std::end;

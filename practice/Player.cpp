@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-using std::cout;
+using std::wcout;
 using std::cin;
 using std::flush;
 using std::endl;
@@ -29,7 +29,7 @@ void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line) //error check f
 		{
 			Common_Private_Error(result, file, line);
 		}
-		cout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;
+		wcout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;
 	}
 }
 
@@ -43,8 +43,8 @@ void Player::play(Song* song)
 	
 	//Playing
 	this->playSound();
-	cout << "========================================================================" << endl;
-	cout << "Playing " << song->getFilePath() << endl << endl; //print what is being played
+	wcout << "========================================================================" << endl;
+	wcout << "Playing " << song->getFilePath() << endl << endl;
 	this->corePlayLoop();
 
 	//Shut down 
@@ -74,7 +74,7 @@ void Player::checkFmodVersion()
 {
 	if (version_ < FMOD_VERSION) //ensure library version matches files
 	{
-		cout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
+		wcout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
 		exit(0);
 	}
 }
@@ -105,15 +105,10 @@ void Player::playSound()
 
 void Player::corePlayLoop() //currently plays song in repeat
 {   
-	//todo: modify current play loop with IOHandler to control operation 
-
-	//char c = '/'; //control character
-	//cout << "Use 'p' to pause, 'e' to exit." << endl;
-	this->io_->outputText("Use 'P' to Pause, 'Q' to exit.");
+	this->io_->outputText("Press Spacebar to Pause/Resume, press Escape to stop.");
 	
 	while (true)
 	{
-		//cin >> c; //use this to get user input for controlling the player: currently a char, but should probably be a key press.
 		this->io_->processInput();
 		if (this->io_->isPauseKey())
 		{
@@ -138,22 +133,11 @@ void Player::corePlayLoop() //currently plays song in repeat
 				this->getSeekPosition(ms);
 			}
 			if (paused)
-			{
-				//cout << "Paused" << endl;
 				this->io_->outputText("Paused");
-			}
 			else if (playing)
-			{
-				/*cout << "Playing: " << (ms * 1000) << "s" << endl;*/
-				this->io_->outputTextInline("Playing " + (ms * 1000));
-				this->io_->outputTextInline("s");
-				this->io_->outputNewline();
-			}
+				this->io_->outputText("Playing");
 			else
-			{
-				//cout << "Stopped" << endl;
 				this->io_->outputText("Stopped");
-			}
 		}
 
 		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possible
@@ -189,7 +173,7 @@ bool Player::checkIsPaused(bool& paused)
 	return paused;
 }
 
-unsigned int Player::getSeekPosition(unsigned int ms)
+unsigned int Player::getSeekPosition(unsigned int& ms)
 {
 	result_ = channel_->getPosition(&ms, FMOD_TIMEUNIT_MS);
 	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
