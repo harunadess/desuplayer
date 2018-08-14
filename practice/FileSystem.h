@@ -10,7 +10,7 @@ public:
 	FileSystem();
 	~FileSystem();
 
-	void scanForNewFiles(const char* baseDir);
+	bool scanForNewFiles(wchar_t* baseDir);
 private:
 
 };

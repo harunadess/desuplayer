@@ -25,11 +25,11 @@ bool isMusicFile(std::wstring extension)
 	return false;
 }
 
-void FileSystem::scanForNewFiles(const char* baseDir)
+bool FileSystem::scanForNewFiles(wchar_t* baseDir)
 {
-	for (auto& dirEntry : recursive_directory_iterator(baseDir))
+	try
 	{
-		try
+		for (auto& dirEntry : recursive_directory_iterator(baseDir))
 		{
 			if (dirEntry.is_regular_file())
 			{
@@ -40,10 +40,10 @@ void FileSystem::scanForNewFiles(const char* baseDir)
 				}
 			}
 		}
-		catch (const std::exception e)
-		{
-			std::wcout << "error:" << std::flush;
-			std::wcout << e.what() << std::endl;
-		}
+		return true;
+	}
+	catch (const std::filesystem::filesystem_error e)
+	{
+		return false;
 	}
 }

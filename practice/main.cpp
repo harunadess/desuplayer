@@ -1,8 +1,10 @@
-#include <iostream>
+﻿#include <iostream>
 #include <Windows.h>
 #include <string>
 #include <fcntl.h>
 #include <io.h>
+
+#include <fstream>
 
 #include "Player.h"
 #include "IOHandler.h"
@@ -83,7 +85,18 @@ using std::endl;
 void test_fileSystem(int argc)
 {
 	FileSystem* fileSystem = new FileSystem();
-	fileSystem->scanForNewFiles("D:/Jorta/Music");
+	wchar_t* baseDir = new wchar_t(L'/');
+	
+	bool validDir = false;
+	while (!validDir)
+	{
+		wcout << L"Please enter your base music directory:" << flush;
+		wcin >> baseDir;
+
+		validDir = fileSystem->scanForNewFiles(baseDir);
+		if (!validDir)
+			wcout << L"Could not find or access directory. Please check the location and try again." << endl;
+	}
 }
 
 void configConsole()
@@ -96,7 +109,7 @@ void configConsole()
 	CONSOLE_FONT_INFOEX consoleFontInfo;
 	consoleFontInfo.cbSize = (sizeof consoleFontInfo);
 	consoleFontInfo.nFont = 0;
-	consoleFontInfo.dwFontSize.X = 0;
+	consoleFontInfo.dwFontSize.X = 8;
 	consoleFontInfo.dwFontSize.Y = 14; //font size
 	consoleFontInfo.FontFamily = FF_DONTCARE;
 	consoleFontInfo.FontWeight = FW_NORMAL;
@@ -105,13 +118,46 @@ void configConsole()
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &consoleFontInfo); //set font to params above
 }
 
+void test_ioFile(int argc)
+{
+	class Data {
+	public:
+		const wchar_t* key;
+		const wchar_t* value;
+	};
+	Data *x = new Data();
+	x->key = L"some text";
+	x->value = L"こんにちは、友達";
+
+	wcout << "x->key = " << x->key << endl;
+	wcout << "x->key = " << x->value << endl;
+
+	std::fstream file("_file.bin", std::fstream::out | std::fstream::binary);
+	file.seekp(0);
+	file.write((char*)x, sizeof(Data));
+	file.close();
+
+	file.open("_file.bin", std::fstream::in | std::fstream::binary);
+
+	Data* y = new Data();
+
+	file.seekp(0);
+	file.read((char*)y, sizeof(Data));
+	file.close();
+
+	wcout << "y->key = " << y->key << endl;
+	wcout << "y->key = " << y->value << endl;
+}
+
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();
 	//start(argc); //hand off to start function for music player
 	//test_io(argc); //testing io handler
 	//test_keypress(argc); //testing keypress stuff
-	test_fileSystem(argc); //testing file stuff
+	//test_fileSystem(argc); //testing file stuff
+
+	test_ioFile(argc);
 
 	//program end
 	wcout << "Press any key to continue.." << endl;
