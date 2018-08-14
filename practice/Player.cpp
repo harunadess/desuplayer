@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-using std::cout;
+using std::wcout;
 using std::cin;
 using std::flush;
 using std::endl;
@@ -13,6 +13,7 @@ using std::endl;
 Player::Player()
 {
 }
+
 
 Player::~Player()
 {
@@ -28,7 +29,7 @@ void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line) //error check f
 		{
 			Common_Private_Error(result, file, line);
 		}
-		cout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;
+		wcout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;
 	}
 }
 
@@ -42,8 +43,8 @@ void Player::play(Song* song)
 	
 	//Playing
 	this->playSound();
-	cout << "========================================================================" << endl;
-	cout << "Playing " << song->getFilePath() << endl << endl; //print what is being played
+	wcout << "========================================================================" << endl;
+	wcout << "Playing " << song->getFilePath() << endl << endl;
 	this->corePlayLoop();
 
 	//Shut down 
@@ -73,7 +74,7 @@ void Player::checkFmodVersion()
 {
 	if (version_ < FMOD_VERSION) //ensure library version matches files
 	{
-		cout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
+		wcout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
 		exit(0);
 	}
 }
@@ -104,8 +105,7 @@ void Player::playSound()
 
 void Player::corePlayLoop() //currently plays song in repeat
 {   
-	this->io_->outputText("Now playing..");
-	this->io_->outputText("Press Spacebar to pause/resume. Hit Escape to exit.");
+	this->io_->outputText("Press Spacebar to Pause/Resume, press Escape to stop.");
 	
 	while (true)
 	{
@@ -123,8 +123,8 @@ void Player::corePlayLoop() //currently plays song in repeat
 		{
 			unsigned int ms = 0;
 			unsigned int lenms = 0;
-			bool         playing = false;
-			bool         paused = false;
+			bool         playing = false; //control flag for playing
+			bool         paused = false; //control flag for paused
 
 			if (channel_)
 			{
@@ -135,11 +135,7 @@ void Player::corePlayLoop() //currently plays song in repeat
 			if (paused)
 				this->io_->outputText("Paused");
 			else if (playing)
-			{
-				this->io_->outputTextInline("Playing " + (ms * 1000));
-				this->io_->outputTextInline("s");
-				this->io_->outputNewline();
-			}
+				this->io_->outputText("Playing");
 			else
 				this->io_->outputText("Stopped");
 		}

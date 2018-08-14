@@ -12,29 +12,29 @@ IOHandler::~IOHandler()
 
 void IOHandler::outputTextInline(const char* output)
 {
-	cout << output << " " << flush;
+	wcout << output << " " << flush;
 }
 
 void IOHandler::outputNewline()
 {
-	cout << "\n" << flush;
+	wcout << "\n" << flush;
 }
 
 void IOHandler::outputText(const char* output)
 {
-	cout << output << endl;
+	wcout << output << endl;
 }
 
 void IOHandler::outputTextWithSpacing(const char* output)
 {
-	cout << endl << output << endl;
+	wcout << endl << output << endl;
 }
 
 void IOHandler::outputHeading(const char* output)
 {
-	cout << headingLine_ << endl 
+	wcout << headingLine_.c_str() << endl 
 		<< "  " << output << endl 
-		<< headingLine_ << endl;
+		<< headingLine_.c_str() << endl;
 }
 
 IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
@@ -84,7 +84,7 @@ IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
 
 void IOHandler::test_keypress()
 {
-	cout << "Press a key." << endl;
+	/*cout << "Press a key." << endl;
 	
 	string keyPressed;
 	while (true)
@@ -96,5 +96,5 @@ void IOHandler::test_keypress()
 		{
 			cout << keyPressed << endl;
 		}
-	}
+	}*/
 }
