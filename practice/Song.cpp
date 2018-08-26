@@ -1,54 +1,74 @@
-#include "Song.h"
+#include "song.h"
 
-Song::Song(string title, Album* album, Artist* artist)
+Song::Song()
 {
-	this->title_ = title;
-	this->album_ = new Album(*album);
-	this->artist_ = new Artist(*artist);
+	trackNumber_ = 0;
+	title_ = L"";
+	artist_ = L"";
+	album_ = L"";
+	//filePath_ = FilePath();
+}
+
+Song::Song(const unsigned int& trackNumber, const wstring& title, const wstring& artist, const wstring& album, const FilePath& filePath)
+{
+	trackNumber_ = trackNumber;
+	title_ = title;
+	artist_ = artist;
+	album_ = album;
+	filePath_ = filePath;
 }
 
 Song::~Song()
 {
-	delete this->album_;
-	delete this->artist_;
 }
 
-string Song::getTitle()
+
+unsigned int Song::getTrackNumber() const
 {
-	return this->title_;
+	return trackNumber_;
 }
 
-void Song::setTitle(string title)
+void Song::setTrackNumber(const unsigned int& trackNumber)
 {
-	this->title_ = title;
+	trackNumber_ = trackNumber;
 }
 
-Artist Song::getArtist()
+wstring Song::getTitle() const
 {
-	return *this->artist_;
+	return title_;
 }
 
-void Song::setArtist(Artist* artist)
+void Song::setTitle(const wstring& title)
 {
-	this->artist_ = artist;
+	title_ = title;
 }
 
-Album Song::getAlbum()
+wstring Song::getArtist() const
 {
-	return *this->album_;
+	return artist_;
 }
 
-void Song::setAlbum(Album* album)
+void Song::setArtist(const wstring& artist)
 {
-	this->album_ = album;
+	artist_ = artist;
 }
 
-const char* Song::getFilePath()
+wstring Song::getAlbum() const
 {
-	return this->filePath_;
+	return album_;
 }
 
-void Song::setFilePath(const char * filePath)
+void Song::setAlbum(const wstring& album)
 {
-	this->filePath_ = filePath;
+	album_ = album;
+}
+
+FilePath Song::getFilePath() const
+{
+	return filePath_;
+}
+
+void Song::setFilePath(const FilePath& filePath)
+{
+	filePath_ = filePath;
 }

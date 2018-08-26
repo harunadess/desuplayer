@@ -13,100 +13,469 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\fmod">
+      <UniqueIdentifier>{932e59b0-7366-4d6e-9e20-d28f353787f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\taglib">
+      <UniqueIdentifier>{43b2f0ca-a256-4c05-b8d7-dd838da9e281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\taglib">
+      <UniqueIdentifier>{78452b1d-0fe7-4187-b84d-5229aaea8ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\file">
+      <UniqueIdentifier>{1de81bad-2e59-402e-84d2-6282d775e9cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\io">
+      <UniqueIdentifier>{fe9fa872-441c-42db-97ae-bf62e2974f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\file">
+      <UniqueIdentifier>{ddbc679c-16dd-45a0-9dd0-8845e0aa711b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\io">
+      <UniqueIdentifier>{05718c2e-95de-4751-b65d-78c8c79ca2eb}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\fmod">
-      <UniqueIdentifier>{ba07adfd-95e8-4ebf-9d05-4fc441b421f3}</UniqueIdentifier>
+      <UniqueIdentifier>{6f897775-cfab-4851-94a3-1a95b9caac0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Song.cpp">
+    <ClCompile Include="songregator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="filePath.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="fileSystem.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="ioHandler.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="playerIOHandler.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="album.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Album.cpp">
+    <ClCompile Include="artist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Artist.cpp">
+    <ClCompile Include="musicLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IOHandler.cpp">
+    <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerIOHandlerr.cpp">
+    <ClCompile Include="playlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem.cpp">
+    <ClCompile Include="song.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="musicFileFinder.cpp">
+      <Filter>Source Files\file</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Artist.h">
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\aifffile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\aiffproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apefile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apefooter.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apeitem.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apeproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apetag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfattribute.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asffile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfpicture.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asftag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\attachedpictureframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\audioproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\chapterframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\commentsframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\eventtimingcodesframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\fileref.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacmetadatablock.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacpicture.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\generalencapsulatedobjectframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v1genres.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v1tag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2extendedheader.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2footer.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2frame.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2framefactory.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2header.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2synchdata.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2tag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\infotag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\itfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\itproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modfilebase.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modtag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4atom.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4coverart.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4file.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4item.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4properties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4tag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpcfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpcproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegheader.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggflacfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggpage.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggpageheader.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\opusfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\opusproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\ownershipframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\podcastframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\popularimeterframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\privateframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\relativevolumeframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\rifffile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\s3mfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\s3mproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\speexfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\speexproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\synchronizedlyricsframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tableofcontentsframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tag.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tag_c.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib_config.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib_export.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevector.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevectorlist.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevectorstream.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tdebuglistener.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\textidentificationframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tfilestream.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tiostream.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tpropertymap.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trefcounter.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trueaudiofile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trueaudioproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tstring.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tstringlist.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\uniquefileidentifierframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\unknownframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\unsynchronizedlyricsframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\urllinkframe.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\vorbisfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\vorbisproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavpackfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavpackproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xingheader.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xiphcomment.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xmfile.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xmproperties.h">
+      <Filter>Header Files\taglib</Filter>
+    </ClInclude>
+    <ClInclude Include="songregator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Album.h">
+    <ClInclude Include="album.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Song.h">
+    <ClInclude Include="artist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.hpp">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_codec.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_common.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_dsp.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_dsp_effects.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_errors.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_output.h">
-      <Filter>Header Files\fmod</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="musicLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IOHandler.h">
+    <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyCodes.h">
+    <ClInclude Include="playlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerIOHandlerr.h">
+    <ClInclude Include="song.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem.h">
+    <ClInclude Include="filePath.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="fileSystem.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="ioHandler.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="keycodes.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="playerIOHandler.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="musicFileFinder.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod.hpp">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_codec.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_common.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_dsp.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_dsp_effects.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_errors.h">
+      <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_output.h">
+      <Filter>Header Files\fmod</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod_vc.lib">
-      <Filter>Resource Files</Filter>
+    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64_vc.lib">
+      <Filter>Resource Files\fmod</Filter>
+    </Library>
+    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\lib\tag.lib">
+      <Filter>Resource Files\taglib</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64.dll">
-      <Filter>Resource Files</Filter>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.tcc">
+      <Filter>Header Files\taglib</Filter>
     </None>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL.dll">
-      <Filter>Resource Files</Filter>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.tcc">
+      <Filter>Header Files\taglib</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\bin\tag.dll">
+      <Filter>Resource Files\taglib</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64.dll">
+      <Filter>Resource Files\fmod</Filter>
     </None>
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL64.dll">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\fmod</Filter>
     </None>
   </ItemGroup>
 </Project>

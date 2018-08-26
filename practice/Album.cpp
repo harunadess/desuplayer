@@ -1,32 +1,42 @@
-#include "Album.h"
+#include "album.h"
 
-Album::Album(string title, Artist* artist)
+Album::Album()
 {
-	this->title_ = title;
-	this->artist_ = artist;
+	title_ = L"";
+	artist_ = nullptr;
+}
+
+Album::Album(const wstring& title, Artist* artist)
+{
+	title_ = title;
+	artist_ = artist;
 }
 
 Album::~Album()
 {
-	delete this->artist_;
 }
 
-string Album::getTitle() 
+wstring Album::getTitle() const
 {
-	return this->title_;
+	return title_;
 }
 
-void Album::setTitle(string title)
+void Album::setTitle(const wstring& title)
 {
-	this->title_ = title;
+	title_ = title;
 }
 
-Artist Album::getArtist()
+Artist* Album::getArtist() const
 {
-	return *this->artist_;
+	return artist_;
 }
 
 void Album::setArtist(Artist* artist)
 {
-	this->artist_ = artist;
+	artist_ = artist;
+}
+
+wstring Album::getArtistName() const
+{
+	return artist_->getName();
 }

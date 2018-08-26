@@ -2,19 +2,32 @@
 #define ARTIST_H
 
 #include <string>
-using std::string;
+#include <vector>
+#include "Album.h"
+
+class Album;
+
+using std::vector;
+using std::wstring;
 
 class Artist
 {
 public:
-	Artist(string name);
+	Artist();
+	Artist(const wstring& name);
+	Artist(const wstring& name, const vector<Album*>& albums);
 	~Artist();
 
-	string getName();
-	void setName(string name);
+	wstring getName() const;
+	void setName(const wstring& name);
+	vector<Album*> getAlbums() const;
+	void setAlbums(const vector<Album*>& albums);
+	void addAlbum(Album* album);
+	void removeAlbum(const wstring& name);
 
 private:
-	string name_;
+	wstring name_;
+	vector<Album*> albums_;
 
 };
 

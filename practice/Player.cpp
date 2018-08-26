@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 
 #include <Windows.h>
 #include <iostream>
@@ -9,6 +9,7 @@ using std::cin;
 using std::flush;
 using std::endl;
 
+#define MAX_PATH 260
 
 Player::Player()
 {
@@ -29,22 +30,21 @@ void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line) //error check f
 		{
 			Common_Private_Error(result, file, line);
 		}
-		wcout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;
+		/*wcout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;*/
+		wcout << file << "(" << (line-1) << ")" << ": FMOD error " << result << endl;
 	}
 }
 
-void Player::play(Song* song)
+void Player::play(string filePath)
 {
 	//Initialize
 	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); //initialize windows api
 
 	this->initialize();
-	this->createStream(song->getFilePath());
-	
+ 	this->createStream(filePath.c_str());
+
 	//Playing
 	this->playSound();
-	wcout << "========================================================================" << endl;
-	wcout << "Playing " << song->getFilePath() << endl << endl;
 	this->corePlayLoop();
 
 	//Shut down 
@@ -91,9 +91,10 @@ void Player::systemInitialize()
 	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
-void Player::createStream(const char *songLocation)
+void Player::createStream(const char* songLocation)
 {
-	result_ = system_->createStream(songLocation, FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound_); //create stream to play
+	//result_ = system_->createStream(songLocation, FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound_); //create stream to play
+	result_ = system_->createStream(songLocation, FMOD_LOOP_OFF | FMOD_2D, 0, &sound_); //create stream to play
 	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 

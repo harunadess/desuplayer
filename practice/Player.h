@@ -1,8 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Song.h"
-#include "PlayerIOHandlerr.h"
+#include "playerIOHandler.h"
 #include "ThirdParty/lowlevel/inc/fmod.hpp"
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
 
@@ -12,7 +11,7 @@ public:
 	Player();
 	~Player();
 
-	void play(Song* song);
+	void play(std::string filePath);
 	bool checkIsPlaying(bool& playing);
 	bool checkIsPaused(bool& paused);
 	unsigned int getSeekPosition(unsigned int& ms);
@@ -29,7 +28,6 @@ private:
 	//version of fmod being used
 	unsigned int version_;
 	//extra driver data of audio subsystem
-
 	void* extraDriverData_ = 0;	
 	PlayerIOHandlerr *io_;
 
@@ -38,7 +36,7 @@ private:
 	void getFmodVersion();
 	void checkFmodVersion();
 	void systemInitialize();
-	void createStream(const char *songLocation);
+	void createStream(const char* songLocation);
 	void playSound();
 	void corePlayLoop();
 	void systemUpdate();

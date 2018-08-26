@@ -3,21 +3,26 @@
 
 #include <string>
 #include "Artist.h"
-using std::string;
+
+using std::wstring;
+
+class Artist;
 
 class Album
 {
 public:
-	Album(string title, Artist* artist);
+	Album();
+	Album(const wstring& title, Artist* artist);
 	~Album();
 
-	string getTitle();
-	void setTitle(string title);
-	Artist getArtist();
-	void setArtist(Artist* artist);
+	wstring getTitle() const;
+	void setTitle(const wstring& title);
+	Artist* getArtist() const;
+	void setArtist(Artist* aritst);
+	wstring getArtistName() const;
 
 private:
-	string title_;
+	wstring title_;
 	Artist* artist_;
 
 };

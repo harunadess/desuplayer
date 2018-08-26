@@ -1,49 +1,44 @@
-#include "FileSystem.h"
-
-using std::filesystem::recursive_directory_iterator;
-using std::wstring;
+#include "fileSystem.h"
 
 FileSystem::FileSystem()
 {
 }
 
-
-FileSystem::~FileSystem()
+bool FileSystem::isMusicFile(string extension)
 {
-}
-
-bool isMusicFile(std::wstring extension)
-{
-	const wchar_t* includeList[4] = {L".mp3", L".flac", L".m4a", L".aac"}; //todo: move to private var
-	unsigned int extensionLength = (sizeof (includeList) / sizeof (wchar_t*));
-
-	for (unsigned int i = 0; i < extensionLength; i++)
+	for (unsigned int i = 0; i < includeListLength_; i++)
 	{
-		if (extension.find(includeList[i]) != std::wstring::npos)
+		if (extension.find(includeList_[i]) != string::npos)
 			return true;
 	}
 	return false;
 }
 
-bool FileSystem::scanForNewFiles(wchar_t* baseDir)
+vector<FilePath> FileSystem::scanForNewFiles(wstring baseDir)
 {
 	try
 	{
+		vector<FilePath> foundFiles;
 		for (auto& dirEntry : recursive_directory_iterator(baseDir))
 		{
 			if (dirEntry.is_regular_file())
 			{
-				if (isMusicFile(dirEntry.path().extension().wstring()))
+				if (isMusicFile(dirEntry.path().extension().u8string().c_str()))
 				{
-					wstring filename = dirEntry.path().filename().wstring();
-					std::wcout << filename << std::endl; //todo: store this, or something
+					FilePath fpObj(dirEntry.path().wstring(), dirEntry.path().u8string());
+					foundFiles.push_back(fpObj);
 				}
 			}
 		}
-		return true;
+		return foundFiles;
 	}
 	catch (const std::filesystem::filesystem_error e)
 	{
-		return false;
+		return vector<FilePath>();
+	}
+	catch (const std::exception e)
+	{
+		std::wcerr << "Error in scanning for new files: " << e.what() << std::endl;
+		exit(1);
 	}
 }
