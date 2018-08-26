@@ -18,6 +18,8 @@ using std::endl;
 /*
 	TODO list:
 		* configure player to release/exit loop once song has finished (probably checking times or something)
+		* modify vector<Song> in createSongList to be a map<wstring, vector<Song>> so artists exist
+		* modify vector<Song> in createSongList so it's a map<wstring, map<vector<Song>>> so albums are a thing (or create a data structure for this nesting madness
 		* build thing to serialise/deserialise data. (SAVE/LOAD functionality)
 		
 		* Find better font (LOOKS)
