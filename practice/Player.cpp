@@ -43,6 +43,7 @@ void Player::play(string filePath)
 	this->initialize();
  	this->createStream(filePath.c_str());
 
+	wcout << "playing: " << filePath.c_str() << endl;
 	//Playing
 	this->playSound();
 	this->corePlayLoop();
@@ -75,7 +76,7 @@ void Player::checkFmodVersion()
 	if (version_ < FMOD_VERSION) //ensure library version matches files
 	{
 		wcout << ("FMOD lib version %08x doesn't match header version %08x", version_, FMOD_VERSION) << endl;
-		exit(0);
+		exit(1);
 	}
 }
 
@@ -110,41 +111,41 @@ void Player::corePlayLoop() //currently plays song in repeat
 	
 	while (true)
 	{
-		this->io_->processInput();
-		if (this->io_->isPauseKey())
-		{
-			bool paused;
-			result_ = channel_->getPaused(&paused);
-			ERRCHECK_fn(result_, __FILE__, __LINE__);
-			result_ = channel_->setPaused(!paused);
-		}
+		unsigned int ms = 0;
+		unsigned int lenms = 0;
+		bool         playing = false; //control flag for playing
+		bool         paused = false; //control flag for paused
 
 		this->systemUpdate();
 
+		if (_kbhit()) //check if there is keyboard input, if there is, do some stuff
 		{
-			unsigned int ms = 0;
-			unsigned int lenms = 0;
-			bool         playing = false; //control flag for playing
-			bool         paused = false; //control flag for paused
+			this->io_->processInput();
+			if (this->io_->isPauseKey())
+			{
+				bool paused;
+				result_ = channel_->getPaused(&paused);
+				ERRCHECK_fn(result_, __FILE__, __LINE__);
+				result_ = channel_->setPaused(!paused);
+			}
+			if (this->io_->isExitKey())
+				break;
+		}
 
+		{
 			if (channel_)
 			{
 				this->checkIsPlaying(playing);
 				this->checkIsPaused(paused);
 				this->getSeekPosition(ms);
+				this->getLength(lenms);
+
+				if ((!playing && !paused) && (ms == 0))
+					return;
 			}
-			if (paused)
-				this->io_->outputText("Paused");
-			else if (playing)
-				this->io_->outputText("Playing");
-			else
-				this->io_->outputText("Stopped");
 		}
 
 		Sleep(50); //sleep so we're not ramming the cpu by running the loop as fast as possible
-
-		if (this->io_->isExitKey())
-			break;
 	}
 }
 
@@ -154,34 +155,40 @@ void Player::systemUpdate()
 	ERRCHECK_fn(result_, __FILE__, __LINE__);
 }
 
-bool Player::checkIsPlaying(bool& playing)
+void Player::checkIsPlaying(bool& playing)
 {
 	result_ = channel_->isPlaying(&playing);
 	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
 		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
-	return playing;
 }
 
-bool Player::checkIsPaused(bool& paused)
+void Player::checkIsPaused(bool& paused)
 {
 	result_ = channel_->getPaused(&paused);
 	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
 		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
-	return paused;
 }
 
-unsigned int Player::getSeekPosition(unsigned int& ms)
+void Player::getSeekPosition(unsigned int& ms)
 {
 	result_ = channel_->getPosition(&ms, FMOD_TIMEUNIT_MS);
 	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
 	{
 		ERRCHECK_fn(result_, __FILE__, __LINE__);
 	}
-	return ms;
+}
+
+void Player::getLength(unsigned int& lenms)
+{
+	result_ = sound_->getLength(&lenms, FMOD_TIMEUNIT_MS);
+	if ((result_ != FMOD_OK) && (result_ != FMOD_ERR_INVALID_HANDLE))
+	{
+		ERRCHECK_fn(result_, __FILE__, __LINE__);
+	}
 }
 
 void Player::soundRelease()

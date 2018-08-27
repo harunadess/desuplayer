@@ -12,9 +12,10 @@ public:
 	~Player();
 
 	void play(std::string filePath);
-	bool checkIsPlaying(bool& playing);
-	bool checkIsPaused(bool& paused);
-	unsigned int getSeekPosition(unsigned int& ms);
+	void checkIsPlaying(bool& playing);
+	void checkIsPaused(bool& paused);
+	void getSeekPosition(unsigned int& ms);
+	void getLength(unsigned int& ms);
 
 private:
 	//system obj: will play sound

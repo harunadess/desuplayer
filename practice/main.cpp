@@ -17,9 +17,9 @@ using std::endl;
 
 /*
 	TODO list:
-		* configure player to release/exit loop once song has finished (probably checking times or something)
+		* xxxx configure player to release/exit loop once song has finished (probably checking times or something)
 		* modify vector<Song> in createSongList to be a map<wstring, vector<Song>> so artists exist
-		* modify vector<Song> in createSongList so it's a map<wstring, map<vector<Song>>> so albums are a thing (or create a data structure for this nesting madness
+		* modify vector<Song> in createSongList so it's a map<wstring, map<vector<Song>>> so albums are a thing (or create a data structure for this nesting madness)
 		* build thing to serialise/deserialise data. (SAVE/LOAD functionality)
 		
 		* Find better font (LOOKS)
@@ -149,21 +149,21 @@ int wmain(int argc, wchar_t* argv[])
 	//Song s = test_fileSystem(argc);				//testing file stuff
 	//test_ioFile(argc);					//testing storing shit in files
 
-	wstring baseDir = L"";
+	wstring baseDir = L"D:/Users/Jorta/Music/Saint Snow";
 	bool filesFound = false;
-	vector<Song> songregation = vector<Song>();
+	map<wstring, Artist> songregation = map<wstring, Artist>();
 
 	Songregator songregator;
 	while (!filesFound)
 	{
-		wcout << L"Please enter your music directory: " << flush;
-		std::getline(std::wcin, baseDir);
+		//wcout << L"Please enter your music directory: " << flush;
+		//std::getline(std::wcin, baseDir);
 		filesFound = songregator.createSongList(baseDir, songregation);
 		if (!filesFound)
 			wcout << L"Error creating song list. Please check the directory is correct and try again." << endl;
 	}
 
-	for (Song song : songregation)
+	/*for (Song song : songregation)
 	{
 		wcout << "====================================================================" << endl;
 		wcout << "Album: " << song.getAlbum() << endl;
@@ -172,11 +172,17 @@ int wmain(int argc, wchar_t* argv[])
 		wcout << "Artist: " << song.getArtist() << endl;
 		wcout << "====================================================================" << endl;
 	}
-	wcout << endl << endl;
+	wcout << endl << endl;*/
+
+	//Player player;
+	//player.play(songregation.at(2).getFilePath().u8FilePath_);
+	//player.play(songregation.at(6).getFilePath().u8FilePath_);
+
+	Artist saintSnow = songregation.at(L"Saint Snow");
+	vector<Song> awakenThePower = saintSnow.getAlbum(L"Awaken the power");
 
 	Player player;
-	player.play(songregation.at(2).getFilePath().u8FilePath_);
-	player.play(songregation.at(6).getFilePath().u8FilePath_);
+	player.play(awakenThePower.at(0).getFilePath().u8FilePath_);
 
 
 	//program end

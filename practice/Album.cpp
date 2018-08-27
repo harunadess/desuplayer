@@ -38,5 +38,5 @@ void Album::setArtist(Artist* artist)
 
 wstring Album::getArtistName() const
 {
-	return artist_->getName();
+	return L"";
 }

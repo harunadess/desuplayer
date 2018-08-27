@@ -3,15 +3,15 @@
 Artist::Artist()
 {
 	name_ = L"";
-	albums_ = vector<Album*>();
 }
 
 Artist::Artist(const wstring& name)
 {
 	name_ = name;
+	albums_ = map<wstring, vector<Song>>();
 }
 
-Artist::Artist(const wstring& name, const vector<Album*>& albums)
+Artist::Artist(const wstring& name, const map<wstring, vector<Song>>& albums)
 {
 	name_ = name;
 	albums_ = albums;
@@ -31,22 +31,24 @@ void Artist::setName(const wstring& name)
 	name_ = name;
 }
 
-vector<Album*> Artist::getAlbums() const
+map<wstring, vector<Song>> Artist::getAlbums() const
 {
 	return albums_;
 }
 
-void Artist::setAlbums(const vector<Album*>& albums)
+void Artist::setAlbums(const map<wstring, vector<Song>>& albums)
 {
 	albums_ = albums;
 }
 
-void Artist::addAlbum(Album* album)
+void Artist::addSongToAlbum(const wstring& album, const Song& song)
 {
-	albums_.push_back(album);
+	std::pair<wstring, Song> insertPair(album, song);
+	/*albums_[album].insert(albums_[album].begin(), insertPair);*/
+	albums_[album].push_back(song);
 }
 
-void Artist::removeAlbum(const wstring& name)
+vector<Song> Artist::getAlbum(const wstring& album) const
 {
-	//todo: find album with name, remove from list
+	return albums_.at(album);
 }

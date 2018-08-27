@@ -2,11 +2,11 @@
 #define ARTIST_H
 
 #include <string>
+#include <map>
 #include <vector>
-#include "Album.h"
+#include "song.h"
 
-class Album;
-
+using std::map;
 using std::vector;
 using std::wstring;
 
@@ -15,19 +15,19 @@ class Artist
 public:
 	Artist();
 	Artist(const wstring& name);
-	Artist(const wstring& name, const vector<Album*>& albums);
+	Artist(const wstring& name, const map<wstring, vector<Song>>& albums);
 	~Artist();
 
 	wstring getName() const;
 	void setName(const wstring& name);
-	vector<Album*> getAlbums() const;
-	void setAlbums(const vector<Album*>& albums);
-	void addAlbum(Album* album);
-	void removeAlbum(const wstring& name);
+	map<wstring, vector<Song>> getAlbums() const;
+	void setAlbums(const map<wstring, vector<Song>>& albums);
+	void addSongToAlbum(const wstring& album, const Song& song);
+	vector<Song> getAlbum(const wstring& album) const;
 
 private:
 	wstring name_;
-	vector<Album*> albums_;
+	map<wstring, vector<Song>> albums_;
 
 };
 

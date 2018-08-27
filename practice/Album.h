@@ -1,9 +1,10 @@
 #ifndef ALBUM_H
 #define ALBUM_H
 
+#include <vector>
 #include <string>
-#include "Artist.h"
 
+using std::vector;
 using std::wstring;
 
 class Artist;
