@@ -2,8 +2,9 @@
 #define FILESYSTEM_H
 
 #include <filesystem>
-#include <iostream>
-#include "FilePath.h"
+#include <fstream>
+#include "filePath.h"
+#include "musicLibrary.h"
 
 using std::string;
 using std::wstring;
@@ -17,7 +18,9 @@ public:
 	~FileSystem();
 
 	vector<FilePath> scanForNewFiles(wstring baseDir);
-
+	bool saveMusicLibrary(const MusicLibrary& musicLibrary, const wstring& fileName);
+	bool loadMusicLibrary(MusicLibrary& musicLibrary, const wstring& fileName);
+	
 private:
 	bool isMusicFile(string);
 

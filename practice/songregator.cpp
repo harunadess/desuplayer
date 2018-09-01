@@ -50,7 +50,44 @@ bool artistNotInList(const map<wstring, Artist>& artistList, const wstring& arti
 	return (artistList.find(artist) == artistList.end());
 }
 
-bool Songregator::createSongList(const wstring& baseDir, map<wstring, Artist>& artistList)
+//bool Songregator::createSongList(const wstring& baseDir, map<wstring, Artist>& artistList)
+//{
+//	vector<FilePath> filePaths = scanForMusicFiles(baseDir);
+//	if (filePaths.size() <= 0)
+//		return false;
+//
+//	FileRef fileRef;
+//	Tag* tag = nullptr;
+//	for (const FilePath& fp : filePaths)
+//	{
+//		fileRef = FileRef(fp.wideFilePath_.c_str());
+//		if (!fileRef.isNull() && fileRef.tag())
+//		{
+//			try
+//			{
+//				tag = fileRef.tag();
+//				wstring artistName = tag->artist().toWString();
+//
+//				if (artistNotInList(artistList, artistName))
+//				{
+//					Artist artist(artistName);
+//					std::pair<wstring, Artist> insertPair(artistName, artist);
+//					artistList.insert(artistList.begin(), insertPair);
+//				}
+//				addSongToArtist(tag, artistName, artistList, fp);
+//			}
+//			catch (std::exception e)
+//			{
+//				std::wcerr << ("%s - (%d):", __FILE__, __LINE__) << e.what() << std::endl;
+//				//return false; //probably don't want to fail outright..
+//			}
+//		}
+//	}
+//
+//	return true;
+//}
+
+bool Songregator::createSongList(const wstring& baseDir, MusicLibrary& musicLibrary)
 {
 	vector<FilePath> filePaths = scanForMusicFiles(baseDir);
 	if (filePaths.size() <= 0)
@@ -58,6 +95,7 @@ bool Songregator::createSongList(const wstring& baseDir, map<wstring, Artist>& a
 
 	FileRef fileRef;
 	Tag* tag = nullptr;
+	map<wstring, Artist> artistList = map<wstring, Artist>();
 	for (const FilePath& fp : filePaths)
 	{
 		fileRef = FileRef(fp.wideFilePath_.c_str());
@@ -83,6 +121,7 @@ bool Songregator::createSongList(const wstring& baseDir, map<wstring, Artist>& a
 			}
 		}
 	}
+	musicLibrary.setArtists(artistList);
 
 	return true;
 }

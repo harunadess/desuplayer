@@ -4,25 +4,28 @@
 #include <io.h>
 #include <locale.h>
 #include <algorithm>
-
 #include <fstream>
 
 #include "songregator.h"
 #include "player.h"
+#include "fileSystem.h"
+#include "musicLibrary.h"
 
 using std::wcout; //use "wide" cout and cin to allow for UTF-8 characters
 using std::wcin;
 using std::flush;
 using std::endl;
 
+#define LIBRARY_FILENAME L"library"
+
 /*
 	TODO list:
-		* xxxx configure player to release/exit loop once song has finished (probably checking times or something)
-		* modify vector<Song> in createSongList to be a map<wstring, vector<Song>> so artists exist
-		* modify vector<Song> in createSongList so it's a map<wstring, map<vector<Song>>> so albums are a thing (or create a data structure for this nesting madness)
-		* build thing to serialise/deserialise data. (SAVE/LOAD functionality)
+	* Build actual console-appy part of application. Or, modify the main to run based off parameters (might be fun, could be added to cmd path and invoked anywhere)
+	* Build wrapper for player (or polymorph some shit onto that (i.e. musicPlayer) which handles some of the manual shit for player (adding songs, having a queue and stuff)
+	* xxxx use thing to serialise/deserialise data.
+		* endless summer sub-task: add save/load archive method to each subclass depending on what there is in MusicLibrary
 		
-		* Find better font (LOOKS)
+	* Find better font (LOOKS)
 */
 
 void configConsole()
@@ -141,54 +144,62 @@ int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();
 	//start(argc);							//hand off to start function for music player
-	
 	//test_io(argc);						//testing io handler
 	//test_keypress(argc);					//testing keypress stuff
-	
-	
 	//Song s = test_fileSystem(argc);				//testing file stuff
 	//test_ioFile(argc);					//testing storing shit in files
 
-	wstring baseDir = L"D:/Users/Jorta/Music/Saint Snow";
-	bool filesFound = false;
-	map<wstring, Artist> songregation = map<wstring, Artist>();
-
-	Songregator songregator;
-	while (!filesFound)
+	///This is new testing stuff
 	{
-		//wcout << L"Please enter your music directory: " << flush;
-		//std::getline(std::wcin, baseDir);
-		filesFound = songregator.createSongList(baseDir, songregation);
-		if (!filesFound)
-			wcout << L"Error creating song list. Please check the directory is correct and try again." << endl;
+		wstring baseDir = L"D:/Users/Jorta/Music/Bandori"; //todo: change separators for "\\" if "/" is used or the std::filesystem::some_special_separator_thing
+		bool filesFound = false;
+		MusicLibrary musicLibrary;
+
+		Songregator songregator;
+		while (!filesFound)
+		{
+			//wcout << L"Please enter your music directory: " << flush;
+			//std::getline(std::wcin, baseDir);
+			filesFound = songregator.createSongList(baseDir, musicLibrary);
+			if (!filesFound)
+				wcout << L"Error creating song list. Please check the directory is correct and try again." << endl;
+		}
+
+		///We have the data, time to do something with it
+		//Artist roselia = musicLibrary.getArtist(L"Roselia");
+		//vector<Song> anfang = roselia.getAlbum(L"Anfang");
+
+	//	/*Player player;
+	//	player.play(anfang.at(0).getFilePath().u8FilePath_);
+	//	player.play(anfang.at(1).getFilePath().u8FilePath_);*/
+
+		///testing saving
+		FileSystem fs;
+		fs.saveMusicLibrary(musicLibrary, LIBRARY_FILENAME);
 	}
 
-	/*for (Song song : songregation)
+	///testing loading
 	{
-		wcout << "====================================================================" << endl;
-		wcout << "Album: " << song.getAlbum() << endl;
-		wcout << "Track No: " << song.getTrackNumber() << endl;
-		wcout << "Title: " << song.getTitle() << endl;
-		wcout << "Artist: " << song.getArtist() << endl;
-		wcout << "====================================================================" << endl;
+		MusicLibrary musicLibrary;
+
+		FileSystem fs;
+		fs.loadMusicLibrary(musicLibrary, LIBRARY_FILENAME);
+
+		wcout << L"loaded library" << endl;
+		Artist roselia = musicLibrary.getArtist(L"Roselia");
+		vector<Song> anfang = roselia.getAlbum(L"Anfang");
+
+		Player player;
+		player.play(anfang.at(0).getFilePath().u8FilePath_);
+		player.play(anfang.at(1).getFilePath().u8FilePath_);
 	}
-	wcout << endl << endl;*/
 
-	//Player player;
-	//player.play(songregation.at(2).getFilePath().u8FilePath_);
-	//player.play(songregation.at(6).getFilePath().u8FilePath_);
-
-	Artist saintSnow = songregation.at(L"Saint Snow");
-	vector<Song> awakenThePower = saintSnow.getAlbum(L"Awaken the power");
-
-	Player player;
-	player.play(awakenThePower.at(0).getFilePath().u8FilePath_);
 
 
 	//program end
-	wcout << "Press any key to continue.." << endl;
+	/*wcout << "Press any key to continue.." << endl;
 	wcin.clear();
-	wcin.get();
+	wcin.get();*/
 
 	return 0;
 }

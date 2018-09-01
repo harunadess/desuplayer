@@ -25,6 +25,18 @@ public:
 	FilePath getFilePath() const;
 	void setFilePath(const FilePath& filePath);
 
+	template<class Archive>
+	void save(Archive& archive) const
+	{
+		archive(trackNumber_, title_, artist_, album_, filePath_);
+	}
+
+	template<class Archive>
+	void load(Archive& archive)
+	{
+		archive(trackNumber_, title_, artist_, album_, filePath_);
+	}
+
 private:
 	unsigned int trackNumber_;
 	wstring title_;

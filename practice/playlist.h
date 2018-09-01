@@ -19,6 +19,19 @@ public:
 	void setTitle(const string& title);
 	vector<Song> getSongList() const;
 	void setSongList(const vector<Song>& songList);
+
+	template<class Archive>
+	void save(Archive& archive) const
+	{
+		archive(title_, songList_);
+	}
+
+	template<class Archive>
+	void load(Archive& archive)
+	{
+		archive(title_, songList_);
+	}
+
 private:
 	string title_;
 	vector<Song> songList_;

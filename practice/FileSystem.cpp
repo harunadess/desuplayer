@@ -1,6 +1,15 @@
 #include "fileSystem.h"
 
+#include <cereal/cereal.hpp>
+#include <cereal/archives/binary.hpp>
+
+#define FILE_EXTENSION L".desu"
+
 FileSystem::FileSystem()
+{
+}
+
+FileSystem::~FileSystem()
 {
 }
 
@@ -38,7 +47,39 @@ vector<FilePath> FileSystem::scanForNewFiles(wstring baseDir)
 	}
 	catch (const std::exception e)
 	{
-		std::wcerr << "Error in scanning for new files: " << e.what() << std::endl;
+		printf_s("%s: %s\n", "Unexpected error scanning for files", e.what());
 		exit(1);
 	}
+}
+
+bool FileSystem::saveMusicLibrary(const MusicLibrary& musicLibrary, const wstring& fileName)
+{
+	wstring _fileName = (fileName + FILE_EXTENSION);
+	{
+		std::ofstream fileOut(_fileName, std::ios::binary);
+		if (!fileOut.is_open())
+			return false;
+
+		cereal::BinaryOutputArchive outputArchive(fileOut);
+		outputArchive(musicLibrary);
+		fileOut.close();
+		return true;
+	}
+	return false;
+}
+
+bool FileSystem::loadMusicLibrary(MusicLibrary& musicLibrary, const wstring& fileName)
+{
+	wstring _fileName = (fileName + FILE_EXTENSION);
+	{
+		std::ifstream fileIn(_fileName, std::ios::binary);
+		if (!fileIn.is_open())
+			return false;
+
+		cereal::BinaryInputArchive inputArchive(fileIn);
+		inputArchive(musicLibrary);
+		fileIn.close();
+		return true;
+	}
+	return false;
 }

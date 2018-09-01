@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "playerIOHandler.h"
 #include "ThirdParty/lowlevel/inc/fmod.hpp"
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
+#include "playerIOHandler.h"
 
 class Player
 {
