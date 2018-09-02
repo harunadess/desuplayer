@@ -37,6 +37,7 @@
 ../Debug/*
 Debug/
 Release/
+practice/ThirdParty/
 
 # Other
 *.aps
