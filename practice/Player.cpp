@@ -62,7 +62,7 @@ void Player::initialize()
 	this->getFmodVersion();
 	this->checkFmodVersion();
 	this->systemInitialize();
-	this->io_ = new PlayerIOHandlerr();
+	this->io_ = new PlayerIOHandler();
 }
 
 void Player::systemCreate()
@@ -107,7 +107,7 @@ void Player::playSound()
 
 void Player::corePlayLoop() //currently plays song in repeat
 {   
-	this->io_->outputText("Press Spacebar to Pause/Resume, press Escape to stop.");
+	this->io_->outputText(L"Press Spacebar to Pause/Resume, press Escape to stop.");
 	
 	while (true)
 	{

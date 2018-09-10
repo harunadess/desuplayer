@@ -30,7 +30,7 @@ private:
 	unsigned int version_;
 	//extra driver data of audio subsystem
 	void* extraDriverData_ = 0;	
-	PlayerIOHandlerr *io_;
+	PlayerIOHandler *io_;
 
 	void initialize();
 	void systemCreate();

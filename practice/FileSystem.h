@@ -6,6 +6,8 @@
 #include "filePath.h"
 #include "musicLibrary.h"
 
+constexpr unsigned int INCLUDE_LIST_LENGTH = 5;
+
 using std::string;
 using std::wstring;
 using std::vector;
@@ -18,14 +20,12 @@ public:
 	~FileSystem();
 
 	vector<FilePath> scanForNewFiles(wstring baseDir);
-	bool saveMusicLibrary(const MusicLibrary& musicLibrary, const wstring& fileName);
-	bool loadMusicLibrary(MusicLibrary& musicLibrary, const wstring& fileName);
+	bool saveMusicLibrary(const MusicLibrary& musicLibrary);
+	bool loadMusicLibrary(MusicLibrary& musicLibrary);
 	
 private:
-	bool isMusicFile(string);
-
-	const char* includeList_[5] = { ".mp3", ".flac", ".m4a", ".aac", ".ogg" };
-	const unsigned short includeListLength_ = (sizeof(includeList_) / sizeof(char*));
+	const char* includeList_[INCLUDE_LIST_LENGTH] = { ".mp3", ".flac", ".m4a", ".aac", ".ogg" };
+	bool isMusicFile(string extension);
 
 };
 

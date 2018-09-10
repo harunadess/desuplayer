@@ -10,7 +10,12 @@ IOHandler::~IOHandler()
 {
 }
 
-void IOHandler::outputTextInline(const char* output)
+void IOHandler::outputTextInline(const wchar_t* output)
+{
+	wcout << output << " " << flush;
+}
+
+void IOHandler::outputTextInline(const wstring& output)
 {
 	wcout << output << " " << flush;
 }
@@ -20,21 +25,38 @@ void IOHandler::outputNewline()
 	wcout << "\n" << flush;
 }
 
-void IOHandler::outputText(const char* output)
+void IOHandler::outputText(const wchar_t* output)
 {
 	wcout << output << endl;
 }
 
-void IOHandler::outputTextWithSpacing(const char* output)
+void IOHandler::outputText(const wstring& output)
+{
+	wcout << output << endl;
+}
+
+void IOHandler::outputTextWithSpacing(const wchar_t* output)
 {
 	wcout << endl << output << endl;
 }
 
-void IOHandler::outputHeading(const char* output)
+void IOHandler::outputTextWithSpacing(const wstring& output)
 {
-	wcout << headingLine_.c_str() << endl 
+	wcout << endl << output << endl;
+}
+
+void IOHandler::outputHeading(const wchar_t* output)
+{
+	wcout << headingLine_ << endl 
 		<< "  " << output << endl 
-		<< headingLine_.c_str() << endl;
+		<< headingLine_ << endl;
+}
+
+void IOHandler::outputHeading(const wstring& output)
+{
+	wcout << headingLine_ << endl
+		<< "  " << output << endl
+		<< headingLine_ << endl;
 }
 
 IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
@@ -78,23 +100,4 @@ IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
 	default:
 		return KeyCode::UNMATCHED;
 	}
-}
-
-
-
-void IOHandler::test_keypress()
-{
-	/*cout << "Press a key." << endl;
-	
-	string keyPressed;
-	while (true)
-	{
-		keyPressed = "/";
-		keyboardKeyCode_ = _getwch();
-		keyPressed = lookupKeyCode(keyboardKeyCode_);
-		if (keyPressed != "")
-		{
-			cout << keyPressed << endl;
-		}
-	}*/
 }

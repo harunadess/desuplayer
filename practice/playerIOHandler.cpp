@@ -1,26 +1,26 @@
 #include "playerIOHandler.h"
 
-PlayerIOHandlerr::PlayerIOHandlerr()
+PlayerIOHandler::PlayerIOHandler()
 {
 }
 
 
-PlayerIOHandlerr::~PlayerIOHandlerr()
+PlayerIOHandler::~PlayerIOHandler()
 {
 }
 
-IOHandler::KeyCode PlayerIOHandlerr::processInput()
+IOHandler::KeyCode PlayerIOHandler::processInput()
 {
 	this->keyboardKeyCode_ = _getwch();
 	return IOHandler::lookupKeyCode(this->keyboardKeyCode_);
 }
 
-bool PlayerIOHandlerr::isPauseKey()
+bool PlayerIOHandler::isPauseKey()
 {
 	return (this->keyboardKeyCode_ == IOHandler::KeyCode::SPC);
 }
 
-bool PlayerIOHandlerr::isExitKey()
+bool PlayerIOHandler::isExitKey()
 {
 	return (this->keyboardKeyCode_ == IOHandler::KeyCode::ESC);
 }

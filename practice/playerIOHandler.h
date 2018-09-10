@@ -2,16 +2,17 @@
 #define PLAYERIOHANDLER_H
 
 #include "IOHandler.h"
-class PlayerIOHandlerr :
-	public IOHandler
+
+class PlayerIOHandler : public IOHandler
 {
 public:
-	PlayerIOHandlerr();
-	~PlayerIOHandlerr();
+	PlayerIOHandler();
+	~PlayerIOHandler();
 
 	IOHandler::KeyCode processInput();
 	bool isPauseKey();
 	bool isExitKey();
+
 private:
 
 

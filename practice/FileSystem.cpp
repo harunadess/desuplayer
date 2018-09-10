@@ -3,7 +3,7 @@
 #include <cereal/cereal.hpp>
 #include <cereal/archives/binary.hpp>
 
-#define FILE_EXTENSION L".desu"
+#define LIBRARY_FILE_NAME L"library.desu"
 
 FileSystem::FileSystem()
 {
@@ -15,7 +15,7 @@ FileSystem::~FileSystem()
 
 bool FileSystem::isMusicFile(string extension)
 {
-	for (unsigned int i = 0; i < includeListLength_; i++)
+	for (unsigned int i = 0; i < INCLUDE_LIST_LENGTH; i++)
 	{
 		if (extension.find(includeList_[i]) != string::npos)
 			return true;
@@ -32,10 +32,10 @@ vector<FilePath> FileSystem::scanForNewFiles(wstring baseDir)
 		{
 			if (dirEntry.is_regular_file())
 			{
-				if (isMusicFile(dirEntry.path().extension().u8string().c_str()))
+				if (isMusicFile(dirEntry.path().extension().u8string()))
 				{
-					FilePath fpObj(dirEntry.path().wstring(), dirEntry.path().u8string());
-					foundFiles.push_back(fpObj);
+					FilePath filePath(dirEntry.path().wstring(), dirEntry.path().u8string());
+					foundFiles.push_back(filePath);
 				}
 			}
 		}
@@ -52,34 +52,41 @@ vector<FilePath> FileSystem::scanForNewFiles(wstring baseDir)
 	}
 }
 
-bool FileSystem::saveMusicLibrary(const MusicLibrary& musicLibrary, const wstring& fileName)
+bool FileSystem::saveMusicLibrary(const MusicLibrary& musicLibrary)
 {
-	wstring _fileName = (fileName + FILE_EXTENSION);
-	{
-		std::ofstream fileOut(_fileName, std::ios::binary);
-		if (!fileOut.is_open())
-			return false;
+	std::ofstream fileOut(LIBRARY_FILE_NAME, std::ios::binary);
+	if (!fileOut.is_open())
+		return false;
 
+	try
+	{
 		cereal::BinaryOutputArchive outputArchive(fileOut);
 		outputArchive(musicLibrary);
 		fileOut.close();
 		return true;
 	}
-	return false;
+	catch (std::exception e)
+	{
+		return false;
+	}
 }
 
-bool FileSystem::loadMusicLibrary(MusicLibrary& musicLibrary, const wstring& fileName)
+bool FileSystem::loadMusicLibrary(MusicLibrary& musicLibrary)
 {
-	wstring _fileName = (fileName + FILE_EXTENSION);
-	{
-		std::ifstream fileIn(_fileName, std::ios::binary);
-		if (!fileIn.is_open())
-			return false;
+	std::ifstream fileIn(LIBRARY_FILE_NAME, std::ios::binary);
+	if (!fileIn.is_open())
+		return false;
 
+	try
+	{
 		cereal::BinaryInputArchive inputArchive(fileIn);
 		inputArchive(musicLibrary);
 		fileIn.close();
 		return true;
 	}
-	return false;
+	catch (std::exception e)
+	{
+		return false;
+	}
+	
 }
