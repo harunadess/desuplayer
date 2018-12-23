@@ -94,22 +94,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL_vc.lib">
+    <Library Include="ThirdParty\lowlevel\lib\fmod_vc.lib">
       <Filter>Resource Files</Filter>
     </Library>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll">
+    <Library Include="ThirdParty\lowlevel\lib\fmod64_vc.lib">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64.dll">
+    </Library>
+    <Library Include="ThirdParty\lowlevel\lib\fmodL_vc.lib">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL.dll">
+    </Library>
+    <Library Include="ThirdParty\lowlevel\lib\fmodL64_vc.lib">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL64.dll">
-      <Filter>Resource Files</Filter>
-    </None>
+    </Library>
   </ItemGroup>
 </Project>
