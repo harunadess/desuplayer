@@ -2,31 +2,47 @@
 #define SONG_H
 
 #include <string>
-#include "Artist.h"
-#include "Album.h"
+#include "filePath.h"
+
+using std::wstring;
 using std::string;
 
 class Song
 {
 public:
-	Song(string title, Album* album, Artist* artist);
+	Song();
+	Song(const unsigned int& trackNumber, const wstring& title, const wstring& artist, const wstring& album, const FilePath& filePath);
 	~Song();
 
-	string getTitle();
-	void setTitle(string title);
-	Artist getArtist();
-	void setArtist(Artist* artist);
-	Album getAlbum();
-	void setAlbum(Album* album);
+	unsigned int getTrackNumber() const;
+	void setTrackNumber(const unsigned int& trackNumber);
+	wstring getTitle() const;
+	void setTitle(const wstring& title);
+	wstring getArtist() const;
+	void setArtist(const wstring& artist);
+	wstring getAlbum() const;
+	void setAlbum(const wstring& album);
+	FilePath getFilePath() const;
+	void setFilePath(const FilePath& filePath);
 
-	const char* getFilePath();
-	void setFilePath(const char* filePath);
+	template<class Archive>
+	void save(Archive& archive) const
+	{
+		archive(trackNumber_, title_, artist_, album_, filePath_);
+	}
+
+	template<class Archive>
+	void load(Archive& archive)
+	{
+		archive(trackNumber_, title_, artist_, album_, filePath_);
+	}
 
 private:
-	string title_;
-	Artist* artist_;
-	Album* album_;
-	const char* filePath_;
+	unsigned int trackNumber_;
+	wstring title_;
+	wstring artist_;
+	wstring album_;
+	FilePath filePath_;
 
 };
 

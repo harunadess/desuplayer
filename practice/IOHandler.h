@@ -6,6 +6,7 @@
 #include <conio.h>
 
 using std::string;
+using std::wstring;
 using std::wcout;
 using std::wcin;
 using std::endl;
@@ -18,14 +19,16 @@ public:
 	IOHandler();
 	~IOHandler();
 
-	void outputTextInline(const char* output);
+	void outputTextInline(const wchar_t* output);
+	void outputTextInline(const wstring& output);
 	void outputNewline();
-	void outputText(const char* output);
-	void outputTextWithSpacing(const char* output);
-	void outputHeading(const char* output);
+	void outputText(const wchar_t* output);
+	void outputText(const wstring& output);
+	void outputTextWithSpacing(const wchar_t* output);
+	void outputTextWithSpacing(const wstring& output);
+	void outputHeading(const wchar_t* output);
+	void outputHeading(const wstring& output);
 	
-	void test_keypress();
-
 protected:
 	enum KeyCode
 	{
@@ -52,7 +55,7 @@ protected:
 	IOHandler::KeyCode lookupKeyCode(int keyCode);
 
 private:
-	const string headingLine_ = "========================================================";
+	const wchar_t* headingLine_ = L"========================================================";
 };
 
 #endif // !IO_HANDLER_H

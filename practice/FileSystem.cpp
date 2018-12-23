@@ -1,49 +1,92 @@
-#include "FileSystem.h"
+#include "fileSystem.h"
 
-using std::filesystem::recursive_directory_iterator;
-using std::wstring;
+#include <cereal/cereal.hpp>
+#include <cereal/archives/binary.hpp>
+
+#define LIBRARY_FILE_NAME L"library.desu"
 
 FileSystem::FileSystem()
 {
 }
 
-
 FileSystem::~FileSystem()
 {
 }
 
-bool isMusicFile(std::wstring extension)
+bool FileSystem::isMusicFile(string extension)
 {
-	const wchar_t* includeList[4] = {L".mp3", L".flac", L".m4a", L".aac"}; //todo: move to private var
-	unsigned int extensionLength = (sizeof (includeList) / sizeof (wchar_t*));
-
-	for (unsigned int i = 0; i < extensionLength; i++)
+	for (unsigned int i = 0; i < INCLUDE_LIST_LENGTH; i++)
 	{
-		if (extension.find(includeList[i]) != std::wstring::npos)
+		if (extension.find(includeList_[i]) != string::npos)
 			return true;
 	}
 	return false;
 }
 
-void FileSystem::scanForNewFiles(const char* baseDir)
+vector<FilePath> FileSystem::scanForNewFiles(wstring baseDir)
 {
-	for (auto& dirEntry : recursive_directory_iterator(baseDir))
+	try
 	{
-		try
+		vector<FilePath> foundFiles;
+		for (auto& dirEntry : recursive_directory_iterator(baseDir))
 		{
 			if (dirEntry.is_regular_file())
 			{
-				if (isMusicFile(dirEntry.path().extension().wstring()))
+				if (isMusicFile(dirEntry.path().extension().u8string()))
 				{
-					wstring filename = dirEntry.path().filename().wstring();
-					std::wcout << filename << std::endl; //todo: store this, or something
+					FilePath filePath(dirEntry.path().wstring(), dirEntry.path().u8string());
+					foundFiles.push_back(filePath);
 				}
 			}
 		}
-		catch (const std::exception e)
-		{
-			std::wcout << "error:" << std::flush;
-			std::wcout << e.what() << std::endl;
-		}
+		return foundFiles;
 	}
+	catch (const std::filesystem::filesystem_error e)
+	{
+		return vector<FilePath>();
+	}
+	catch (const std::exception e)
+	{
+		printf_s("%s: %s\n", "Unexpected error scanning for files", e.what());
+		exit(1);
+	}
+}
+
+bool FileSystem::saveMusicLibrary(const MusicLibrary& musicLibrary)
+{
+	std::ofstream fileOut(LIBRARY_FILE_NAME, std::ios::binary);
+	if (!fileOut.is_open())
+		return false;
+
+	try
+	{
+		cereal::BinaryOutputArchive outputArchive(fileOut);
+		outputArchive(musicLibrary);
+		fileOut.close();
+		return true;
+	}
+	catch (std::exception e)
+	{
+		return false;
+	}
+}
+
+bool FileSystem::loadMusicLibrary(MusicLibrary& musicLibrary)
+{
+	std::ifstream fileIn(LIBRARY_FILE_NAME, std::ios::binary);
+	if (!fileIn.is_open())
+		return false;
+
+	try
+	{
+		cereal::BinaryInputArchive inputArchive(fileIn);
+		inputArchive(musicLibrary);
+		fileIn.close();
+		return true;
+	}
+	catch (std::exception e)
+	{
+		return false;
+	}
+	
 }
