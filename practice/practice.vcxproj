@@ -132,16 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Album.cpp" />
-    <ClCompile Include="Artist.cpp" />
-    <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="IOHandler.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerIOHandlerr.cpp" />
-    <ClCompile Include="Song.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Album.h" />
     <ClInclude Include="Artist.h" />
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.h" />
@@ -152,18 +142,38 @@
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_dsp_effects.h" />
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_errors.h" />
     <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_output.h" />
+    <ClInclude Include="filePath.h" />
     <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="frontend.h" />
     <ClInclude Include="IOHandler.h" />
     <ClInclude Include="KeyCodes.h" />
+    <ClInclude Include="musicFileFinder.h" />
+    <ClInclude Include="musicLibrary.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerIOHandlerr.h" />
+    <ClInclude Include="playerIOHandler.h" />
+    <ClInclude Include="playlist.h" />
     <ClInclude Include="Song.h" />
+    <ClInclude Include="songregator.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ThirdParty\lowlevel\lib\fmod64_vc.lib" />
     <Library Include="ThirdParty\lowlevel\lib\fmodL64_vc.lib" />
-    <Library Include="ThirdParty\lowlevel\lib\fmodL_vc.lib" />
-    <Library Include="ThirdParty\lowlevel\lib\fmod_vc.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Album.cpp" />
+    <ClCompile Include="Artist.cpp" />
+    <ClCompile Include="filePath.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="frontend.cpp" />
+    <ClCompile Include="IOHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="musicFileFinder.cpp" />
+    <ClCompile Include="musicLibrary.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="playerIOHandler.cpp" />
+    <ClCompile Include="playlist.cpp" />
+    <ClCompile Include="Song.cpp" />
+    <ClCompile Include="songregator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
