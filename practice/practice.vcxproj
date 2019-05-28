@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>fmod64_vc.lib;fmodL64_vc.lib;tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;D:\Users\Jorta\Documents\Coding\C++\Other\mp\practice\ThirdParty\cereal\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -139,8 +139,10 @@
     <ClCompile Include="artist.cpp" />
     <ClCompile Include="filePath.cpp" />
     <ClCompile Include="fileSystem.cpp" />
+    <ClCompile Include="frontend.cpp" />
     <ClCompile Include="ioHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mediaPlayer.cpp" />
     <ClCompile Include="musicFileFinder.cpp" />
     <ClCompile Include="musicLibrary.cpp" />
     <ClCompile Include="player.cpp" />
@@ -257,8 +259,10 @@
     <ClInclude Include="artist.h" />
     <ClInclude Include="filePath.h" />
     <ClInclude Include="fileSystem.h" />
+    <ClInclude Include="frontend.h" />
     <ClInclude Include="ioHandler.h" />
     <ClInclude Include="keycodes.h" />
+    <ClInclude Include="mediaPlayer.h" />
     <ClInclude Include="musicFileFinder.h" />
     <ClInclude Include="musicLibrary.h" />
     <ClInclude Include="player.h" />

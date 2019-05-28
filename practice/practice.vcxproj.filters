@@ -37,12 +37,27 @@
     <Filter Include="Header Files\fmod">
       <UniqueIdentifier>{6f897775-cfab-4851-94a3-1a95b9caac0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\console">
+      <UniqueIdentifier>{0cd0ac9f-45a4-4fbb-affe-122496431b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\media">
+      <UniqueIdentifier>{c066b4a3-ecdd-47f4-8b8a-cd4e72900e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\player">
+      <UniqueIdentifier>{2481cebc-d18f-4863-af09-764284139f34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\console">
+      <UniqueIdentifier>{4f7752ee-6f7e-4510-bfed-5f988b0dc12b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\media">
+      <UniqueIdentifier>{e576becf-4486-495b-97a1-a30ec504ca48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\player">
+      <UniqueIdentifier>{d4e7db6d-bbda-4528-b6e7-35220641b2d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="songregator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="filePath.cpp">
@@ -57,26 +72,35 @@
     <ClCompile Include="playerIOHandler.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
-    <ClCompile Include="album.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="artist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="musicLibrary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="playlist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="song.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="musicFileFinder.cpp">
       <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="album.cpp">
+      <Filter>Source Files\media</Filter>
+    </ClCompile>
+    <ClCompile Include="artist.cpp">
+      <Filter>Source Files\media</Filter>
+    </ClCompile>
+    <ClCompile Include="song.cpp">
+      <Filter>Source Files\media</Filter>
+    </ClCompile>
+    <ClCompile Include="playlist.cpp">
+      <Filter>Source Files\media</Filter>
+    </ClCompile>
+    <ClCompile Include="frontend.cpp">
+      <Filter>Source Files\console</Filter>
+    </ClCompile>
+    <ClCompile Include="musicLibrary.cpp">
+      <Filter>Source Files\media</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="songregator.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="mediaPlayer.cpp">
+      <Filter>Source Files\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,27 +413,6 @@
     <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xmproperties.h">
       <Filter>Header Files\taglib</Filter>
     </ClInclude>
-    <ClInclude Include="songregator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="album.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="artist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="musicLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="playlist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="song.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="filePath.h">
       <Filter>Header Files\file</Filter>
     </ClInclude>
@@ -424,9 +427,6 @@
     </ClInclude>
     <ClInclude Include="playerIOHandler.h">
       <Filter>Header Files\io</Filter>
-    </ClInclude>
-    <ClInclude Include="musicFileFinder.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod.h">
       <Filter>Header Files\fmod</Filter>
@@ -451,6 +451,36 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod_output.h">
       <Filter>Header Files\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="album.h">
+      <Filter>Header Files\media</Filter>
+    </ClInclude>
+    <ClInclude Include="artist.h">
+      <Filter>Header Files\media</Filter>
+    </ClInclude>
+    <ClInclude Include="song.h">
+      <Filter>Header Files\media</Filter>
+    </ClInclude>
+    <ClInclude Include="songregator.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="frontend.h">
+      <Filter>Header Files\console</Filter>
+    </ClInclude>
+    <ClInclude Include="musicFileFinder.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="musicLibrary.h">
+      <Filter>Header Files\media</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files\player</Filter>
+    </ClInclude>
+    <ClInclude Include="playlist.h">
+      <Filter>Header Files\media</Filter>
+    </ClInclude>
+    <ClInclude Include="mediaPlayer.h">
+      <Filter>Header Files\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -40,3 +40,8 @@ wstring Album::getArtistName() const
 {
 	return L"";
 }
+
+vector<Song> Album::getSelf() const
+{
+	return artist_->getAlbum(title_);
+}

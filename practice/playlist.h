@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "song.h"
+#include "album.h"
 
 using std::vector;
 using std::string;
@@ -19,6 +20,8 @@ public:
 	void setTitle(const string& title);
 	vector<Song> getSongList() const;
 	void setSongList(const vector<Song>& songList);
+	void addSongToList(const Song& song);
+	void addAlbumContentsToList(const Album& album);
 
 	template<class Archive>
 	void save(Archive& archive) const

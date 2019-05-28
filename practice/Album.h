@@ -3,11 +3,13 @@
 
 #include <vector>
 #include <string>
+#include "song.h"
+#include "artist.h"
 
 using std::vector;
 using std::wstring;
 
-class Artist;
+//class Artist;
 
 class Album
 {
@@ -21,6 +23,7 @@ public:
 	Artist* getArtist() const;
 	void setArtist(Artist* aritst);
 	wstring getArtistName() const;
+	vector<Song> getSelf() const;
 
 private:
 	wstring title_;

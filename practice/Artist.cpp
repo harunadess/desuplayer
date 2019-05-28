@@ -43,7 +43,7 @@ void Artist::setAlbums(const map<wstring, vector<Song>>& albums)
 
 void Artist::addSongToAlbum(const wstring& album, const Song& song)
 {
-	std::pair<wstring, Song> insertPair(album, song);
+	/*std::pair<wstring, Song> insertPair(album, song);*/
 	/*albums_[album].insert(albums_[album].begin(), insertPair);*/
 	albums_[album].push_back(song);
 }
