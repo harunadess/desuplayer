@@ -22,5 +22,13 @@ void MusicLibrary::setArtists(const map<wstring, Artist>& artists)
 
 Artist MusicLibrary::getArtist(const wstring& artistName) const
 {
-	return artists_.at(artistName);
+	try
+	{
+		return artists_.at(artistName);
+	}
+	catch (const std::out_of_range e)
+	{
+		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		return Artist();
+	}
 }

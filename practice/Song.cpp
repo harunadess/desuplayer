@@ -6,7 +6,6 @@ Song::Song()
 	title_ = L"";
 	artist_ = L"";
 	album_ = L"";
-	//filePath_ = FilePath();
 }
 
 Song::Song(const unsigned int& trackNumber, const wstring& title, const wstring& artist, const wstring& album, const FilePath& filePath)

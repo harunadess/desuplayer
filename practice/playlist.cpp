@@ -43,7 +43,7 @@ void Playlist::addSongToList(const Song& song)
 
 void Playlist::addAlbumContentsToList(const Album& album)
 {
-	vector<Song> toAdd = album.getSelf();
+	vector<Song> toAdd = album.getTrackList();
 	for (vector<Song>::iterator it = toAdd.begin(); it != toAdd.end(); ++it)
 		songList_.push_back(*it);
 }

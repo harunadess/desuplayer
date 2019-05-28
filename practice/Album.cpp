@@ -3,13 +3,13 @@
 Album::Album()
 {
 	title_ = L"";
-	artist_ = nullptr;
+	trackList_ = vector<Song>();
 }
 
-Album::Album(const wstring& title, Artist* artist)
+Album::Album(const wstring& title, vector<Song> trackList)
 {
 	title_ = title;
-	artist_ = artist;
+	trackList_ = trackList;
 }
 
 Album::~Album()
@@ -26,22 +26,25 @@ void Album::setTitle(const wstring& title)
 	title_ = title;
 }
 
-Artist* Album::getArtist() const
-{
-	return artist_;
-}
-
-void Album::setArtist(Artist* artist)
-{
-	artist_ = artist;
-}
+//Artist* Album::getArtist() const
+//{
+//	return artist_;
+//}
 
 wstring Album::getArtistName() const
 {
-	return L"";
+	return trackList_.at(0).getArtist();
 }
 
-vector<Song> Album::getSelf() const
+vector<Song> Album::getTrackList() const
 {
-	return artist_->getAlbum(title_);
+	return trackList_;
+}
+
+Song Album::getTrackAt(int pos) const
+{
+	if (pos < 0 || pos > trackList_.size() - 1)
+		return Song();
+
+	return trackList_.at(pos);
 }

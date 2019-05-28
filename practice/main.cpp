@@ -55,33 +55,6 @@ void start(int argc)
 	wcout << "========================================================================" << endl;
 }
 
-//void test_io(int argc)
-//{
-//	const char* message1 = "test message";
-//	const char* message2 = "another test message";
-//
-//	IOHandler* io = new IOHandler();
-//	io->outputHeading("whoa, this is a great heading!!");
-//
-//	io->outputTextInline(message1);
-//	io->outputTextInline(" and a little bit extra");
-//	
-//	io->outputNewline();
-//	io->outputText(message1);
-//	io->outputText(message2);
-//
-//	io->outputTextWithSpacing(message1);
-//	io->outputTextWithSpacing(message2);
-//
-//	//clean up
-//	delete io;
-//}
-
-//void test_keypress(int argc)
-//{
-//	PlayerIOHandlerr* io = new PlayerIOHandlerr();
-//	io->test_keypress();
-//}
 
 //Song test_fileSystem(int argc)
 //{

@@ -23,16 +23,13 @@ void MediaPlayer::addToPlaybackQueue(const Album& album)
 void MediaPlayer::addToPlaybackQueue(const Artist& artist)
 {
 	map<wstring, vector<Song>> albums = artist.getAlbums();
-	vector<wstring> albumNames;
-	//todo: move this album names vector to the artist class
-	for (map<wstring, vector<Song>>::iterator it = albums.begin(); it != albums.end(); ++it)
+	vector<wstring> albumTitles = artist.getAllAlbumTitles();
+	
+	for (vector<wstring>::iterator it = albumTitles.begin(); it != albumTitles.end(); ++it)
 	{
-		albumNames.push_back(it->first);
-	}
-
-	for (vector<wstring>::iterator it = albumNames.begin(); it != albumNames.end(); ++it)
-	{
-
+		vector<Song> album = artist.getAlbum(*it);
+		for (vector<Song>::iterator songIt = album.begin(); songIt != album.end(); ++songIt)
+			playbackQueue_->addSongToList(*songIt);
 	}
 }
 
