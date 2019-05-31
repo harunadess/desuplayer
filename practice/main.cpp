@@ -55,33 +55,6 @@ void start(int argc)
 	wcout << "========================================================================" << endl;
 }
 
-//void test_io(int argc)
-//{
-//	const char* message1 = "test message";
-//	const char* message2 = "another test message";
-//
-//	IOHandler* io = new IOHandler();
-//	io->outputHeading("whoa, this is a great heading!!");
-//
-//	io->outputTextInline(message1);
-//	io->outputTextInline(" and a little bit extra");
-//	
-//	io->outputNewline();
-//	io->outputText(message1);
-//	io->outputText(message2);
-//
-//	io->outputTextWithSpacing(message1);
-//	io->outputTextWithSpacing(message2);
-//
-//	//clean up
-//	delete io;
-//}
-
-//void test_keypress(int argc)
-//{
-//	PlayerIOHandlerr* io = new PlayerIOHandlerr();
-//	io->test_keypress();
-//}
 
 //Song test_fileSystem(int argc)
 //{
@@ -149,50 +122,50 @@ int wmain(int argc, wchar_t* argv[])
 	//Song s = test_fileSystem(argc);				//testing file stuff
 	//test_ioFile(argc);					//testing storing shit in files
 
-	/////This is new testing stuff
-	//{
-	//	wstring baseDir = L"D:/Users/Jorta/Music/Bandori"; //todo: change separators for "\\" if "/" is used or the std::filesystem::some_special_separator_thing
-	//	bool filesFound = false;
-	//	MusicLibrary musicLibrary;
+	///This is new testing stuff
+	{
+		wstring baseDir = L"D:/Users/Jorta/Music/"; //todo: change separators for "\\" if "/" is used or the std::filesystem::some_special_separator_thing
+		bool filesFound = false;
+		MusicLibrary musicLibrary;
 
-	//	Songregator songregator;
-	//	while (!filesFound)
-	//	{
-	//		//wcout << L"Please enter your music directory: " << flush;
-	//		//std::getline(std::wcin, baseDir);
-	//		filesFound = songregator.createSongList(baseDir, musicLibrary);
-	//		if (!filesFound)
-	//			wcout << L"Error creating song list. Please check the directory is correct and try again." << endl;
-	//	}
+		Songregator songregator;
+		while (!filesFound)
+		{
+			//wcout << L"Please enter your music directory: " << flush;
+			//std::getline(std::wcin, baseDir);
+			filesFound = songregator.createSongList(baseDir, musicLibrary);
+			if (!filesFound)
+				wcout << L"Error creating song list. Please check the directory is correct and try again." << endl;
+		}
 
-	//	///We have the data, time to do something with it
-	//	//Artist roselia = musicLibrary.getArtist(L"Roselia");
-	//	//vector<Song> anfang = roselia.getAlbum(L"Anfang");
+		///We have the data, time to do something with it
+		//Artist roselia = musicLibrary.getArtist(L"Roselia");
+		//vector<Song> anfang = roselia.getAlbum(L"Anfang");
 
-	////	/*Player player;
-	////	player.play(anfang.at(0).getFilePath().u8FilePath_);
-	////	player.play(anfang.at(1).getFilePath().u8FilePath_);*/
+	//	/*Player player;
+	//	player.play(anfang.at(0).getFilePath().u8FilePath_);
+	//	player.play(anfang.at(1).getFilePath().u8FilePath_);*/
 
-	//	///testing saving
-	//	FileSystem fs;
-	//	fs.saveMusicLibrary(musicLibrary);
-	//}
+		///testing saving
+		FileSystem fs;
+		fs.saveMusicLibrary(musicLibrary);
+	}
 
 	/////testing loading
-	//{
-	//	MusicLibrary musicLibrary;
+	/*{
+		MusicLibrary musicLibrary;
 
-	//	FileSystem fs;
-	//	fs.loadMusicLibrary(musicLibrary);
+		FileSystem fs;
+		fs.loadMusicLibrary(musicLibrary);
 
-	//	wcout << L"loaded library" << endl;
-	//	Artist roselia = musicLibrary.getArtist(L"Roselia");
-	//	vector<Song> anfang = roselia.getAlbum(L"Anfang");
+		wcout << L"loaded library" << endl;
+		Artist roselia = musicLibrary.getArtist(L"Roselia");
+		vector<Song> anfang = roselia.getAlbum(L"Anfang");
 
-	//	Player player;
-	//	player.play(anfang.at(0).getFilePath().u8FilePath_);
-	//	player.play(anfang.at(1).getFilePath().u8FilePath_);
-	//}
+		Player player;
+		player.play(anfang.at(0).getFilePath().u8FilePath_);
+		player.play(anfang.at(1).getFilePath().u8FilePath_);
+	}*/
 
 	/*FrontEnd frontend;
 	int frontendReturn = 0;

@@ -3,17 +3,21 @@
 Artist::Artist()
 {
 	name_ = L"";
+	albumTitles_ = vector<wstring>();
+	albums_ = map<wstring, vector<Song>>();
 }
 
 Artist::Artist(const wstring& name)
 {
 	name_ = name;
+	albumTitles_ = vector<wstring>();
 	albums_ = map<wstring, vector<Song>>();
 }
 
 Artist::Artist(const wstring& name, const map<wstring, vector<Song>>& albums)
 {
 	name_ = name;
+	albumTitles_ = vector<wstring>();
 	albums_ = albums;
 }
 
@@ -43,12 +47,27 @@ void Artist::setAlbums(const map<wstring, vector<Song>>& albums)
 
 void Artist::addSongToAlbum(const wstring& album, const Song& song)
 {
-	std::pair<wstring, Song> insertPair(album, song);
+	//this is old, so not sure why it is still here.
+	/*std::pair<wstring, Song> insertPair(album, song);*/
 	/*albums_[album].insert(albums_[album].begin(), insertPair);*/
+	albumTitles_.push_back(album);
 	albums_[album].push_back(song);
 }
 
 vector<Song> Artist::getAlbum(const wstring& album) const
 {
-	return albums_.at(album);
+	try 
+	{
+		return albums_.at(album);
+	}
+	catch (const std::out_of_range e)
+	{
+		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		return vector<Song>();
+	}
+}
+
+vector<wstring> Artist::getAllAlbumTitles() const
+{
+	return albumTitles_;
 }

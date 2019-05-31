@@ -24,6 +24,7 @@ public:
 	void setAlbums(const map<wstring, vector<Song>>& albums);
 	void addSongToAlbum(const wstring& album, const Song& song);
 	vector<Song> getAlbum(const wstring& album) const;
+	vector<wstring> getAllAlbumTitles() const;
 
 	template<class Archive>
 	void save(Archive& archive) const
@@ -39,6 +40,7 @@ public:
 
 private:
 	wstring name_;
+	vector<wstring> albumTitles_;
 	map<wstring, vector<Song>> albums_;
 
 };

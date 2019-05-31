@@ -3,28 +3,31 @@
 
 #include <vector>
 #include <string>
+#include "song.h"
+#include "artist.h"
 
 using std::vector;
 using std::wstring;
 
-class Artist;
+//class Artist;  <-- unsure of use, probably compilation stuff
 
 class Album
 {
 public:
 	Album();
-	Album(const wstring& title, Artist* artist);
+	Album(const wstring& title, vector<Song> trackList);
 	~Album();
 
 	wstring getTitle() const;
 	void setTitle(const wstring& title);
-	Artist* getArtist() const;
-	void setArtist(Artist* aritst);
+	//Artist* getArtist() const;
 	wstring getArtistName() const;
+	vector<Song> getTrackList() const;
+	Song getTrackAt(int pos) const;
 
 private:
 	wstring title_;
-	Artist* artist_;
+	vector<Song> trackList_;
 
 };
 
