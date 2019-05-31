@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "practice", "practice\practice.vcxproj", "{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp_cli", "mp_cli\mp_cli.vcxproj", "{F7809609-5162-4620-A314-9AC091649EE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x64.Build.0 = Release|x64
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x86.ActiveCfg = Release|Win32
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x86.Build.0 = Release|Win32
+		{F7809609-5162-4620-A314-9AC091649EE5}.Debug|x64.ActiveCfg = Debug|x64
+		{F7809609-5162-4620-A314-9AC091649EE5}.Debug|x64.Build.0 = Debug|x64
+		{F7809609-5162-4620-A314-9AC091649EE5}.Debug|x86.ActiveCfg = Debug|Win32
+		{F7809609-5162-4620-A314-9AC091649EE5}.Debug|x86.Build.0 = Debug|Win32
+		{F7809609-5162-4620-A314-9AC091649EE5}.Release|x64.ActiveCfg = Release|x64
+		{F7809609-5162-4620-A314-9AC091649EE5}.Release|x64.Build.0 = Release|x64
+		{F7809609-5162-4620-A314-9AC091649EE5}.Release|x86.ActiveCfg = Release|Win32
+		{F7809609-5162-4620-A314-9AC091649EE5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
