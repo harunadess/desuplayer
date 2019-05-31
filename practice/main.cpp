@@ -28,6 +28,11 @@ using std::endl;
 	* Find better font (LOOKS)
 */
 
+
+
+//							TODO: push desktop SLN to fix all the solution for laptop as it is borked.
+
+
 void configConsole()
 {
 	//Set CodePage of console so it will be UTF-8 encoded
