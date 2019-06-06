@@ -102,6 +102,9 @@
     <ClCompile Include="mediaPlayer.cpp">
       <Filter>Source Files\player</Filter>
     </ClCompile>
+    <ClCompile Include="dummy.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\aifffile.h">

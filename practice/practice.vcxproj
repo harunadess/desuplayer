@@ -22,8 +22,8 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}</ProjectGuid>
     <RootNamespace>practice</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>desuplayer</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>console-music-player</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,24 +77,26 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
-      <AdditionalDependencies>fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Users\Jorta\Documents\Coding\C++\Other\mp\practice\ThirdParty\taglib-1.11.1\__install%28x86%29\x86-Release\lib;D:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmod64_vc.lib;fmodL64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod64_vc.lib;fmodL64_vc.lib;tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;D:\Users\Jorta\Documents\Coding\C++\Other\mp\practice\ThirdParty\cereal\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -133,48 +135,161 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Album.h" />
-    <ClInclude Include="Artist.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.hpp" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_codec.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_common.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_dsp.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_dsp_effects.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_errors.h" />
-    <ClInclude Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod_output.h" />
-    <ClInclude Include="filePath.h" />
-    <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="frontend.h" />
-    <ClInclude Include="IOHandler.h" />
-    <ClInclude Include="KeyCodes.h" />
-    <ClInclude Include="musicFileFinder.h" />
-    <ClInclude Include="musicLibrary.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="playerIOHandler.h" />
-    <ClInclude Include="playlist.h" />
-    <ClInclude Include="Song.h" />
-    <ClInclude Include="songregator.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="ThirdParty\lowlevel\lib\fmod64_vc.lib" />
-    <Library Include="ThirdParty\lowlevel\lib\fmodL64_vc.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Album.cpp" />
-    <ClCompile Include="Artist.cpp" />
+    <ClCompile Include="album.cpp" />
+    <ClCompile Include="artist.cpp" />
+    <ClCompile Include="dummy.cpp" />
     <ClCompile Include="filePath.cpp" />
-    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="fileSystem.cpp" />
     <ClCompile Include="frontend.cpp" />
-    <ClCompile Include="IOHandler.cpp" />
+    <ClCompile Include="ioHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mediaPlayer.cpp" />
     <ClCompile Include="musicFileFinder.cpp" />
     <ClCompile Include="musicLibrary.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="playerIOHandler.cpp" />
     <ClCompile Include="playlist.cpp" />
-    <ClCompile Include="Song.cpp" />
+    <ClCompile Include="song.cpp" />
     <ClCompile Include="songregator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\aifffile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\aiffproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apefile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apefooter.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apeitem.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apeproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\apetag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfattribute.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asffile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfpicture.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asfproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\asftag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\attachedpictureframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\audioproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\chapterframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\commentsframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\eventtimingcodesframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\fileref.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacmetadatablock.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacpicture.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\flacproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\generalencapsulatedobjectframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v1genres.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v1tag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2extendedheader.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2footer.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2frame.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2framefactory.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2header.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2synchdata.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\id3v2tag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\infotag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\itfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\itproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modfilebase.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\modtag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4atom.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4coverart.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4file.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4item.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4properties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mp4tag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpcfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpcproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegheader.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\mpegproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggflacfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggpage.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\oggpageheader.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\opusfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\opusproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\ownershipframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\podcastframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\popularimeterframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\privateframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\relativevolumeframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\rifffile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\s3mfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\s3mproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\speexfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\speexproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\synchronizedlyricsframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tableofcontentsframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tag.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib_config.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\taglib_export.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tag_c.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevector.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevectorlist.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tbytevectorstream.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tdebuglistener.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\textidentificationframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tfilestream.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tiostream.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tpropertymap.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trefcounter.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trueaudiofile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\trueaudioproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tstring.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tstringlist.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\uniquefileidentifierframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\unknownframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\unsynchronizedlyricsframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\urllinkframe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\vorbisfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\vorbisproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavpackfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavpackproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\wavproperties.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xingheader.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xiphcomment.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xmfile.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\xmproperties.h" />
+    <ClInclude Include="album.h" />
+    <ClInclude Include="artist.h" />
+    <ClInclude Include="filePath.h" />
+    <ClInclude Include="fileSystem.h" />
+    <ClInclude Include="frontend.h" />
+    <ClInclude Include="ioHandler.h" />
+    <ClInclude Include="keycodes.h" />
+    <ClInclude Include="mediaPlayer.h" />
+    <ClInclude Include="musicFileFinder.h" />
+    <ClInclude Include="musicLibrary.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="playerIOHandler.h" />
+    <ClInclude Include="playlist.h" />
+    <ClInclude Include="song.h" />
+    <ClInclude Include="songregator.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod.hpp" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_codec.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_common.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_dsp.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_errors.h" />
+    <ClInclude Include="ThirdParty\lowlevel\inc\fmod_output.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64_vc.lib" />
+    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\lib\tag.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64.dll" />
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL64.dll" />
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\bin\tag.dll" />
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.tcc" />
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.tcc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
