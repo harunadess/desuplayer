@@ -3,11 +3,13 @@
 MediaPlayer::MediaPlayer()
 {
 	playbackQueue_ = new Playlist();
+	adhocPlayback_ = new Playlist();
 }
 
 MediaPlayer::~MediaPlayer()
 {
 	delete playbackQueue_;
+	delete adhocPlayback_;
 }
 
 void MediaPlayer::addToPlaybackQueue(const Song& song)
@@ -17,43 +19,49 @@ void MediaPlayer::addToPlaybackQueue(const Song& song)
 
 void MediaPlayer::addToPlaybackQueue(const Album& album)
 {
-	playbackQueue_->addAlbumContentsToList(album);
+	playbackQueue_->addContentsToList(album);
 }
 
 void MediaPlayer::addToPlaybackQueue(const Artist& artist)
 {
-	map<wstring, vector<Song>> albums = artist.getAlbums();
-	vector<wstring> albumTitles = artist.getAllAlbumTitles();
-	
-	for (vector<wstring>::iterator it = albumTitles.begin(); it != albumTitles.end(); ++it)
-	{
-		vector<Song> album = artist.getAlbum(*it);
-		for (vector<Song>::iterator songIt = album.begin(); songIt != album.end(); ++songIt)
-			playbackQueue_->addSongToList(*songIt);
-	}
+	playbackQueue_->addContentsToList(artist);
 }
 
 void MediaPlayer::addToPlaybackQueue(const Playlist& playlist)
 {
-
+	playbackQueue_->addContentsToList(playlist);
 }
 
 void MediaPlayer::playImmediately(const Song& song)
 {
-
+	adhocPlayback_->addSongToList(song);
+	playLoop_(*adhocPlayback_);
 }
 
 void MediaPlayer::playImmediately(const Album& album)
 {
-
+	adhocPlayback_->addContentsToList(album);
+	playLoop_(*adhocPlayback_);
 }
 
 void MediaPlayer::playImmediately(const Artist& artist)
 {
-
+	adhocPlayback_->addContentsToList(artist);
+	playLoop_(*adhocPlayback_);
 }
 
 void MediaPlayer::playImmediately(const Playlist& playlist)
 {
+	adhocPlayback_->addContentsToList(playlist);
+	playLoop_(*adhocPlayback_);
+}
 
+void MediaPlayer::playLoop_(Playlist &playlist)
+{
+	Song current;
+	while (playlist.getNext(current))
+	{
+		wcout << "Now playing: " << current.getTitle() << " - " << current.getArtist() << endl;
+		play(current.getFilePath().u8FilePath_);
+	}
 }

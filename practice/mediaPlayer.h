@@ -23,6 +23,8 @@ public:
 	void playImmediately(const Playlist &playlist);
 
 private:
+	void playLoop_(Playlist &playlist);
+
 	Playlist* playbackQueue_;
 	Playlist* adhocPlayback_;
 };

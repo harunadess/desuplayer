@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}</ProjectGuid>
     <RootNamespace>practice</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>console-music-player</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>fmod64_vc.lib;fmodL64_vc.lib;tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;D:\Users\Jorta\Documents\Coding\C++\Other\mp\practice\ThirdParty\cereal\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\lowlevel\lib;D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\cereal\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -132,6 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>fmodL64_vc.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\cereal\include;D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -21,17 +21,16 @@ Player::~Player()
 	delete this->extraDriverData_;
 }
 
-void(*Common_Private_Error)(FMOD_RESULT, const char *, int);
+//void(*Common_Private_Error)(FMOD_RESULT, const char *, int);
 void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line) //error check function - not sure how necessary this is, but eh.
 {
 	if (result != FMOD_OK)
 	{
-		if (Common_Private_Error)
+		/*if (Common_Private_Error)
 		{
 			Common_Private_Error(result, file, line);
-		}
-		/*wcout << ("%s(%d): FMOD error %d - %s", file, line, result) << endl;*/
-		wcout << file << "(" << (line-1) << ")" << ": FMOD error " << result << endl;
+		}*/
+		wprintf(L"FMOD error! (%d) %hs\n", result, FMOD_ErrorString(result));
 	}
 }
 
@@ -43,7 +42,7 @@ void Player::play(string filePath)
 	this->initialize();
  	this->createStream(filePath.c_str());
 
-	wcout << "playing: " << filePath.c_str() << endl;
+	//wcout << "playing: " << filePath.c_str() << endl;
 	//Playing
 	this->playSound();
 	this->corePlayLoop();

@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "ThirdParty/lowlevel/inc/fmod.hpp"
+#include "ThirdParty/lowlevel/inc/fmod_errors.h"
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
 #include "playerIOHandler.h"
 
