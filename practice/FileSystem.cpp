@@ -60,6 +60,7 @@ bool FileSystem::saveMusicLibrary(const MusicLibrary& musicLibrary)
 
 	try
 	{
+		// todo: make directory for file to go into or something
 		cereal::BinaryOutputArchive outputArchive(fileOut);
 		outputArchive(musicLibrary);
 		fileOut.close();

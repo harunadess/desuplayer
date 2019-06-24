@@ -138,7 +138,6 @@
   <ItemGroup>
     <ClCompile Include="album.cpp" />
     <ClCompile Include="artist.cpp" />
-    <ClCompile Include="dummy.cpp" />
     <ClCompile Include="filePath.cpp" />
     <ClCompile Include="fileSystem.cpp" />
     <ClCompile Include="frontend.cpp" />
@@ -270,6 +269,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="playerIOHandler.h" />
     <ClInclude Include="playlist.h" />
+    <ClInclude Include="searchResults.h" />
     <ClInclude Include="song.h" />
     <ClInclude Include="songregator.h" />
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod.h" />

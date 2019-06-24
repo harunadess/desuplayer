@@ -9,6 +9,9 @@
 #include <cereal/types/string.hpp>
 #include "artist.h"
 #include "playlist.h"
+#include "Album.h"
+#include "Song.h"
+#include "searchResults.h"
 
 using std::wstring;
 using std::map;
@@ -22,24 +25,41 @@ public:
 
 	map<wstring, Artist> getArtists() const;
 	void setArtists(const map<wstring, Artist>& artists);
-	Artist getArtist(const wstring& artistName) const;
+	void setAlbums(const map<wstring, Album>& albums);
+	void setSongs(const map<wstring, Song>& songs);
 
+	Artist getArtist(const wstring& artistName) const;	// todo: fix these methods, as they require "exact" typings
+	Album getAlbum(const wstring& albumName) const;
+	Song getSong(const wstring& songTitle) const;
+
+	bool unifiedSearch(const wstring& searchTerms, SearchResults& searchResults) const;
+	
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(artists_, playlists_);
+		archive(artists_, albums_, songs_, playlists_);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(artists_, playlists_);
+		archive(artists_, albums_, songs_, playlists_);
 	}
 
 private:
 	map<wstring, Artist> artists_;
+	map<wstring, Album> albums_;
+	map<wstring, Song> songs_;
 	vector<Playlist> playlists_;
 
+	vector<Artist> searchArtists_(const wstring& searchTerms) const;
+	vector<Album> searchAlbums_(const wstring& searchTerms) const;
+	vector<Song> searchSongs_(const wstring& searchTerms) const;
+
 };
+
+
+
+
 
 #endif // !MUSICLIBRARY_H

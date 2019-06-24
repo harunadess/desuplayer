@@ -20,13 +20,14 @@ public:
 	Songregator();
 	~Songregator();
 
-	//bool createSongList(const wstring& baseDirectory, vector<Song>& songList);
-	//bool createSongList(const wstring& baseDirectory, map<wstring, Artist>& artistList);
-	bool createSongList(const wstring& baseDirectory, MusicLibrary& musicLibrary);
+	bool populateLibrary(const wstring& baseDirectory, MusicLibrary& musicLibrary);
 
 private:
-	Song createSong(const Tag* tag, const FilePath& filePath);
-	void addSongToArtist(const Tag* tag, const wstring& artistName, map<wstring, Artist>& artistList, const FilePath& filePath);
+	void addArtistToList_(const wstring& ArtistName, map<wstring, Artist>& artistList);
+	Song createSong_(const Tag* tag, const FilePath& filePath);
+	void addSongToArtist_(Song& song, const wstring& artistName, map<wstring, Artist>& artistList);
+	void populateAlbumList_(map<wstring, Album>& albumList, const map<wstring, Artist>& artistList);
+
 };
 
 #endif // !SONGREGATOR_H

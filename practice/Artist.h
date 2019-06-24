@@ -14,8 +14,8 @@ class Artist
 {
 public:
 	Artist();
-	Artist(const wstring& name);
-	Artist(const wstring& name, const map<wstring, vector<Song>>& albums);
+	Artist(const wstring name);
+	Artist(const wstring name, const map<wstring, vector<Song>> albums);
 	~Artist();
 
 	wstring getName() const;
@@ -29,13 +29,13 @@ public:
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(name_, albums_);
+		archive(name_, albumTitles_, albums_);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(name_, albums_);
+		archive(name_, albumTitles_, albums_);
 	}
 
 private:

@@ -7,11 +7,9 @@
 #include <fstream>
 
 #include "songregator.h"
-//#include "player.h"
 #include "mediaPlayer.h"
 #include "fileSystem.h"
 #include "musicLibrary.h"
-
 #include "frontend.h"
 
 using std::wcout; //use "wide" cout and cin to allow for UTF-8 characters
@@ -37,7 +35,7 @@ using std::endl;
 			* One thread for the menu
 			* One for the player/a console output
 
-	* Need a way to handle errors, as currently I don't really do that
+	* Need a better way to handle errors, as currently I don't really do that
 		# void bois out in fashion
 
 	* Find better font (LOOKS)
@@ -64,18 +62,18 @@ void configConsole()
 
 void testSongFindAndSave()
 {
-	wstring baseDir = L"D:/Jorta/Music/";
+	wstring baseDir = L"";
 	bool filesFound = false;
 	MusicLibrary musicLibrary;
 	Songregator songregator;
 
 	while (!filesFound)
 	{
-		wcout << L"Please enter your music directory: " << flush;
+		wcout << L"Enter your root music folder (e.g. C:/Users/<user>/Music/): " << flush;
 		std::getline(std::wcin, baseDir);
-		filesFound = songregator.createSongList(baseDir, musicLibrary);
+		filesFound = songregator.populateLibrary(baseDir, musicLibrary);
 		if (!filesFound)
-			wcout << L"Error creating song list. Please check the directory is correct." << endl;
+			wcout << L"Error finding items in directory. Please check the directory." << endl;
 	}
 
 	FileSystem fs;
@@ -95,11 +93,22 @@ void testSongLoadAndPlay()
 	}
 	wcout << L"Successfully loaded library" << endl;
 
-	Artist roselia = musicLibrary.getArtist(L"Roselia");
+	/*Artist roselia = musicLibrary.getArtist(L"Roselia");
 	Album anfang(L"Roselia", roselia.getAlbum(L"Anfang"));
 
 	MediaPlayer player;
-	player.playImmediately(anfang);
+	player.playImmediately(anfang);*/
+}
+
+void testSearch()
+{
+
+}
+
+void testMenu()
+{
+	FrontEnd con;
+	con.main();
 }
 
 void testfn(int testCase)
@@ -112,7 +121,14 @@ void testfn(int testCase)
 	case 2:
 		testSongLoadAndPlay();
 		break;
+	case 3:
+		testSearch();
+		break;
+	case 4:
+		testMenu();
+		break;
 	default:
+		wcout << L"Case doesn't exist" << endl;
 		break;
 	}
 }
@@ -121,8 +137,13 @@ int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();
 
-	testfn(1);
-	testfn(2);
+	testfn(1);	// find and save
+
+	//testfn(2);	// load and play
+
+	//testfn(3);	// search for item
+
+	testfn(4);	// test menu
 
 	return 0;
 }

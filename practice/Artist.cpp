@@ -7,14 +7,14 @@ Artist::Artist()
 	albums_ = map<wstring, vector<Song>>();
 }
 
-Artist::Artist(const wstring& name)
+Artist::Artist(const wstring name)
 {
 	name_ = name;
 	albumTitles_ = vector<wstring>();
 	albums_ = map<wstring, vector<Song>>();
 }
 
-Artist::Artist(const wstring& name, const map<wstring, vector<Song>>& albums)
+Artist::Artist(const wstring name, const map<wstring, vector<Song>> albums)
 {
 	name_ = name;
 	albumTitles_ = vector<wstring>();
@@ -47,9 +47,6 @@ void Artist::setAlbums(const map<wstring, vector<Song>>& albums)
 
 void Artist::addSongToAlbum(const wstring& album, const Song& song)
 {
-	//this is old, so not sure why it is still here.
-	/*std::pair<wstring, Song> insertPair(album, song);*/
-	/*albums_[album].insert(albums_[album].begin(), insertPair);*/
 	albumTitles_.push_back(album);
 	albums_[album].push_back(song);
 }

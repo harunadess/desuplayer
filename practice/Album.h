@@ -25,6 +25,18 @@ public:
 	vector<Song> getTrackList() const;
 	Song getTrackAt(int pos) const;
 
+	template<class Archive>
+	void save(Archive& archive) const
+	{
+		archive(title_, trackList_);
+	}
+
+	template<class Archive>
+	void load(Archive& archive)
+	{
+		archive(title_, trackList_);
+	}
+
 private:
 	wstring title_;
 	vector<Song> trackList_;

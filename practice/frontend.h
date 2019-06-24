@@ -3,6 +3,11 @@
 
 #include <string>
 #include <vector>
+
+#include "ioHandler.h"
+#include "FileSystem.h"
+#include "musicLibrary.h"
+
 using std::wstring;
 using std::vector;
 
@@ -14,9 +19,15 @@ public:
 	FrontEnd();
 	~FrontEnd();
 
-	int main(int argc, wchar_t* argv[]);
+	int main();
 
 private:
+	IOHandler io_;
+	FileSystem fileSystem_;
+	MusicLibrary musicLibrary_;
+
+	void printSearchResults_(const SearchResults& searchResults);
+
 	enum InputOutcome
 	{
 		UNRECOGNISED,
@@ -36,11 +47,13 @@ private:
 		wstring(L"exit")
 	};
 
-	void handleResponse(const wstring& response);
-	vector<wstring> parseResponse(const wstring& response) const;
-	InputOutcome checkResponse(const wstring& response) const;
+	wstring handleResponse_(const wstring& response);
+	vector<wstring> parseResponse_(const wstring& response) const;
+	InputOutcome checkResponse_(const wstring& response) const;
+	bool unifiedSearch_(const wstring& searchTerms, SearchResults& searchResults) const;
 
 };
+
 
 
 #endif // !FRONTEND_H
