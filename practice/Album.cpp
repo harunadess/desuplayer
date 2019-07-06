@@ -3,12 +3,14 @@
 Album::Album()
 {
 	title_ = L"";
+	artistName_ = L"";
 	trackList_ = vector<Song>();
 }
 
-Album::Album(const wstring& title, vector<Song> trackList)
+Album::Album(const wstring& title, const wstring& artistName, vector<Song> trackList)
 {
 	title_ = title;
+	artistName_ = artistName;
 	trackList_ = trackList;
 }
 
@@ -26,14 +28,14 @@ void Album::setTitle(const wstring& title)
 	title_ = title;
 }
 
-//Artist* Album::getArtist() const
-//{
-//	return artist_;
-//}
-
 wstring Album::getArtistName() const
 {
-	return trackList_.at(0).getArtist();
+	return artistName_;
+}
+
+void Album::setArtistName(const wstring& artistName)
+{
+	artistName_ = artistName;
 }
 
 vector<Song> Album::getTrackList() const

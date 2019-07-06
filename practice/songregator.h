@@ -5,6 +5,7 @@
 #include <string>
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
+
 #include "musicFileFinder.h"
 #include "artist.h"
 #include "musicLibrary.h"

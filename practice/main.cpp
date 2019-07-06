@@ -69,7 +69,7 @@ void testSongFindAndSave()
 
 	while (!filesFound)
 	{
-		wcout << L"Enter your root music folder (e.g. C:/Users/<user>/Music/): " << flush;
+		wcout << L"Enter your root music folder (e.g. C:/Users/<user>/Music/)\n>> " << flush;
 		std::getline(std::wcin, baseDir);
 		filesFound = songregator.populateLibrary(baseDir, musicLibrary);
 		if (!filesFound)
@@ -133,17 +133,30 @@ void testfn(int testCase)
 	}
 }
 
+void miscTest()
+{
+	wstring a = L"VOCAROCK vol 1 something IA";
+	wstring b = L"VOCAROCK";
+
+	wcout << L"found: " << (a.find(b) != wstring::npos) << endl;
+}
+
 int wmain(int argc, wchar_t* argv[])
 {
+	bool test = false;
+
 	configConsole();
 
-	testfn(1);	// find and save
+	//testfn(1);	// find and save
 
 	//testfn(2);	// load and play
 
 	//testfn(3);	// search for item
 
 	testfn(4);	// test menu
+
+	if(test)
+		miscTest();		// concept testing
 
 	return 0;
 }

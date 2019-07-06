@@ -4,14 +4,17 @@
 #include <map>
 #include <vector>
 #include <string>
+
 #include <cereal/types/map.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
+
 #include "artist.h"
 #include "playlist.h"
 #include "Album.h"
 #include "Song.h"
 #include "searchResults.h"
+#include "util.h"
 
 using std::wstring;
 using std::map;

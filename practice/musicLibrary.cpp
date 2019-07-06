@@ -71,11 +71,12 @@ Song MusicLibrary::getSong(const wstring& songTitle) const
 
 bool MusicLibrary::unifiedSearch(const wstring& searchTerms, SearchResults& searchResults) const
 {
+	wstring nSearchTerms = wstringToLower(searchTerms);
 	try
 	{
-		searchResults.artists = searchArtists_(searchTerms);
-		searchResults.albums = searchAlbums_(searchTerms);
-		searchResults.songs = searchSongs_(searchTerms);
+		searchResults.artists = searchArtists_(nSearchTerms);
+		searchResults.albums = searchAlbums_(nSearchTerms);
+		searchResults.songs = searchSongs_(nSearchTerms);
 	}
 	catch (std::exception e)
 	{
@@ -92,7 +93,9 @@ vector<Artist> MusicLibrary::searchArtists_(const wstring& searchTerms) const
 	for (auto& artistPair : artists_)
 	{
 		Artist artist = artistPair.second;
-		if ((artist.getName().find(searchTerms) != wstring::npos))
+		wstring nArtistName = wstringToLower(artist.getName());
+
+		if (nArtistName.find(searchTerms) != wstring::npos)
 			res.push_back(artist);
 	}
 
@@ -106,7 +109,11 @@ vector<Album> MusicLibrary::searchAlbums_(const wstring& searchTerms) const
 	for (auto& albumPair : albums_)
 	{
 		Album album = albumPair.second;
-		if ((album.getTitle().find(searchTerms) != wstring::npos))
+		wstring nAlbumTitle = wstringToLower(album.getTitle());
+		wstring nAlbumArtist = wstringToLower(album.getArtistName());
+
+		if ((nAlbumTitle.find(searchTerms) != wstring::npos) || 
+			(nAlbumArtist.find(searchTerms) != wstring::npos))
 			res.push_back(album);
 
 		return res;
@@ -117,6 +124,18 @@ vector<Song> MusicLibrary::searchSongs_(const wstring& searchTerms) const
 {
 	vector<Song> res;
 	
+	for (auto& songPair : songs_)
+	{
+		Song song = songPair.second;
+		wstring nSongTitle = wstringToLower(song.getTitle());
+		wstring nAlbumArtist = wstringToLower(song.getArtist());
+		wstring nAlbumTitle = wstringToLower(song.getAlbum());
+
+		if ((nSongTitle.find(searchTerms) != wstring::npos) ||
+			(nAlbumArtist.find(searchTerms) != wstring::npos) ||
+			(nAlbumTitle.find(searchTerms) != wstring::npos))
+			res.push_back(song);
+	}
 
 	return res;
 }

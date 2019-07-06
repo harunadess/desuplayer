@@ -1,7 +1,5 @@
 #include "songregator.h"
 
-#include <cwctype>
-
 Songregator::Songregator()
 {
 }
@@ -18,25 +16,14 @@ vector<FilePath> scanForMusicFiles(const wstring& baseDir)
 	return files;
 }
 
-//todo: fix this
-// first compare str length
-//	second, stricmp
 bool artistNotInList(const map<wstring, Artist>& artistList, const wstring& artist)
 {
 	for (auto& ap : artistList)
 		if (ap.first.length() == artist.length() &&
-			_wcsnicmp(ap.first.c_str(), artist.c_str(), ap.first.length()) == 0)//ap.first.compare(artist) == 0)
+			_wcsnicmp(ap.first.c_str(), artist.c_str(), ap.first.length()) == 0)
 			return false;
 
 	return true;
-}
-
-wstring normaliseWString(const wstring& inStr)
-{
-	wstring outStr = inStr;
-	std::transform(outStr.begin(), outStr.end(), outStr.begin(), std::towlower);
-	
-	return outStr;
 }
 
 bool Songregator::populateLibrary(const wstring& baseDir, MusicLibrary& musicLibrary)
@@ -60,7 +47,7 @@ bool Songregator::populateLibrary(const wstring& baseDir, MusicLibrary& musicLib
 			{
 				tag = fileRef.tag();
 				wstring artistName = tag->artist().toWString();
-				wstring normalisedArtistName = normaliseWString(artistName);
+				wstring normalisedArtistName = wstringToLower(artistName);
 
 				if (artistNotInList(artistMap, normalisedArtistName))
 					addArtistToList_(normalisedArtistName, artistMap);
@@ -117,19 +104,23 @@ void Songregator::populateAlbumList_(map<wstring, Album>& albumList, const map<w
 	for (auto& artistPair : artistList)
 	{
 		Artist artist = artistPair.second;
+		wstring artistName = artist.getName();
 		map<wstring, vector<Song>> albums = artist.getAlbums();
 
 		for (auto& albumPair : albums)
 		{
-			Album album(albumPair.first, albumPair.second);
-			wstring albumKey = album.getTitle() + L"_" + album.getArtistName();	// <-- this line means albums are split by artist.
-			albumKey = normaliseWString(albumKey);								// should we just take the album artist instead of song artist?
-																				// ... probably not
-			std::pair<wstring, Album> insertPair(albumKey, album);	// these gosh darn albums with the same names
-			albumList.insert(insertPair);							// think i wanna avoid keeping vectors of albums, considering most albums have different titles
-		}															// just appending _<artistName> should be fine..
+			Album album(albumPair.first, artistName, albumPair.second);
+			wstring albumKey = album.getTitle() + L"_" + album.getArtistName();	// <-- this line means albums are split by artist
+			albumKey = wstringToLower(albumKey);							    // so compilations are split a bunch.							
+																				
+			std::pair<wstring, Album> insertPair(albumKey, album);	
+			albumList.insert(insertPair);							
+		}															
 	}
 	// before doing the insert into albumList I could maybe check if an entry already exists, if it does, then append with something else.
 	// on the other hand, does having an album at a different map key make a huge difference?
 	// depends on how well I code the search I guess.
+
+	// i don't think the album key matters that much, if i make the search a bit better.
+	// moderately defeats the purpose of the map structure, but changing that now is ehh
 }

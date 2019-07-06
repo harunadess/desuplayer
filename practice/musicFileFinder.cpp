@@ -18,7 +18,7 @@ bool MusicFileFinder::isMusicFile(string extension)
 	return false;
 }
 
-void normaliseDirString(wstring& baseDir)
+wstring normaliseDirString(wstring& baseDir)
 {
 	wstring newDir = L"";
 	for(wstring::iterator it = baseDir.begin(); it != baseDir.end(); ++it) 
@@ -32,14 +32,14 @@ void normaliseDirString(wstring& baseDir)
 	if(newDir.back() != std::filesystem::path::preferred_separator)
 		newDir += std::filesystem::path::preferred_separator;
 
-	baseDir = newDir;
+	return newDir;
 }
 
 vector<FilePath> MusicFileFinder::scanForNewFiles(wstring baseDir)
 {
 	try
 	{
-		normaliseDirString(baseDir);
+		baseDir = normaliseDirString(baseDir);
 		vector<FilePath> foundFiles;
 		for (auto& dirEntry : recursive_directory_iterator(baseDir))
 		{

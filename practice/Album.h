@@ -9,19 +9,17 @@
 using std::vector;
 using std::wstring;
 
-//class Artist;  <-- unsure of use, probably compilation stuff
-
 class Album
 {
 public:
 	Album();
-	Album(const wstring& title, vector<Song> trackList);
+	Album(const wstring& title, const wstring& artistName, vector<Song> trackList);
 	~Album();
 
 	wstring getTitle() const;
 	void setTitle(const wstring& title);
-	//Artist* getArtist() const;
 	wstring getArtistName() const;
+	void setArtistName(const wstring& artistName);
 	vector<Song> getTrackList() const;
 	Song getTrackAt(int pos) const;
 
@@ -39,6 +37,7 @@ public:
 
 private:
 	wstring title_;
+	wstring artistName_;
 	vector<Song> trackList_;
 
 };

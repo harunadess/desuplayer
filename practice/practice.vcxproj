@@ -280,6 +280,7 @@
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod_dsp_effects.h" />
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod_errors.h" />
     <ClInclude Include="ThirdParty\lowlevel\inc\fmod_output.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64_vc.lib" />

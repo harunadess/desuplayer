@@ -35,9 +35,9 @@ int FrontEnd::main()
 	
 	wstring response = L"";
 	wstring output = L"";
+	io_.outputText(getMainMenuText());
 	while (true)
 	{
-		io_.outputText(getMainMenuText());
 		io_.outputTextInline(L">> ");
 		getline(wcin, response);
 
@@ -57,30 +57,46 @@ wstring FrontEnd::handleResponse_(const wstring& response)
 	size_t parsedResponseLen = parsedResponse[0].length();
 
 	wstring searchTerms = response;
-	searchTerms = searchTerms.replace(searchTerms.begin(), (searchTerms.begin() + parsedResponseLen), L"");
+	searchTerms = searchTerms.replace(searchTerms.begin(), (searchTerms.begin() + parsedResponseLen + 1), L"");
 
 	SearchResults searchResults;
-	bool succ = unifiedSearch_(searchTerms, searchResults);
-	wcout << L"Search success: " << succ << endl;
-
-	if (!succ)
-		return L"Error in library search";
+	bool succ = true;
 
 	switch (outcome)
 	{
 	case InputOutcome::PLAY:
 		// play immediate
+		
+		succ = unifiedSearch_(searchTerms, searchResults);
+		wcout << L"Search success: " << succ << endl;
+		if (!succ)
+			return L"Error in library search";
+
 		break;
 	case InputOutcome::SEARCH:
+		// just search for things
+		succ = unifiedSearch_(searchTerms, searchResults);
+		wcout << L"Search success: " << succ << endl;
+		if (!succ)
+			return L"Error in library search";
+
 		printSearchResults_(searchResults);
+
 		break;
 	case InputOutcome::QUEUE:
 		// add to mp queue
+		succ = unifiedSearch_(searchTerms, searchResults);
+		wcout << L"Search success: " << succ << endl;
+		if (!succ)
+			return L"Error in library search";
+
 		break;
 	case InputOutcome::HELP:
 		// print help
+		io_.outputText(getMainMenuText());
 		break;
 	case InputOutcome::EXIT:
+		wcout << flush;
 		exit(0);
 		break;
 	case InputOutcome::UNRECOGNISED:
@@ -88,6 +104,8 @@ wstring FrontEnd::handleResponse_(const wstring& response)
 		return L"Unrecognised action. Use 'help' command for usage info.";
 		break;
 	}
+
+	return L"";
 }
 
 vector<wstring> FrontEnd::parseResponse_(const wstring& response) const
@@ -153,13 +171,22 @@ void FrontEnd::printSearchResults_(const SearchResults& searchResults)
 	for (Artist a : searchResults.artists)
 		io_.outputText(a.getName());
 
+	if (searchResults.artists.size() <= 0)
+		io_.outputText(L"<---  No results  --->");
+
 	io_.outputTextWithSpacing(L"Albums Found: ");
 	for (Album a : searchResults.albums)
-		io_.outputText(a.getTitle() + L" - " + a.getArtistName());
+		io_.outputText((a.getTitle() + L" - " + a.getArtistName()));
+
+	if (searchResults.albums.size() <= 0)
+		io_.outputText(L"<---  No results  --->");
 	
 	io_.outputTextWithSpacing(L"Songs Found: ");
 	for (Song s : searchResults.songs)
-		io_.outputText(s.getTitle() + L"(" + s.getAlbum() + L") - " + s.getArtist());
+		io_.outputText((s.getTitle() + L"(" + s.getAlbum() + L") - " + s.getArtist()));
+
+	if (searchResults.songs.size() <= 0)
+		io_.outputText(L"<---  No results  --->");
 }
 
 

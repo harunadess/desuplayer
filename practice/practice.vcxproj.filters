@@ -58,6 +58,9 @@
     <Filter Include="Header Files\data types">
       <UniqueIdentifier>{e1897b9c-3e33-414c-bf80-81a25cf2769b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{db1ae280-1b44-4865-a1d5-44d960e79345}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -487,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="searchResults.h">
       <Filter>Header Files\data types</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
