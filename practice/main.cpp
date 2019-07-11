@@ -17,6 +17,8 @@ using std::wcin;
 using std::flush;
 using std::endl;
 
+using std::wstring;
+
 /*
 	TODO list:
 	* Need a display interface
@@ -94,7 +96,7 @@ void testSongLoadAndPlay()
 	wcout << L"Successfully loaded library" << endl;
 
 	/*Artist roselia = musicLibrary.getArtist(L"Roselia");
-	Album anfang(L"Roselia", roselia.getAlbum(L"Anfang"));
+	Album anfang(L"Roselia", roselia.getAlbumTitle(L"Anfang"));
 
 	MediaPlayer player;
 	player.playImmediately(anfang);*/
@@ -135,10 +137,14 @@ void testfn(int testCase)
 
 void miscTest()
 {
-	wstring a = L"VOCAROCK vol 1 something IA";
-	wstring b = L"VOCAROCK";
+	int i = -1;
+	wstring in = L"";
+	std::getline(wcin, in);
 
-	wcout << L"found: " << (a.find(b) != wstring::npos) << endl;
+	i = std::stoi(in);
+
+	wcout << "in: " << in << endl;
+	wcout << "i: " << i << endl;
 }
 
 int wmain(int argc, wchar_t* argv[])

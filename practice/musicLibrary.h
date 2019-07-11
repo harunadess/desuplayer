@@ -16,53 +16,43 @@
 #include "searchResults.h"
 #include "util.h"
 
-using std::wstring;
-using std::map;
-using std::vector;
-
 class MusicLibrary
 {
 public:
 	MusicLibrary();
 	~MusicLibrary();
 
-	map<wstring, Artist> getArtists() const;
-	void setArtists(const map<wstring, Artist>& artists);
-	void setAlbums(const map<wstring, Album>& albums);
-	void setSongs(const map<wstring, Song>& songs);
-
-	Artist getArtist(const wstring& artistName) const;	// todo: fix these methods, as they require "exact" typings
-	Album getAlbum(const wstring& albumName) const;
-	Song getSong(const wstring& songTitle) const;
-
-	bool unifiedSearch(const wstring& searchTerms, SearchResults& searchResults) const;
+	std::map<std::wstring, Artist> getArtistMap() const;
+	void setArtistMap(const std::map<std::wstring, Artist>& artists);
+	void setAlbumMap(const std::map<std::wstring, Album>& albums);
+	void setSongMap(const std::map<std::wstring, Song>& songs);
+	Artist getArtistName(const std::wstring& artistName) const;
+	Album getAlbumName(const std::wstring& albumName) const;
+	Song getSong(const std::wstring& songTitle) const;
+	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
 	
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(artists_, albums_, songs_, playlists_);
+		archive(m_artists, m_albumMap, m_songMap, m_playlistList);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(artists_, albums_, songs_, playlists_);
+		archive(m_artists, m_albumMap, m_songMap, m_playlistList);
 	}
 
 private:
-	map<wstring, Artist> artists_;
-	map<wstring, Album> albums_;
-	map<wstring, Song> songs_;
-	vector<Playlist> playlists_;
+	std::vector<Artist> searchArtists(const std::wstring& searchTerms) const;
+	std::vector<Album> searchAlbums(const std::wstring& searchTerms) const;
+	std::vector<Song> searchSongs(const std::wstring& searchTerms) const;
 
-	vector<Artist> searchArtists_(const wstring& searchTerms) const;
-	vector<Album> searchAlbums_(const wstring& searchTerms) const;
-	vector<Song> searchSongs_(const wstring& searchTerms) const;
+	std::map<std::wstring, Artist> m_artists;
+	std::map<std::wstring, Album> m_albumMap;
+	std::map<std::wstring, Song> m_songMap;
+	std::vector<Playlist> m_playlistList;
 
 };
-
-
-
-
 
 #endif // !MUSICLIBRARY_H

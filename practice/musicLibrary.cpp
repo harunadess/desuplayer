@@ -1,40 +1,44 @@
 #include "musicLibrary.h"
 
+using std::map;
+using std::vector;
+using std::wstring;
+
 MusicLibrary::MusicLibrary()
 {
-	artists_ = map<wstring, Artist>();
-	playlists_ = vector<Playlist>();
+	m_artists = map<wstring, Artist>();
+	m_playlistList = vector<Playlist>();
 }
 
 MusicLibrary::~MusicLibrary()
 {
 }
 
-map<wstring, Artist> MusicLibrary::getArtists() const
+map<wstring, Artist> MusicLibrary::getArtistMap() const
 {
-	return artists_;
+	return m_artists;
 }
 
-void MusicLibrary::setArtists(const map<wstring, Artist>& artists)
+void MusicLibrary::setArtistMap(const map<wstring, Artist>& artists)
 {
-	artists_ = artists;
+	m_artists = artists;
 }
 
-void MusicLibrary::setAlbums(const map<wstring, Album>& albums)
+void MusicLibrary::setAlbumMap(const map<wstring, Album>& albums)
 {
-	albums_ = albums;
+	m_albumMap = albums;
 }
 
-void MusicLibrary::setSongs(const map<wstring, Song>& songs)
+void MusicLibrary::setSongMap(const map<wstring, Song>& songs)
 {
-	songs_ = songs;
+	m_songMap = songs;
 }
 
-Artist MusicLibrary::getArtist(const wstring& artistName) const
+Artist MusicLibrary::getArtistName(const wstring& artistName) const
 {
 	try
 	{
-		return artists_.at(artistName);
+		return m_artists.at(artistName);
 	}
 	catch (const std::out_of_range e)
 	{
@@ -43,11 +47,11 @@ Artist MusicLibrary::getArtist(const wstring& artistName) const
 	}
 }
 
-Album MusicLibrary::getAlbum(const wstring& albumName) const
+Album MusicLibrary::getAlbumName(const wstring& albumName) const
 {
 	try
 	{
-		return albums_.at(albumName);
+		return m_albumMap.at(albumName);
 	}
 	catch (const std::out_of_range e)
 	{
@@ -60,7 +64,7 @@ Song MusicLibrary::getSong(const wstring& songTitle) const
 {
 	try
 	{
-		return songs_.at(songTitle);
+		return m_songMap.at(songTitle);
 	}
 	catch (const std::out_of_range e)
 	{
@@ -69,28 +73,28 @@ Song MusicLibrary::getSong(const wstring& songTitle) const
 	}
 }
 
-bool MusicLibrary::unifiedSearch(const wstring& searchTerms, SearchResults& searchResults) const
+bool MusicLibrary::fullSearch(const wstring& searchTerms, SearchResults& searchResults) const
 {
 	wstring nSearchTerms = wstringToLower(searchTerms);
 	try
 	{
-		searchResults.artists = searchArtists_(nSearchTerms);
-		searchResults.albums = searchAlbums_(nSearchTerms);
-		searchResults.songs = searchSongs_(nSearchTerms);
+		searchResults.artists = searchArtists(nSearchTerms);
+		searchResults.albums = searchAlbums(nSearchTerms);
+		searchResults.songs = searchSongs(nSearchTerms);
 	}
 	catch (std::exception e)
 	{
-		std::wcerr << L"Error in musicLibrary::unifiedSearch : " << e.what() << std::endl;
+		std::wcerr << L"Error in musicLibrary::fullSearch : " << e.what() << std::endl;
 		return false;
 	}
 	return true;
 }
 
-vector<Artist> MusicLibrary::searchArtists_(const wstring& searchTerms) const
+vector<Artist> MusicLibrary::searchArtists(const wstring& searchTerms) const
 {
 	vector<Artist> res;
 
-	for (auto& artistPair : artists_)
+	for (auto& artistPair : m_artists)
 	{
 		Artist artist = artistPair.second;
 		wstring nArtistName = wstringToLower(artist.getName());
@@ -102,11 +106,11 @@ vector<Artist> MusicLibrary::searchArtists_(const wstring& searchTerms) const
 	return res;
 }
 
-vector<Album> MusicLibrary::searchAlbums_(const wstring& searchTerms) const
+vector<Album> MusicLibrary::searchAlbums(const wstring& searchTerms) const
 {
 	vector<Album> res;
 
-	for (auto& albumPair : albums_)
+	for (auto& albumPair : m_albumMap)
 	{
 		Album album = albumPair.second;
 		wstring nAlbumTitle = wstringToLower(album.getTitle());
@@ -116,20 +120,21 @@ vector<Album> MusicLibrary::searchAlbums_(const wstring& searchTerms) const
 			(nAlbumArtist.find(searchTerms) != wstring::npos))
 			res.push_back(album);
 
-		return res;
 	}
+
+	return res;
 }
 
-vector<Song> MusicLibrary::searchSongs_(const wstring& searchTerms) const
+vector<Song> MusicLibrary::searchSongs(const wstring& searchTerms) const
 {
 	vector<Song> res;
 	
-	for (auto& songPair : songs_)
+	for (auto& songPair : m_songMap)
 	{
 		Song song = songPair.second;
 		wstring nSongTitle = wstringToLower(song.getTitle());
-		wstring nAlbumArtist = wstringToLower(song.getArtist());
-		wstring nAlbumTitle = wstringToLower(song.getAlbum());
+		wstring nAlbumArtist = wstringToLower(song.getArtistName());
+		wstring nAlbumTitle = wstringToLower(song.getAlbumTitle());
 
 		if ((nSongTitle.find(searchTerms) != wstring::npos) ||
 			(nAlbumArtist.find(searchTerms) != wstring::npos) ||

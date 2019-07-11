@@ -1,20 +1,18 @@
 #include "song.h"
 
+using std::wstring;
+
 Song::Song()
 {
-	trackNumber_ = 0;
-	title_ = L"";
-	artist_ = L"";
-	album_ = L"";
+	m_trackNumber = 0;
+	m_title = L"";
+	m_artistName = L"";
+	m_albumTitle = L"";
 }
 
-Song::Song(const unsigned int& trackNumber, const wstring& title, const wstring& artist, const wstring& album, const FilePath& filePath)
+Song::Song(const unsigned int& trackNumber, const wstring& title, const wstring& artistName, const wstring& albumTitle, const FilePath& filePath)
+	:m_trackNumber(trackNumber), m_title(title), m_artistName(artistName), m_albumTitle(albumTitle), m_filePath(filePath)
 {
-	trackNumber_ = trackNumber;
-	title_ = title;
-	artist_ = artist;
-	album_ = album;
-	filePath_ = filePath;
 }
 
 Song::~Song()
@@ -24,50 +22,50 @@ Song::~Song()
 
 unsigned int Song::getTrackNumber() const
 {
-	return trackNumber_;
+	return m_trackNumber;
 }
 
 void Song::setTrackNumber(const unsigned int& trackNumber)
 {
-	trackNumber_ = trackNumber;
+	m_trackNumber = trackNumber;
 }
 
 wstring Song::getTitle() const
 {
-	return title_;
+	return m_title;
 }
 
 void Song::setTitle(const wstring& title)
 {
-	title_ = title;
+	m_title = title;
 }
 
-wstring Song::getArtist() const
+wstring Song::getArtistName() const
 {
-	return artist_;
+	return m_artistName;
 }
 
-void Song::setArtist(const wstring& artist)
+void Song::setArtistName(const wstring& artistName)
 {
-	artist_ = artist;
+	m_artistName = artistName;
 }
 
-wstring Song::getAlbum() const
+wstring Song::getAlbumTitle() const
 {
-	return album_;
+	return m_albumTitle;
 }
 
-void Song::setAlbum(const wstring& album)
+void Song::setAlbumTitle(const wstring& albumTitle)
 {
-	album_ = album;
+	m_albumTitle = albumTitle;
 }
 
 FilePath Song::getFilePath() const
 {
-	return filePath_;
+	return m_filePath;
 }
 
 void Song::setFilePath(const FilePath& filePath)
 {
-	filePath_ = filePath;
+	m_filePath = filePath;
 }

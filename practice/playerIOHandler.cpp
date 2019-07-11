@@ -11,16 +11,16 @@ PlayerIOHandler::~PlayerIOHandler()
 
 IOHandler::KeyCode PlayerIOHandler::processInput()
 {
-	this->keyboardKeyCode_ = _getwch();
-	return IOHandler::lookupKeyCode(this->keyboardKeyCode_);
+	keyboardKeyCode = _getwch();
+	return IOHandler::lookupKeyCode(keyboardKeyCode);
 }
 
 bool PlayerIOHandler::isPauseKey()
 {
-	return (this->keyboardKeyCode_ == IOHandler::KeyCode::SPC);
+	return keyboardKeyCode == IOHandler::KeyCode::SPC;
 }
 
 bool PlayerIOHandler::isExitKey()
 {
-	return (this->keyboardKeyCode_ == IOHandler::KeyCode::ESC);
+	return keyboardKeyCode == IOHandler::KeyCode::ESC;
 }

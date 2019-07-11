@@ -1,5 +1,9 @@
 #include "ioHandler.h"
 
+using std::wstring;
+using std::wcout;
+using std::endl;
+using std::flush;
 
 IOHandler::IOHandler()
 {
@@ -47,16 +51,16 @@ void IOHandler::outputTextWithSpacing(const wstring& output)
 
 void IOHandler::outputHeading(const wchar_t* output)
 {
-	wcout << headingLine_ << endl 
+	wcout << m_HEADING_LINE << endl 
 		<< "  " << output << endl 
-		<< headingLine_ << endl;
+		<< m_HEADING_LINE << endl;
 }
 
 void IOHandler::outputHeading(const wstring& output)
 {
-	wcout << headingLine_ << endl
+	wcout << m_HEADING_LINE << endl
 		<< "  " << output << endl
-		<< headingLine_ << endl;
+		<< m_HEADING_LINE << endl;
 }
 
 IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)

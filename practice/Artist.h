@@ -4,44 +4,43 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "song.h"
 
-using std::map;
-using std::vector;
-using std::wstring;
+#include "song.h"
 
 class Artist
 {
 public:
 	Artist();
-	Artist(const wstring name);
-	Artist(const wstring name, const map<wstring, vector<Song>> albums);
+	Artist(const std::wstring name);
+	Artist(const std::wstring name, const std::map<std::wstring, std::vector<Song>> albumMap);
 	~Artist();
 
-	wstring getName() const;
-	void setName(const wstring& name);
-	map<wstring, vector<Song>> getAlbums() const;
-	void setAlbums(const map<wstring, vector<Song>>& albums);
-	void addSongToAlbum(const wstring& album, const Song& song);
-	vector<Song> getAlbum(const wstring& album) const;
-	vector<wstring> getAllAlbumTitles() const;
+	std::wstring getName() const;
+	void setName(const std::wstring& name);
+	std::map<std::wstring, std::vector<Song>> getAlbums() const;
+	void setAlbumMap(const std::map<std::wstring, std::vector<Song>>& albumMap);
+	void addSongToAlbum(const std::wstring& album, const Song& song);
+	void addAlbumToList(const std::wstring albumKey, const std::wstring albumTitle , const std::vector<Song> albumTrackList);
+	std::vector<Song> getAlbumName(const std::wstring& album) const;
+	std::vector<std::wstring> getAllAlbumTitles() const;
+
 
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(name_, albumTitles_, albums_);
+		archive(m_name, m_albumTitles, m_albumMap);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(name_, albumTitles_, albums_);
+		archive(m_name, m_albumTitles, m_albumMap);
 	}
 
 private:
-	wstring name_;
-	vector<wstring> albumTitles_;
-	map<wstring, vector<Song>> albums_;
+	std::wstring m_name;
+	std::vector<std::wstring> m_albumTitles;
+	std::map<std::wstring, std::vector<Song>> m_albumMap;
 
 };
 

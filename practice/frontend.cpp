@@ -1,10 +1,17 @@
 #include "frontend.h"
 
+using std::wstring;
+using std::vector;
+using std::map;
+using std::wcin;
+using std::wcout;
+using std::endl;
+using std::flush;
 using std::getline;
 
 FrontEnd::FrontEnd()
 {
-	bool loadSucc = fileSystem_.loadMusicLibrary(musicLibrary_);
+	bool loadSucc = m_fileSystem.loadMusicLibrary(m_musicLibrary);
 	if (!loadSucc)
 	{
 		wcout << L"Failed to load library." << endl;
@@ -17,13 +24,14 @@ FrontEnd::~FrontEnd()
 {
 }
 
+//todo: how do you populate/add things/view playlists??
 const wstring getMainMenuText()
 {
 	wstring s = L"\n\n";
 	s += L"Type \"play\" followed by an item to play any song, artist, album, playlist or the queue.\n";
 	s += L"Type \"search\" followed by search criteria to find and print results to the window.\n";
 	s += L"Type \"queue\" to see songs currently in the queue.\n";
-	s += L"Type \"help\" to get help.\n";
+	s += L"Type \"help\" to print this text.\n";
 	s += L"Type \"exit\" to exit the application.\n";
 
 	return s;
@@ -31,28 +39,26 @@ const wstring getMainMenuText()
 
 int FrontEnd::main()
 {
-	io_.outputHeading(L"Console Music Player");
+	m_io.outputHeading(L"Console Music Player");
 	
 	wstring response = L"";
 	wstring output = L"";
-	io_.outputText(getMainMenuText());
+	m_io.outputText(getMainMenuText());
 	while (true)
 	{
-		io_.outputTextInline(L">> ");
+		m_io.outputTextInline(L">> ");
 		getline(wcin, response);
 
-		output = handleResponse_(response);
-
-		io_.outputTextWithSpacing(output);
+		handleResponse(response);
 	}
 
 	return 0;
 }
 
-wstring FrontEnd::handleResponse_(const wstring& response)
+void FrontEnd::handleResponse(const wstring& response) //todo: convert handle<x>Outcome functions to use m_io 
 {
-	vector<wstring> parsedResponse = parseResponse_(response);
-	InputOutcome outcome = checkResponse_(parsedResponse[0]);
+	vector<wstring> parsedResponse = parseResponse(response);
+	InputOutcome outcome = checkResponse(parsedResponse[0]);
 	
 	size_t parsedResponseLen = parsedResponse[0].length();
 
@@ -60,55 +66,117 @@ wstring FrontEnd::handleResponse_(const wstring& response)
 	searchTerms = searchTerms.replace(searchTerms.begin(), (searchTerms.begin() + parsedResponseLen + 1), L"");
 
 	SearchResults searchResults;
-	bool succ = true;
 
 	switch (outcome)
 	{
 	case InputOutcome::PLAY:
 		// play immediate
-		
-		succ = unifiedSearch_(searchTerms, searchResults);
-		wcout << L"Search success: " << succ << endl;
-		if (!succ)
-			return L"Error in library search";
-
+		handlePlayOutcome(searchTerms, searchResults);
 		break;
 	case InputOutcome::SEARCH:
 		// just search for things
-		succ = unifiedSearch_(searchTerms, searchResults);
-		wcout << L"Search success: " << succ << endl;
-		if (!succ)
-			return L"Error in library search";
-
-		printSearchResults_(searchResults);
-
+		handleSearchOutcome(searchTerms, searchResults);
 		break;
 	case InputOutcome::QUEUE:
 		// add to mp queue
-		succ = unifiedSearch_(searchTerms, searchResults);
-		wcout << L"Search success: " << succ << endl;
-		if (!succ)
-			return L"Error in library search";
-
+		handleQueueOutcome(searchTerms, searchResults);
 		break;
 	case InputOutcome::HELP:
 		// print help
-		io_.outputText(getMainMenuText());
+		handleHelpOutcome(searchTerms, searchResults);
 		break;
 	case InputOutcome::EXIT:
-		wcout << flush;
-		exit(0);
+		handleExitOutcome(searchTerms, searchResults);
 		break;
 	case InputOutcome::UNRECOGNISED:
 	default:
-		return L"Unrecognised action. Use 'help' command for usage info.";
+		wcout << L"Unrecognised action. Use 'help' command for usage info." << endl;
 		break;
 	}
-
-	return L"";
 }
 
-vector<wstring> FrontEnd::parseResponse_(const wstring& response) const
+void FrontEnd::handlePlayOutcome(const wstring& searchTerms, SearchResults& searchResults)
+{
+	bool succ = fullSearch(searchTerms, searchResults);
+	wcout << L"Search success: " << succ << endl;
+	if (!succ)
+		wcout << L"Error in library search" << endl;
+
+	int maxOption = printSearchResults(searchResults);
+	wstring chosen = L"";
+
+	int nChosen = -1;
+	wcout << L"Enter a number from the search results, or -1 to exit.\n>> " << flush;
+	
+	while (nChosen <= 0 || nChosen > maxOption)
+	{
+		try
+		{
+			getline(wcin, chosen);
+			nChosen = std::stoi(chosen);
+
+			if (nChosen == -1)
+				return;
+		}
+		catch (std::exception e)
+		{
+			wcout << L"Invalid option received: " << e.what() << endl;
+			nChosen = -1;
+		}
+	}
+
+	//todo: play thing at whatever position;
+	if (searchResults.artists.size() > 0 && nChosen <= searchResults.artists.size())
+	{
+		m_mediaPlayer.addToPlaybackQueue(searchResults.artists.at(--nChosen));
+	}
+	nChosen -= searchResults.artists.size();
+
+	if (searchResults.albums.size() > 0 && nChosen <= searchResults.albums.size())
+	{
+		m_mediaPlayer.addToPlaybackQueue(searchResults.albums.at(--nChosen));
+	}
+	nChosen -= searchResults.albums.size();
+
+	if (searchResults.songs.size() > 0 && nChosen <= searchResults.songs.size())
+	{
+		m_mediaPlayer.addToPlaybackQueue(searchResults.songs.at(--nChosen));
+	}
+
+	m_mediaPlayer.playQueued();
+	
+}
+
+void FrontEnd::handleSearchOutcome(const wstring& searchTerms, SearchResults& searchResults)
+{
+	bool succ = fullSearch(searchTerms, searchResults);
+	wcout << L"Search success: " << (succ == 1 ? L"true" : L"false") << endl;
+	if (!succ)
+		wcout << L"Error in library search" << endl;
+
+	printSearchResults(searchResults);
+}
+
+void FrontEnd::handleQueueOutcome(const wstring& searchTerms, SearchResults& searchResults)
+{
+	bool succ = fullSearch(searchTerms, searchResults);
+	wcout << L"Search success: " << succ << endl;
+	if (!succ)
+		wcout << L"Error in library search" << endl;
+}
+
+void FrontEnd::handleHelpOutcome(const wstring& searchTerms, SearchResults& searchResults)
+{
+	m_io.outputText(getMainMenuText());
+}
+
+void FrontEnd::handleExitOutcome(const wstring& searchTerms, SearchResults& searchResults)
+{
+	wcout << flush;
+	exit(0);
+}
+
+vector<wstring> FrontEnd::parseResponse(const wstring& response) const
 {
 	vector<wstring> inputWords = vector<wstring>();
 	wstring word = L"";
@@ -133,7 +201,7 @@ vector<wstring> FrontEnd::parseResponse_(const wstring& response) const
 	return inputWords;
 }
 
-FrontEnd::InputOutcome FrontEnd::checkResponse_(const wstring& response) const
+FrontEnd::InputOutcome FrontEnd::checkResponse(const wstring& response) const
 {
 	if (response == PossibleActions[0])
 		return InputOutcome::PLAY;
@@ -149,56 +217,46 @@ FrontEnd::InputOutcome FrontEnd::checkResponse_(const wstring& response) const
 		return InputOutcome::UNRECOGNISED;
 }
 
-bool FrontEnd::unifiedSearch_(const wstring& searchTerms, SearchResults& searchResults) const
+bool FrontEnd::fullSearch(const wstring& searchTerms, SearchResults& searchResults) const
 {
-	bool success = true;
-	//todo: search each of
-	// Aritst
-	// Album
-	// Songs
-	// return anything that partially matches search terms
-	// i.e. "Anfang" should return the album by Roselia
-	// *ideally "Roselia - Anfang" would also return that
-	//		however, should not return *anything* by Roselia
-	// searching "Origin" would return the Song and the Album
-	success = musicLibrary_.unifiedSearch(searchTerms, searchResults);
-	return success;
+	return m_musicLibrary.fullSearch(searchTerms, searchResults);
 }
 
-void FrontEnd::printSearchResults_(const SearchResults& searchResults)
+int FrontEnd::printSearchResults(SearchResults& searchResults)
 {
-	io_.outputTextWithSpacing(L"Artists Found: ");
+	int maxOption = 0;
+	m_io.outputTextWithSpacing(L"Artists Found: ");
 	for (Artist a : searchResults.artists)
-		io_.outputText(a.getName());
+	{
+		wcout << ++maxOption << L". " << flush;
+		m_io.outputTextInline(a.getName());
+		m_io.outputNewline();
+	}
 
 	if (searchResults.artists.size() <= 0)
-		io_.outputText(L"<---  No results  --->");
+		m_io.outputText(L"<---  No results  --->");
 
-	io_.outputTextWithSpacing(L"Albums Found: ");
+	m_io.outputTextWithSpacing(L"Albums Found: ");
 	for (Album a : searchResults.albums)
-		io_.outputText((a.getTitle() + L" - " + a.getArtistName()));
+	{
+		wcout << ++maxOption << L". " << flush;
+		m_io.outputTextInline((a.getTitle() + L" - " + a.getArtistName()));
+		m_io.outputNewline();
+	}
 
 	if (searchResults.albums.size() <= 0)
-		io_.outputText(L"<---  No results  --->");
+		m_io.outputText(L"<---  No results  --->");
 	
-	io_.outputTextWithSpacing(L"Songs Found: ");
+	m_io.outputTextWithSpacing(L"Songs Found: ");
 	for (Song s : searchResults.songs)
-		io_.outputText((s.getTitle() + L"(" + s.getAlbum() + L") - " + s.getArtist()));
+	{
+		wcout << ++maxOption << L". " << flush;
+		m_io.outputText((s.getTitle() + L"(" + s.getAlbumTitle() + L") - " + s.getArtistName()));
+		m_io.outputNewline();
+	}
 
 	if (searchResults.songs.size() <= 0)
-		io_.outputText(L"<---  No results  --->");
+		m_io.outputText(L"<---  No results  --->");
+
+	return maxOption;
 }
-
-
-// May not be neeeded or desired.
-
-//void clearConsole(char fill = ' ') {
-//	COORD tl = { 0,0 };
-//	CONSOLE_SCREEN_BUFFER_INFO s;
-//	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-//	GetConsoleScreenBufferInfo(console, &s);
-//	DWORD written, cells = s.dwSize.X * s.dwSize.Y;
-//	FillConsoleOutputCharacter(console, fill, cells, tl, &written);
-//	FillConsoleOutputAttribute(console, s.wAttributes, cells, tl, &written);
-//	SetConsoleCursorPosition(console, tl);
-//}

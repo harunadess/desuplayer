@@ -7,9 +7,7 @@
 #include "ioHandler.h"
 #include "FileSystem.h"
 #include "musicLibrary.h"
-
-using std::wstring;
-using std::vector;
+#include "mediaPlayer.h"
 
 constexpr unsigned short POSSIBLE_ACTIONS = 5;
 
@@ -22,12 +20,6 @@ public:
 	int main();
 
 private:
-	IOHandler io_;
-	FileSystem fileSystem_;
-	MusicLibrary musicLibrary_;
-
-	void printSearchResults_(const SearchResults& searchResults);
-
 	enum InputOutcome
 	{
 		UNRECOGNISED,
@@ -38,20 +30,30 @@ private:
 		EXIT
 	};
 
-	const wstring PossibleActions[POSSIBLE_ACTIONS] = 
+	const std::wstring PossibleActions[POSSIBLE_ACTIONS] = 
 	{
-		wstring(L"play"),
-		wstring(L"search"),
-		wstring(L"queue"),
-		wstring(L"help"),
-		wstring(L"exit")
+		std::wstring(L"play"),
+		std::wstring(L"search"),
+		std::wstring(L"queue"),
+		std::wstring(L"help"),
+		std::wstring(L"exit")
 	};
 
-	wstring handleResponse_(const wstring& response);
-	vector<wstring> parseResponse_(const wstring& response) const;
-	InputOutcome checkResponse_(const wstring& response) const;
-	bool unifiedSearch_(const wstring& searchTerms, SearchResults& searchResults) const;
+	int printSearchResults(SearchResults& searchResults);
+	void handleResponse(const std::wstring& response);
+	std::vector<std::wstring> parseResponse(const std::wstring& response) const;
+	InputOutcome checkResponse(const std::wstring& response) const;
+	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
+	void handlePlayOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handleSearchOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handleQueueOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handleHelpOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handleExitOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 
+	IOHandler m_io;
+	FileSystem m_fileSystem;
+	MusicLibrary m_musicLibrary;
+	MediaPlayer m_mediaPlayer;
 };
 
 

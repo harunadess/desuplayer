@@ -5,11 +5,9 @@
 #include <algorithm>
 #include <cwctype>
 
-using std::wstring;
-
-inline wstring wstringToLower(const wstring& inWStr)
+inline std::wstring wstringToLower(const std::wstring& inWStr)
 {
-	wstring outWStr = inWStr;
+	std::wstring outWStr = inWStr;
 	std::transform(outWStr.begin(), outWStr.end(), outWStr.begin(), std::towlower);
 
 	return outWStr;

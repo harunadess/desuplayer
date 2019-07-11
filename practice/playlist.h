@@ -3,50 +3,45 @@
 
 #include <vector>
 #include <string>
+
 #include "song.h"
 #include "album.h"
-
-using std::vector;
-using std::string;
 
 class Playlist
 {
 public:
 	Playlist();
-	Playlist(const string& title);
+	Playlist(const std::wstring& title);
 	~Playlist();
 
-	string getTitle() const;
-	void setTitle(const string& title);
-
-	vector<Song> getSongList() const;
-	void setSongList(const vector<Song>& songList);
-
+	std::wstring getTitle() const;
+	void setTitle(const std::wstring& title);
+	std::vector<Song> getSongList() const;
+	void setSongList(const std::vector<Song>& songList);
 	void addSongToList(const Song& song);
 	void addContentsToList(const Album& album);
 	void addContentsToList(const Artist& album);
 	void addContentsToList(const Playlist& album);
-
 	bool getNext(Song &song);
 
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(title_, songList_);
+		archive(m_title, m_songList);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(title_, songList_);
+		archive(m_title, m_songList);
 	}
 
 private:
-	void addAllToList_(vector<Song>& list);
+	void addAllToList(std::vector<Song>& list);
 
-	string title_;
-	vector<Song> songList_;
-	unsigned int index_;
+	std::wstring m_title;
+	std::vector<Song> m_songList;
+	unsigned int m_listIndex;
 };
 
 #endif // !PLAYLIST_H

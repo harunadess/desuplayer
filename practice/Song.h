@@ -2,47 +2,45 @@
 #define SONG_H
 
 #include <string>
-#include "filePath.h"
 
-using std::wstring;
-using std::string;
+#include "filePath.h"
 
 class Song
 {
 public:
 	Song();
-	Song(const unsigned int& trackNumber, const wstring& title, const wstring& artist, const wstring& album, const FilePath& filePath);
+	Song(const unsigned int& trackNumber, const std::wstring& title, const std::wstring& artist, const std::wstring& album, const FilePath& filePath);
 	~Song();
 
 	unsigned int getTrackNumber() const;
 	void setTrackNumber(const unsigned int& trackNumber);
-	wstring getTitle() const;
-	void setTitle(const wstring& title);
-	wstring getArtist() const;
-	void setArtist(const wstring& artist);
-	wstring getAlbum() const;
-	void setAlbum(const wstring& album);
+	std::wstring getTitle() const;
+	void setTitle(const std::wstring& title);
+	std::wstring getArtistName() const;
+	void setArtistName(const std::wstring& artist);
+	std::wstring getAlbumTitle() const;
+	void setAlbumTitle(const std::wstring& album);
 	FilePath getFilePath() const;
 	void setFilePath(const FilePath& filePath);
 
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(trackNumber_, title_, artist_, album_, filePath_);
+		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_filePath);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(trackNumber_, title_, artist_, album_, filePath_);
+		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_filePath);
 	}
 
 private:
-	unsigned int trackNumber_;
-	wstring title_;
-	wstring artist_;
-	wstring album_;
-	FilePath filePath_;
+	unsigned int m_trackNumber;
+	std::wstring m_title;
+	std::wstring m_artistName;
+	std::wstring m_albumTitle;
+	FilePath m_filePath;
 
 };
 

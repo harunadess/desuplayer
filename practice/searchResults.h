@@ -5,17 +5,13 @@
 #include "Artist.h"
 #include "Song.h"
 
-using std::vector;
-
 class SearchResults
 {
 public:
-	vector<Album> albums;
-	vector<Artist> artists;
-	vector<Song> songs;
+	std::vector<Album> albums;
+	std::vector<Artist> artists;
+	std::vector<Song> songs;
 
-private:
-	
 };
 
 #endif // !SEARCH_RESULTS_H

@@ -1,5 +1,11 @@
 #include "musicFileFinder.h"
 
+using std::string;
+using std::wstring;
+using std::vector;
+using std::filesystem::path;
+using std::filesystem::recursive_directory_iterator;
+
 MusicFileFinder::MusicFileFinder()
 {
 }
@@ -10,9 +16,9 @@ MusicFileFinder::~MusicFileFinder()
 
 bool MusicFileFinder::isMusicFile(string extension)
 {
-	for (unsigned int i = 0; i < includeListLength_; i++)
+	for (unsigned int i = 0; i < INCLUDE_LIST_LENGTH; i++)
 	{
-		if (extension.find(includeList_[i]) != string::npos)
+		if (extension.find(m_INCLUDE_LIST[i]) != string::npos)
 			return true;
 	}
 	return false;
@@ -23,14 +29,14 @@ wstring normaliseDirString(wstring& baseDir)
 	wstring newDir = L"";
 	for(wstring::iterator it = baseDir.begin(); it != baseDir.end(); ++it) 
 	{
-		if (*it == L'/' || *it == std::filesystem::path::preferred_separator)
-			newDir += std::filesystem::path::preferred_separator;
+		if (*it == L'/' || *it == path::preferred_separator)
+			newDir += path::preferred_separator;
 		else
 			newDir += *it;
 	}
 	
-	if(newDir.back() != std::filesystem::path::preferred_separator)
-		newDir += std::filesystem::path::preferred_separator;
+	if(newDir.back() != path::preferred_separator)
+		newDir += path::preferred_separator;
 
 	return newDir;
 }

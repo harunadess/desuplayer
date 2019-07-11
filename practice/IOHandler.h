@@ -5,14 +5,7 @@
 #include <iostream>
 #include <conio.h>
 
-using std::string;
-using std::wstring;
-using std::wcout;
-using std::wcin;
-using std::endl;
-using std::flush;
-using std::end;
-
+//todo: could refactor this class to just use auto& to then print things.
 class IOHandler
 {
 public:
@@ -20,14 +13,14 @@ public:
 	~IOHandler();
 
 	void outputTextInline(const wchar_t* output);
-	void outputTextInline(const wstring& output);
+	void outputTextInline(const std::wstring& output);
 	void outputNewline();
 	void outputText(const wchar_t* output);
-	void outputText(const wstring& output);
+	void outputText(const std::wstring& output);
 	void outputTextWithSpacing(const wchar_t* output);
-	void outputTextWithSpacing(const wstring& output);
+	void outputTextWithSpacing(const std::wstring& output);
 	void outputHeading(const wchar_t* output);
-	void outputHeading(const wstring& output);
+	void outputHeading(const std::wstring& output);
 	
 protected:
 	enum KeyCode
@@ -50,12 +43,14 @@ protected:
 		ARROW_RIGHT = 77,
 		ARROW_DOWN = 80
 	};
-	int keyboardKeyCode_ = KeyCode::UNMATCHED;
 
 	IOHandler::KeyCode lookupKeyCode(int keyCode);
 
+	int keyboardKeyCode = KeyCode::UNMATCHED;
+
 private:
-	const wchar_t* headingLine_ = L"========================================================";
+	const wchar_t* m_HEADING_LINE = L"========================================================";
+
 };
 
 #endif // !IO_HANDLER_H

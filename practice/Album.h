@@ -3,42 +3,42 @@
 
 #include <vector>
 #include <string>
+
 #include "song.h"
 #include "artist.h"
-
-using std::vector;
-using std::wstring;
 
 class Album
 {
 public:
 	Album();
-	Album(const wstring& title, const wstring& artistName, vector<Song> trackList);
+	Album(const std::wstring& title, const std::wstring& artistName, std::vector<Song> trackList);
+	Album(const std::wstring& title, const std::wstring& artistName);
 	~Album();
 
-	wstring getTitle() const;
-	void setTitle(const wstring& title);
-	wstring getArtistName() const;
-	void setArtistName(const wstring& artistName);
-	vector<Song> getTrackList() const;
+	std::wstring getTitle() const;
+	void setTitle(const std::wstring& title);
+	std::wstring getArtistName() const;
+	void setArtistName(const std::wstring& artistName);
+	std::vector<Song> getTrackList() const;
+	void setTrackAt(int pos, Song song);
 	Song getTrackAt(int pos) const;
 
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(title_, trackList_);
+		archive(m_title, m_artistName, m_trackList);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(title_, trackList_);
+		archive(m_title, m_artistName, m_trackList);
 	}
 
 private:
-	wstring title_;
-	wstring artistName_;
-	vector<Song> trackList_;
+	std::wstring m_title;
+	std::wstring m_artistName;
+	std::vector<Song> m_trackList;
 
 };
 

@@ -1,24 +1,27 @@
 #include "Artist.h"
 
+using std::vector;
+using std::map;
+using std::wstring;
+
 Artist::Artist()
 {
-	name_ = L"";
-	albumTitles_ = vector<wstring>();
-	albums_ = map<wstring, vector<Song>>();
+	m_name = L"";
+	m_albumTitles = vector<wstring>();
+	m_albumMap = map<wstring, vector<Song>>();
 }
 
 Artist::Artist(const wstring name)
+	:m_name(name)
 {
-	name_ = name;
-	albumTitles_ = vector<wstring>();
-	albums_ = map<wstring, vector<Song>>();
+	m_albumTitles = vector<wstring>();
+	m_albumMap = map<wstring, vector<Song>>();
 }
 
-Artist::Artist(const wstring name, const map<wstring, vector<Song>> albums)
+Artist::Artist(const wstring name, const map<wstring, vector<Song>> albumMap)
+	:m_name(name), m_albumMap(albumMap)
 {
-	name_ = name;
-	albumTitles_ = vector<wstring>();
-	albums_ = albums;
+	m_albumTitles = vector<wstring>();
 }
 
 Artist::~Artist()
@@ -27,35 +30,35 @@ Artist::~Artist()
 
 wstring Artist::getName() const
 {
-	return name_;
+	return m_name;
 }
 
 void Artist::setName(const wstring& name)
 {
-	name_ = name;
+	m_name = name;
 }
 
 map<wstring, vector<Song>> Artist::getAlbums() const
 {
-	return albums_;
+	return m_albumMap;
 }
 
-void Artist::setAlbums(const map<wstring, vector<Song>>& albums)
+void Artist::setAlbumMap(const map<wstring, vector<Song>>& albums)
 {
-	albums_ = albums;
+	m_albumMap = albums;
 }
 
 void Artist::addSongToAlbum(const wstring& album, const Song& song)
 {
-	albumTitles_.push_back(album);
-	albums_[album].push_back(song);
+	m_albumTitles.push_back(album);
+	m_albumMap[album].push_back(song);
 }
 
-vector<Song> Artist::getAlbum(const wstring& album) const
+vector<Song> Artist::getAlbumName(const wstring& album) const
 {
 	try 
 	{
-		return albums_.at(album);
+		return m_albumMap.at(album);
 	}
 	catch (const std::out_of_range e)
 	{
@@ -66,5 +69,13 @@ vector<Song> Artist::getAlbum(const wstring& album) const
 
 vector<wstring> Artist::getAllAlbumTitles() const
 {
-	return albumTitles_;
+	return m_albumTitles;
+}
+
+void Artist::addAlbumToList(const wstring albumKey, const wstring albumName, const vector<Song> album)
+{
+	std::pair<wstring, vector<Song>> ap(albumKey, album);
+	m_albumMap.insert(ap);
+
+	m_albumTitles.push_back(albumName);
 }

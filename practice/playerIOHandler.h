@@ -3,7 +3,8 @@
 
 #include "IOHandler.h"
 
-class PlayerIOHandler : public IOHandler
+class PlayerIOHandler 
+	: public IOHandler
 {
 public:
 	PlayerIOHandler();
@@ -12,9 +13,6 @@ public:
 	IOHandler::KeyCode processInput();
 	bool isPauseKey();
 	bool isExitKey();
-
-private:
-
 
 };
 

@@ -6,7 +6,8 @@
 #include "artist.h"
 #include "playlist.h"
 
-class MediaPlayer : public Player
+class MediaPlayer 
+	: public Player
 {
 public:
 	MediaPlayer();
@@ -16,17 +17,17 @@ public:
 	void addToPlaybackQueue(const Album& album);
 	void addToPlaybackQueue(const Artist& artist);
 	void addToPlaybackQueue(const Playlist& playlist);
-
 	void playImmediately(const Song& song);
 	void playImmediately(const Album& album);
 	void playImmediately(const Artist &artist);
 	void playImmediately(const Playlist &playlist);
+	void playQueued();
 
 private:
-	void playLoop_(Playlist &playlist);
+	void playLoop(Playlist &playlist);
 
-	Playlist* playbackQueue_;
-	Playlist* adhocPlayback_;
+	Playlist* m_playbackQueue;
+	Playlist* m_adhocPlayback;
 };
 
 #endif // !MEDIAPLAYER_H
