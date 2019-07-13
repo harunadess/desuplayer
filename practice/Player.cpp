@@ -30,7 +30,7 @@ void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line)
 	}
 }
 
-void Player::play(string filePath)
+int Player::play(string filePath)
 {
 	//Initialize
 	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); //initialize windows api
@@ -41,7 +41,7 @@ void Player::play(string filePath)
 
 	//Actually play the file
 	playSound();
-	corePlayLoop();
+	int exitCode = corePlayLoop();
 
 	//Shut down once file finishes
 	soundRelease();
@@ -49,6 +49,8 @@ void Player::play(string filePath)
 	systemRelease();
 
 	CoUninitialize(); //uninitialize the stream
+
+	return exitCode;
 }
 
 void Player::initialize()
@@ -105,9 +107,9 @@ void Player::playSound()
 	ERRCHECK_fn(m_result, __FILE__, __LINE__);
 }
 
-void Player::corePlayLoop()
+int Player::corePlayLoop()
 {   
-	m_io->outputText(L"Press Spacebar to Pause/Resume, press Escape to stop.");
+	int exitCode = 0;
 	
 	while (true)
 	{
@@ -131,6 +133,7 @@ void Player::corePlayLoop()
 			}
 			if (m_io->isExitKey())
 			{
+				exitCode = 1;
 				break;
 			}
 		}
@@ -145,7 +148,7 @@ void Player::corePlayLoop()
 
 				if ((!playing && !paused) && (ms == 0))
 				{
-					return;
+					return exitCode;
 				}
 			}
 		}
@@ -153,6 +156,8 @@ void Player::corePlayLoop()
 		//sleep so we're not ramming the cpu by running the loop as fast as possible
 		Sleep(50);
 	}
+
+	return exitCode;
 }
 
 //post init update function

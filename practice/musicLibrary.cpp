@@ -1,12 +1,14 @@
 #include "musicLibrary.h"
 
+#include "util.h"
+
 using std::map;
 using std::vector;
 using std::wstring;
 
 MusicLibrary::MusicLibrary()
 {
-	m_artists = map<wstring, Artist>();
+	m_artistMap = map<wstring, Artist>();
 	m_playlistList = vector<Playlist>();
 }
 
@@ -16,12 +18,12 @@ MusicLibrary::~MusicLibrary()
 
 map<wstring, Artist> MusicLibrary::getArtistMap() const
 {
-	return m_artists;
+	return m_artistMap;
 }
 
 void MusicLibrary::setArtistMap(const map<wstring, Artist>& artists)
 {
-	m_artists = artists;
+	m_artistMap = artists;
 }
 
 void MusicLibrary::setAlbumMap(const map<wstring, Album>& albums)
@@ -38,11 +40,11 @@ Artist MusicLibrary::getArtistName(const wstring& artistName) const
 {
 	try
 	{
-		return m_artists.at(artistName);
+		return m_artistMap.at(artistName);
 	}
 	catch (const std::out_of_range e)
 	{
-		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		std::wcerr << "Couldn't find artist " << e.what() << std::endl;
 		return Artist();
 	}
 }
@@ -55,7 +57,7 @@ Album MusicLibrary::getAlbumName(const wstring& albumName) const
 	}
 	catch (const std::out_of_range e)
 	{
-		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		std::wcerr << "Couldn't find album " << e.what() << std::endl;
 		return Album();
 	}
 }
@@ -68,7 +70,7 @@ Song MusicLibrary::getSong(const wstring& songTitle) const
 	}
 	catch (const std::out_of_range e)
 	{
-		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		std::wcerr << "Couldn't find song " << e.what() << std::endl;
 		return Song();
 	}
 }
@@ -94,7 +96,7 @@ vector<Artist> MusicLibrary::searchArtists(const wstring& searchTerms) const
 {
 	vector<Artist> res;
 
-	for (auto& artistPair : m_artists)
+	for (auto& artistPair : m_artistMap)
 	{
 		Artist artist = artistPair.second;
 		wstring nArtistName = wstringToLower(artist.getName());
@@ -116,10 +118,8 @@ vector<Album> MusicLibrary::searchAlbums(const wstring& searchTerms) const
 		wstring nAlbumTitle = wstringToLower(album.getTitle());
 		wstring nAlbumArtist = wstringToLower(album.getArtistName());
 
-		if ((nAlbumTitle.find(searchTerms) != wstring::npos) || 
-			(nAlbumArtist.find(searchTerms) != wstring::npos))
+		if ((nAlbumTitle.find(searchTerms) != wstring::npos) || (nAlbumArtist.find(searchTerms) != wstring::npos))
 			res.push_back(album);
-
 	}
 
 	return res;
@@ -136,11 +136,20 @@ vector<Song> MusicLibrary::searchSongs(const wstring& searchTerms) const
 		wstring nAlbumArtist = wstringToLower(song.getArtistName());
 		wstring nAlbumTitle = wstringToLower(song.getAlbumTitle());
 
-		if ((nSongTitle.find(searchTerms) != wstring::npos) ||
-			(nAlbumArtist.find(searchTerms) != wstring::npos) ||
+		if ((nSongTitle.find(searchTerms) != wstring::npos) || (nAlbumArtist.find(searchTerms) != wstring::npos) ||
 			(nAlbumTitle.find(searchTerms) != wstring::npos))
 			res.push_back(song);
 	}
 
 	return res;
+}
+
+bool MusicLibrary::populate(wstring& baseDir)
+{
+	bool populateSucc = m_songregator.populateLibrary(baseDir, m_artistMap, m_albumMap, m_songMap);
+
+	if (populateSucc)
+		m_baseDir = baseDir;
+
+	return populateSucc;
 }

@@ -11,10 +11,10 @@
 
 #include "artist.h"
 #include "playlist.h"
-#include "Album.h"
-#include "Song.h"
+#include "album.h"
+#include "song.h"
 #include "searchResults.h"
-#include "util.h"
+#include "songregator.h"
 
 class MusicLibrary
 {
@@ -30,17 +30,18 @@ public:
 	Album getAlbumName(const std::wstring& albumName) const;
 	Song getSong(const std::wstring& songTitle) const;
 	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
+	bool populate(std::wstring& baseDir);
 	
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(m_artists, m_albumMap, m_songMap, m_playlistList);
+		archive(m_artistMap, m_albumMap, m_songMap, m_playlistList, m_baseDir);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(m_artists, m_albumMap, m_songMap, m_playlistList);
+		archive(m_artistMap, m_albumMap, m_songMap, m_playlistList, m_baseDir);
 	}
 
 private:
@@ -48,10 +49,12 @@ private:
 	std::vector<Album> searchAlbums(const std::wstring& searchTerms) const;
 	std::vector<Song> searchSongs(const std::wstring& searchTerms) const;
 
-	std::map<std::wstring, Artist> m_artists;
+	std::map<std::wstring, Artist> m_artistMap;
 	std::map<std::wstring, Album> m_albumMap;
 	std::map<std::wstring, Song> m_songMap;
 	std::vector<Playlist> m_playlistList;
+	std::wstring m_baseDir;
+	Songregator m_songregator;
 
 };
 

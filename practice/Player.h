@@ -13,7 +13,7 @@ public:
 	Player();
 	~Player();
 
-	void play(std::string filePath);
+	int play(std::string filePath);
 	void checkIsPlaying(bool& playing);
 	void checkIsPaused(bool& paused);
 	void getSeekPosition(unsigned int& ms);
@@ -27,7 +27,7 @@ private:
 	void systemInitialize();
 	void createStream(const char* songLocation);
 	void playSound();
-	void corePlayLoop();
+	int corePlayLoop();
 	void systemUpdate();
 	void soundRelease();
 	void systemClose();
@@ -38,13 +38,13 @@ private:
 	//actual audio
 	FMOD::Sound* m_sound;
 	//current audio channel
-	FMOD::Channel* m_channel = 0;
+	FMOD::Channel* m_channel = nullptr;
 	//error checking result for most actions taken by FMOD
 	FMOD_RESULT m_result;
 	//version of fmod being used
 	unsigned int m_version;
 	//extra driver data of audio subsystem
-	void* m_extraDriverData = 0;
+	void* m_extraDriverData = nullptr;
 	PlayerIOHandler *m_io;
 
 };

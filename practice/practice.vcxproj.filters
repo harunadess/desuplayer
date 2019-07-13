@@ -93,9 +93,6 @@
     <ClCompile Include="playlist.cpp">
       <Filter>Source Files\media</Filter>
     </ClCompile>
-    <ClCompile Include="frontend.cpp">
-      <Filter>Source Files\console</Filter>
-    </ClCompile>
     <ClCompile Include="musicLibrary.cpp">
       <Filter>Source Files\media</Filter>
     </ClCompile>
@@ -107,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="mediaPlayer.cpp">
       <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="controller.cpp">
+      <Filter>Source Files\console</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
     <ClInclude Include="songregator.h">
       <Filter>Header Files\file</Filter>
     </ClInclude>
-    <ClInclude Include="frontend.h">
-      <Filter>Header Files\console</Filter>
-    </ClInclude>
     <ClInclude Include="musicFileFinder.h">
       <Filter>Header Files\file</Filter>
     </ClInclude>
@@ -493,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.h">
+      <Filter>Header Files\console</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

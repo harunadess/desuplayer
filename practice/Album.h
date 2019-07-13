@@ -20,7 +20,7 @@ public:
 	std::wstring getArtistName() const;
 	void setArtistName(const std::wstring& artistName);
 	std::vector<Song> getTrackList() const;
-	void setTrackAt(int pos, Song song);
+	void addTrack(Song song);
 	Song getTrackAt(int pos) const;
 
 	template<class Archive>

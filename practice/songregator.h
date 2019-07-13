@@ -6,9 +6,8 @@
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
 
-#include "musicFileFinder.h"
 #include "artist.h"
-#include "musicLibrary.h"
+#include "album.h"
 
 class Songregator
 {
@@ -16,7 +15,8 @@ public:
 	Songregator();
 	~Songregator();
 
-	bool populateLibrary(const std::wstring& baseDirectory, MusicLibrary& musicLibrary);
+	bool populateLibrary(std::wstring& baseDir, std::map<std::wstring, Artist>& artistMapOut, 
+		std::map<std::wstring, Album>& albumMapOut, std::map<std::wstring, Song>& songMapOut);
 
 private:
 	void addArtistToList(const std::wstring& artistName, const std::wstring& normalisedArtistName, std::map<std::wstring, Artist>& artistList);

@@ -9,14 +9,16 @@
 #include "musicLibrary.h"
 #include "mediaPlayer.h"
 
-constexpr unsigned short POSSIBLE_ACTIONS = 5;
+constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 7;
 
-class FrontEnd
+class Controller
 {
 public:
-	FrontEnd();
-	~FrontEnd();
+	Controller();
+	~Controller();
 
+	int init();
+	bool firstTimeSetup();
 	int main();
 
 private:
@@ -26,15 +28,19 @@ private:
 		PLAY,
 		SEARCH,
 		QUEUE,
+		PRINT,
+		START,
 		HELP,
 		EXIT
 	};
 
-	const std::wstring PossibleActions[POSSIBLE_ACTIONS] = 
+	const std::wstring POSSIBLE_ACTIONS[POSSIBLE_ACTIONS_LENGTH] = 
 	{
 		std::wstring(L"play"),
 		std::wstring(L"search"),
 		std::wstring(L"queue"),
+		std::wstring(L"print"),
+		std::wstring(L"start"),
 		std::wstring(L"help"),
 		std::wstring(L"exit")
 	};
@@ -47,6 +53,8 @@ private:
 	void handlePlayOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleSearchOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleQueueOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handlePrintOutcome();
+	void handleStartOutcome();
 	void handleHelpOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleExitOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 

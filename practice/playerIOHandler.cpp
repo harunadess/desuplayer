@@ -17,7 +17,7 @@ IOHandler::KeyCode PlayerIOHandler::processInput()
 
 bool PlayerIOHandler::isPauseKey()
 {
-	return keyboardKeyCode == IOHandler::KeyCode::SPC;
+	return keyboardKeyCode == IOHandler::KeyCode::F3;
 }
 
 bool PlayerIOHandler::isExitKey()

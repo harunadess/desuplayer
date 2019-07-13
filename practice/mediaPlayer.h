@@ -17,10 +17,13 @@ public:
 	void addToPlaybackQueue(const Album& album);
 	void addToPlaybackQueue(const Artist& artist);
 	void addToPlaybackQueue(const Playlist& playlist);
-	void playImmediately(const Song& song);
-	void playImmediately(const Album& album);
-	void playImmediately(const Artist &artist);
-	void playImmediately(const Playlist &playlist);
+	void addToAdHocQueue(const Song& song);
+	void addToAdHocQueue(const Album& album);
+	void addToAdHocQueue(const Artist& artist);
+	void addToAdHocQueue(const Playlist& playlist);
+	Playlist* getPlaybackQueue();
+	Playlist* getAdhocPlayback();
+	void playImmediate();
 	void playQueued();
 
 private:

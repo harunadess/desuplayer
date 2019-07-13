@@ -23,6 +23,8 @@ public:
 	void addContentsToList(const Artist& album);
 	void addContentsToList(const Playlist& album);
 	bool getNext(Song &song);
+	bool hasNext();
+	void clear();
 
 	template<class Archive>
 	void save(Archive& archive) const

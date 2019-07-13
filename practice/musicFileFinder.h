@@ -14,7 +14,7 @@ public:
 	MusicFileFinder();
 	~MusicFileFinder();
 
-	std::vector<FilePath> scanForNewFiles(std::wstring baseDir);
+	std::vector<FilePath> scanForNewFiles(std::wstring& baseDir);
 
 private:
 	bool isMusicFile(std::string fileExtension);

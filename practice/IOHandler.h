@@ -26,6 +26,10 @@ protected:
 	enum KeyCode
 	{
 		UNMATCHED = -1,
+		FUNCTION_INIT = 0,
+		F2 = 60,
+		F3 = 61,
+		F4 = 62,
 		ESC = 27,
 		SPC = 32,
 		A = 97,
@@ -36,12 +40,7 @@ protected:
 		Q = 113,
 		R = 114,
 		S = 115,
-		W = 119,
-		ARROW_INIT = 224,
-		ARROW_UP = 72,
-		ARROW_LEFT = 75,
-		ARROW_RIGHT = 77,
-		ARROW_DOWN = 80
+		W = 119
 	};
 
 	IOHandler::KeyCode lookupKeyCode(int keyCode);

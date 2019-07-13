@@ -19,29 +19,37 @@ bool MusicFileFinder::isMusicFile(string extension)
 	for (unsigned int i = 0; i < INCLUDE_LIST_LENGTH; i++)
 	{
 		if (extension.find(m_INCLUDE_LIST[i]) != string::npos)
+		{
 			return true;
+		}
 	}
 	return false;
 }
 
-wstring normaliseDirString(wstring& baseDir)
+wstring normaliseDirString(wstring baseDir)
 {
 	wstring newDir = L"";
 	for(wstring::iterator it = baseDir.begin(); it != baseDir.end(); ++it) 
 	{
 		if (*it == L'/' || *it == path::preferred_separator)
+		{
 			newDir += path::preferred_separator;
+		}
 		else
+		{
 			newDir += *it;
+		}
 	}
 	
-	if(newDir.back() != path::preferred_separator)
+	if (newDir.back() != path::preferred_separator)
+	{
 		newDir += path::preferred_separator;
+	}
 
 	return newDir;
 }
 
-vector<FilePath> MusicFileFinder::scanForNewFiles(wstring baseDir)
+vector<FilePath> MusicFileFinder::scanForNewFiles(wstring& baseDir)
 {
 	try
 	{

@@ -86,4 +86,14 @@ bool Playlist::getNext(Song &song)
 	return false;
 }
 
-// todo: add "clear playlist" function
+bool Playlist::hasNext()
+{
+	size_t size = m_songList.size();
+	return (size > 0) && (m_listIndex < size);
+}
+
+void Playlist::clear()
+{
+	bool succ = m_songList.empty();
+	m_listIndex = 0;
+}

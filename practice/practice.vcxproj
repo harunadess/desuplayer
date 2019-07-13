@@ -140,7 +140,7 @@
     <ClCompile Include="artist.cpp" />
     <ClCompile Include="filePath.cpp" />
     <ClCompile Include="fileSystem.cpp" />
-    <ClCompile Include="frontend.cpp" />
+    <ClCompile Include="controller.cpp" />
     <ClCompile Include="ioHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mediaPlayer.cpp" />
@@ -260,7 +260,7 @@
     <ClInclude Include="artist.h" />
     <ClInclude Include="filePath.h" />
     <ClInclude Include="fileSystem.h" />
-    <ClInclude Include="frontend.h" />
+    <ClInclude Include="controller.h" />
     <ClInclude Include="ioHandler.h" />
     <ClInclude Include="keycodes.h" />
     <ClInclude Include="mediaPlayer.h" />

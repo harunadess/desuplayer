@@ -65,43 +65,41 @@ void IOHandler::outputHeading(const wstring& output)
 
 IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
 {
-	switch (keyCode)
+	if (keyCode == FUNCTION_INIT)
 	{
-	case KeyCode::ESC:
-		return KeyCode::ESC;
-	case KeyCode::SPC:
-		return KeyCode::SPC;
-	case KeyCode::A:
-		return KeyCode::A;
-	case KeyCode::D:
-		return KeyCode::D;
-	case KeyCode::E:
-		return KeyCode::E;
-	case KeyCode::L:
-		return KeyCode::L;
-	case KeyCode::P:
-		return KeyCode::P;
-	case KeyCode::Q:
-		return KeyCode::Q;
-	case KeyCode::R:
-		return KeyCode::R;
-	case KeyCode::S:
-		return KeyCode::S;
-	case KeyCode::W:
-		return KeyCode::W;
-	//Arrow key initially returns this keycode
-	case KeyCode::ARROW_INIT:
-		return KeyCode::ARROW_INIT;
-	//Arrow key returns actual keycode after initial
-	case KeyCode::ARROW_UP:
-		return KeyCode::ARROW_UP;
-	case KeyCode::ARROW_LEFT:
-		return KeyCode::ARROW_LEFT;
-	case KeyCode::ARROW_RIGHT:
-		return KeyCode::ARROW_RIGHT;
-	case KeyCode::ARROW_DOWN:
-		return KeyCode::ARROW_DOWN;
-	default:
-		return KeyCode::UNMATCHED;
+		keyCode = _getwch();
+		if (keyCode == F2)
+			return F2;
+		else if (keyCode == F3)
+			return F3;
+		else if (keyCode == F4)
+			return F4;
+	}
+	else 
+	{
+		if (keyCode == ESC)
+			return ESC;
+		else if (keyCode == SPC)
+			return SPC;
+		else if (keyCode == A)
+			return A;
+		else if (keyCode == D)
+			return D;
+		else if (keyCode == E)
+			return E;
+		else if (keyCode == L)
+			return L;
+		else if (keyCode == P)
+			return P;
+		else if (keyCode == Q)
+			return Q;
+		else if (keyCode == R)
+			return R;
+		else if (keyCode == S)
+			return S;
+		else if (keyCode == W)
+			return W;
+		else
+			return UNMATCHED;
 	}
 }

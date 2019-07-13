@@ -32,28 +32,24 @@ void MediaPlayer::addToPlaybackQueue(const Playlist& playlist)
 	m_playbackQueue->addContentsToList(playlist);
 }
 
-void MediaPlayer::playImmediately(const Song& song)
+void MediaPlayer::addToAdHocQueue(const Song& song)
 {
 	m_adhocPlayback->addSongToList(song);
-	playLoop(*m_adhocPlayback);
 }
 
-void MediaPlayer::playImmediately(const Album& album)
+void MediaPlayer::addToAdHocQueue(const Album& album)
 {
 	m_adhocPlayback->addContentsToList(album);
-	playLoop(*m_adhocPlayback);
 }
 
-void MediaPlayer::playImmediately(const Artist& artist)
+void MediaPlayer::addToAdHocQueue(const Artist& artist)
 {
 	m_adhocPlayback->addContentsToList(artist);
-	playLoop(*m_adhocPlayback);
 }
 
-void MediaPlayer::playImmediately(const Playlist& playlist)
+void MediaPlayer::addToAdHocQueue(const Playlist& playlist)
 {
 	m_adhocPlayback->addContentsToList(playlist);
-	playLoop(*m_adhocPlayback);
 }
 
 void MediaPlayer::playLoop(Playlist &playlist)
@@ -63,20 +59,55 @@ void MediaPlayer::playLoop(Playlist &playlist)
 	{
 		//todo: use m_io
 		std::wcout << "Now playing: " << current.getTitle() << " - " << current.getArtistName() << std::endl;
-		play(current.getFilePath().u8FilePath);
+		int exitCode = play(current.getFilePath().u8FilePath);
+		if (exitCode != 0)
+		{
+			if (exitCode == 1)
+			{
+				m_adhocPlayback->clear();
+				m_playbackQueue->clear();
+				std::wcout << L"Cleared queue." << std::endl;
+				break;
+			}
+		}
 	}
 }
 
 void MediaPlayer::playQueued()
 {
-	Song current;
-	if (m_adhocPlayback->getNext(current))
-	{
-		playLoop(*m_adhocPlayback);
-	}
-
-	if (m_playbackQueue->getNext(current))
+	std::wcout << L"Press <F3> to Pause/Play, press <F2>/<F4> to skip back/forward." << std::endl;
+	if (m_playbackQueue->hasNext())
 	{
 		playLoop(*m_playbackQueue);
 	}
+	else
+	{
+		std::wcout << L"Queue empty" << std::endl;
+	}
+
+	m_playbackQueue->clear();
+}
+
+void MediaPlayer::playImmediate()
+{
+	Song current;
+
+	if (m_adhocPlayback->hasNext())
+	{
+		playLoop(*m_adhocPlayback);
+	}
+	else
+	{
+		std::wcout << L"No item to play" << std::endl;
+	}
+}
+
+Playlist* MediaPlayer::getPlaybackQueue()
+{
+	return m_playbackQueue;
+}
+
+Playlist* MediaPlayer::getAdhocPlayback()
+{
+	return m_adhocPlayback;
 }

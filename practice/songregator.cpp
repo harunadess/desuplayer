@@ -1,5 +1,8 @@
 #include "songregator.h"
 
+#include "musicFileFinder.h"
+#include "util.h"
+
 using std::wstring;
 using std::vector;
 using std::map;
@@ -10,14 +13,6 @@ Songregator::Songregator()
 
 Songregator::~Songregator()
 {
-}
-
-vector<FilePath> scanForMusicFiles(const wstring& baseDir)
-{
-	MusicFileFinder finder;
-	vector<FilePath> files = finder.scanForNewFiles(baseDir);
-
-	return files;
 }
 
 bool artistNotInList(const map<wstring, Artist>& artistList, const wstring& artist)
@@ -31,45 +26,41 @@ bool artistNotInList(const map<wstring, Artist>& artistList, const wstring& arti
 }
 
 
-bool Songregator::populateLibrary(const wstring& baseDir, MusicLibrary& musicLibrary)
+bool Songregator::populateLibrary(wstring& baseDir, std::map<std::wstring, Artist>& artistMapOut, 
+	std::map<std::wstring, Album>& albumMapOut, std::map<std::wstring, Song>& songMapOut)
 {
-	vector<FilePath> filePaths = scanForMusicFiles(baseDir);
+	MusicFileFinder finder;
+	vector<FilePath> filePaths = finder.scanForNewFiles(baseDir);
 
 	if (filePaths.size() <= 0)
 		return false;
 
+	std::wcout << L"Files found: " << filePaths.size() << std::endl;
+
 	map<wstring, Song> songMap;
 	map<wstring, Artist> artistMap;
 	map<wstring, Album> albumMap;
+
 	int error = populateSongAndArtistMaps(songMap, artistMap, filePaths);
+	
 	if (error == 0)
-	{
-		musicLibrary.setSongMap(songMap);
-	}
+		songMapOut = songMap;
 	else
-	{
 		return false;
-	}
 
 	error = populateAlbumMap(albumMap, songMap);
+	
 	if (error == 0)
-	{
-		musicLibrary.setAlbumMap(albumMap);
-	}
+		albumMapOut = albumMap;
 	else
-	{
 		return false;
-	}
 
 	error = populateArtistsWithAlbums(artistMap, albumMap);
+
 	if (error == 0)
-	{
-		musicLibrary.setArtistMap(artistMap);
-	}
+		artistMapOut = artistMap;
 	else
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -94,7 +85,7 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 				// create song, add to map
 				// should use song map/list to populate albums/artists with song deets
 				Song song = createSong(tag, fp);
-				std::pair<wstring, Song> songPair(wstringToLower(song.getTitle()), song);
+				std::pair<wstring, Song> songPair((wstringToLower(song.getTitle() + L"_" + song.getAlbumTitle())), song);
 				songMap.insert(songMap.begin(), songPair);
 			}
 			catch (std::exception e)
@@ -118,13 +109,7 @@ void Songregator::addArtistToList(const wstring& artistName, const wstring& norm
 
 Song Songregator::createSong(const TagLib::Tag* tag, const FilePath& filePath)
 {
-	return Song(
-		tag->track(),
-		tag->title().toWString(),
-		tag->artist().toWString(),
-		tag->album().toWString(),
-		filePath
-	);
+	return Song(tag->track(), tag->title().toWString(), tag->artist().toWString(), tag->album().toWString(), filePath);
 }
 
 int Songregator::populateAlbumMap(map<wstring, Album>& albumMap, map<wstring, Song>& songMap)
@@ -149,14 +134,15 @@ int Songregator::populateAlbumMap(map<wstring, Album>& albumMap, map<wstring, So
 			if (found)
 				break;
 		}
-
 		wstring sAlbumKey = wstringToLower(s.getAlbumTitle());
+
 		if (!found)
 		{
 			std::pair<wstring, Album> ap(sAlbumKey, Album(s.getAlbumTitle(), s.getArtistName()));
 			albumMap.insert(ap);
 		}
-		albumMap.at(sAlbumKey).setTrackAt(s.getTrackNumber(), s);
+
+		albumMap.at(sAlbumKey).addTrack(s);
 	}
 
 	return 0;
@@ -167,7 +153,6 @@ int Songregator::populateArtistsWithAlbums(map<wstring, Artist>& artistMap, map<
 	for (auto& ap : albumMap)
 	{
 		Album a = ap.second;
-
 		wstring artistKey = wstringToLower(a.getArtistName());
 		wstring albumKey = wstringToLower(a.getTitle());
 

@@ -58,7 +58,20 @@ Song Album::getTrackAt(int pos) const
 	return m_trackList.at(pos);
 }
 
-void Album::setTrackAt(int pos, Song song)
+void Album::addTrack(Song song)
 {
-	m_trackList.push_back(song);
+	int pos = 0;
+	for (int i = 0; i < m_trackList.size(); i++)
+	{
+		if (song.getTrackNumber() > m_trackList.at(i).getTrackNumber())
+		{
+			++pos;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	m_trackList.insert(m_trackList.begin() + pos, song);
 }
