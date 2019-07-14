@@ -133,7 +133,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>fmodL64_vc.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\cereal\include;D:\Jorta\Documents\Programming\Cpp\mp\testing\practice\practice\ThirdParty\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
+    <PostBuildEvent>
+      <Command>signtool sign /f "D:\Jorta\Documents\Programming\Cpp\_signage\haruna-desu.p12" $(outdir)$(targetfilename)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="album.cpp" />
@@ -269,6 +273,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="playerIOHandler.h" />
     <ClInclude Include="playlist.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="searchResults.h" />
     <ClInclude Include="song.h" />
     <ClInclude Include="songregator.h" />
@@ -292,6 +297,12 @@
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\bin\tag.dll" />
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.tcc" />
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.tcc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="console-music-player.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\Pictures\Weeb trash\drawings\post_breakdown\haruna\_out\haruna_fig\compressed\favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

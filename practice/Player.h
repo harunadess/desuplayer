@@ -29,6 +29,8 @@ private:
 	void playSound();
 	int corePlayLoop();
 	void systemUpdate();
+	void getVolume(float& volume);
+	void setVolume(float& volume);
 	void soundRelease();
 	void systemClose();
 	void systemRelease();
@@ -47,6 +49,9 @@ private:
 	void* m_extraDriverData = nullptr;
 	PlayerIOHandler *m_io;
 
+	const float MAX_VOLUME = 1.0f;
+	const float MIN_VOLUME = 0.0f;
+	const float VOLUME_INCREMENT = 0.05f;
 };
 
 #endif // !PLAYER_H

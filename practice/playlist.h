@@ -24,6 +24,7 @@ public:
 	void addContentsToList(const Playlist& album);
 	bool getNext(Song &song);
 	bool hasNext();
+	bool getPrevious();
 	void clear();
 
 	template<class Archive>

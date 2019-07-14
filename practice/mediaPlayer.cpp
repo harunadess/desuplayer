@@ -58,7 +58,7 @@ void MediaPlayer::playLoop(Playlist &playlist)
 	while (playlist.getNext(current))
 	{
 		//todo: use m_io
-		std::wcout << "Now playing: " << current.getTitle() << " - " << current.getArtistName() << std::endl;
+		std::wcout << L"Now playing: " << current.getTitle() << L" - " << current.getArtistName() << std::endl;
 		int exitCode = play(current.getFilePath().u8FilePath);
 		if (exitCode != 0)
 		{
@@ -66,8 +66,20 @@ void MediaPlayer::playLoop(Playlist &playlist)
 			{
 				m_adhocPlayback->clear();
 				m_playbackQueue->clear();
-				std::wcout << L"Cleared queue." << std::endl;
+				std::wcout << std::endl << "Cleared queue." << std::endl;
 				break;
+			}
+
+			if (exitCode == 2)
+			{
+				std::wcout << L"Skipping forward..." << std::endl;
+				continue;
+			}
+
+			if (exitCode == 3)
+			{
+				std::wcout << L"Skipping back..." << std::endl;
+				playlist.getPrevious();
 			}
 		}
 	}
@@ -75,31 +87,27 @@ void MediaPlayer::playLoop(Playlist &playlist)
 
 void MediaPlayer::playQueued()
 {
-	std::wcout << L"Press <F3> to Pause/Play, press <F2>/<F4> to skip back/forward." << std::endl;
+	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." << std::endl;
+
 	if (m_playbackQueue->hasNext())
-	{
 		playLoop(*m_playbackQueue);
-	}
 	else
-	{
 		std::wcout << L"Queue empty" << std::endl;
-	}
 
 	m_playbackQueue->clear();
 }
 
 void MediaPlayer::playImmediate()
 {
-	Song current;
+	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." << std::endl;
+
 
 	if (m_adhocPlayback->hasNext())
-	{
 		playLoop(*m_adhocPlayback);
-	}
 	else
-	{
 		std::wcout << L"No item to play" << std::endl;
-	}
+
+	m_adhocPlayback->clear();
 }
 
 Playlist* MediaPlayer::getPlaybackQueue()

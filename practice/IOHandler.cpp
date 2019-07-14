@@ -63,7 +63,7 @@ void IOHandler::outputHeading(const wstring& output)
 		<< m_HEADING_LINE << endl;
 }
 
-IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
+IOHandler::KeyCode IOHandler::lookupKeyCode(int& keyCode)
 {
 	if (keyCode == FUNCTION_INIT)
 	{
@@ -74,6 +74,7 @@ IOHandler::KeyCode IOHandler::lookupKeyCode(int keyCode)
 			return F3;
 		else if (keyCode == F4)
 			return F4;
+		else return FUNCTION_INIT;
 	}
 	else 
 	{

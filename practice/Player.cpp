@@ -8,7 +8,6 @@ using std::wcout;
 using std::cin;
 using std::flush;
 using std::endl;
-using std::string;
 
 #define MAX_PATH 260
 
@@ -30,7 +29,7 @@ void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line)
 	}
 }
 
-int Player::play(string filePath)
+int Player::play(std::string filePath)
 {
 	//Initialize
 	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); //initialize windows api
@@ -124,6 +123,7 @@ int Player::corePlayLoop()
 		if (_kbhit())
 		{
 			m_io->processInput();
+
 			if (m_io->isPauseKey())
 			{
 				bool paused;
@@ -131,10 +131,52 @@ int Player::corePlayLoop()
 				ERRCHECK_fn(m_result, __FILE__, __LINE__);
 				m_result = m_channel->setPaused(!paused);
 			}
+
 			if (m_io->isExitKey())
 			{
 				exitCode = 1;
 				break;
+			}
+			
+
+			if (m_io->isSkipForwardKey())
+			{
+				exitCode = 2;
+				break;
+			}
+
+			if (m_io->isSkipBackKey())
+			{
+				exitCode = 3;
+				break;
+			}
+
+			if (m_io->isVolumeUpKey())
+			{
+				float volume = 1.f;
+				getVolume(volume);
+				
+				if (volume < MAX_VOLUME)
+				{
+					volume += VOLUME_INCREMENT;
+					setVolume(volume);
+
+					std::wcout << L"Set volume to " << (int)(volume*100) << L"%" << std::endl;
+				}
+			}
+
+			if (m_io->isVolumeDownKey())
+			{
+				float volume = 1.f;
+				getVolume(volume);
+
+				if (volume > MIN_VOLUME)
+				{
+					volume -= VOLUME_INCREMENT;
+					setVolume(volume);
+
+					std::wcout << L"Set volume to " << (int)(volume*100) << L"%" << std::endl;
+				}
 			}
 		}
 
@@ -179,6 +221,24 @@ void Player::checkIsPlaying(bool& playing)
 void Player::checkIsPaused(bool& paused)
 {
 	m_result = m_channel->getPaused(&paused);
+	if ((m_result != FMOD_OK) && (m_result != FMOD_ERR_INVALID_HANDLE))
+	{
+		ERRCHECK_fn(m_result, __FILE__, __LINE__);
+	}
+}
+
+void Player::getVolume(float& volume)
+{
+	m_result = m_channel->getVolume(&volume);
+	if ((m_result != FMOD_OK) && (m_result != FMOD_ERR_INVALID_HANDLE))
+	{
+		ERRCHECK_fn(m_result, __FILE__, __LINE__);
+	}
+}
+
+void Player::setVolume(float& volume)
+{
+	m_result = m_channel->setVolume(volume);
 	if ((m_result != FMOD_OK) && (m_result != FMOD_ERR_INVALID_HANDLE))
 	{
 		ERRCHECK_fn(m_result, __FILE__, __LINE__);

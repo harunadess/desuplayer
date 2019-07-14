@@ -43,7 +43,7 @@ protected:
 		W = 119
 	};
 
-	IOHandler::KeyCode lookupKeyCode(int keyCode);
+	IOHandler::KeyCode lookupKeyCode(int& keyboardKeyCode);
 
 	int keyboardKeyCode = KeyCode::UNMATCHED;
 

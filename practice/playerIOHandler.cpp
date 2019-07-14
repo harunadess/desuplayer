@@ -17,10 +17,30 @@ IOHandler::KeyCode PlayerIOHandler::processInput()
 
 bool PlayerIOHandler::isPauseKey()
 {
-	return keyboardKeyCode == IOHandler::KeyCode::F3;
+	return keyboardKeyCode == F3;
 }
 
 bool PlayerIOHandler::isExitKey()
 {
-	return keyboardKeyCode == IOHandler::KeyCode::ESC;
+	return keyboardKeyCode == ESC;
+}
+
+bool PlayerIOHandler::isVolumeUpKey()
+{
+	return keyboardKeyCode == W;
+}
+
+bool PlayerIOHandler::isVolumeDownKey()
+{
+	return keyboardKeyCode == S;
+}
+
+bool PlayerIOHandler::isSkipForwardKey()
+{
+	return keyboardKeyCode == F4;
+}
+
+bool PlayerIOHandler::isSkipBackKey()
+{
+	return keyboardKeyCode == F2;
 }

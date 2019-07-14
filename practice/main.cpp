@@ -5,7 +5,6 @@
 #include <locale.h>
 #include <algorithm>
 
-#include "songregator.h"
 #include "controller.h"
 
 using std::wcout; //use "wide" cout and cin to allow for UTF-8 characters
@@ -66,18 +65,16 @@ void miscTest()
 	wprintf(L"\nKey struck was '%d'\n", _getch());
 }
 
-
-//todo: need to fix initial program startup
-// -> get and fill library
-
 //todo: need to fix non-initial program startup
-// - > library scan to update library
+// -> library scan to update library
+// -> have percentage of library building 
 
 //todo: general program workings
 // -> need to ensure that *ALL* output is wide. Otherwise it'll throw errors and stuff I think [ALL]
 
-// -> can you fix the text of the controls appearing? [player.cpp] -> move text to [controller.cpp/musicplayer.cpp]
-
+//todo: player feel:tm:
+// -> fix controls of player to be nicer
+// -> add "save playlist/queue" functionality, which saves queue with specified name as playlist
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();

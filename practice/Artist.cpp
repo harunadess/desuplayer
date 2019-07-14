@@ -1,5 +1,7 @@
 #include "Artist.h"
 
+#include <iostream>
+
 using std::vector;
 using std::map;
 using std::wstring;
@@ -62,7 +64,7 @@ vector<Song> Artist::getAlbumName(const wstring& album) const
 	}
 	catch (const std::out_of_range e)
 	{
-		printf_s("%s: %s\n", "Couldn't find album ", e.what());
+		std::wcerr << L"Couldn't find album: " << album << std::endl;
 		return vector<Song>();
 	}
 }

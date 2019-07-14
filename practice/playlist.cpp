@@ -1,5 +1,7 @@
 #include "playlist.h"
 
+#include "util.h"
+
 using std::vector;
 using std::wstring;
 
@@ -65,7 +67,7 @@ void Playlist::addContentsToList(const Artist& artist)
 
 	for (vector<wstring>::iterator it = albumTitles.begin(); it != albumTitles.end(); ++it)
 	{
-		vector<Song> album = artist.getAlbumName(*it);
+		vector<Song> album = artist.getAlbumName(wstringToLower(*it));
 		addAllToList(album);
 	}
 }
@@ -90,6 +92,17 @@ bool Playlist::hasNext()
 {
 	size_t size = m_songList.size();
 	return (size > 0) && (m_listIndex < size);
+}
+
+bool Playlist::getPrevious()
+{
+	int previousIndex = (m_listIndex - 2);
+	if (previousIndex > 0)
+		m_listIndex -= 2;
+	else
+		m_listIndex = 0;
+
+	return true;
 }
 
 void Playlist::clear()

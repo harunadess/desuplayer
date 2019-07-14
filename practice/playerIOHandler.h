@@ -13,6 +13,10 @@ public:
 	IOHandler::KeyCode processInput();
 	bool isPauseKey();
 	bool isExitKey();
+	bool isVolumeUpKey();
+	bool isVolumeDownKey();
+	bool isSkipForwardKey();
+	bool isSkipBackKey();
 
 };
 
