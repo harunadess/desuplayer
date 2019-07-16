@@ -110,3 +110,8 @@ void Playlist::clear()
 	bool succ = m_songList.empty();
 	m_listIndex = 0;
 }
+
+unsigned int Playlist::getIndex()
+{
+	return m_listIndex;
+}

@@ -9,7 +9,7 @@
 #include "musicLibrary.h"
 #include "mediaPlayer.h"
 
-constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 7;
+constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 8;
 
 class Controller
 {
@@ -30,6 +30,7 @@ private:
 		QUEUE,
 		PRINT,
 		START,
+		SAVE,
 		HELP,
 		EXIT
 	};
@@ -41,6 +42,7 @@ private:
 		std::wstring(L"queue"),
 		std::wstring(L"print"),
 		std::wstring(L"start"),
+		std::wstring(L"save"),
 		std::wstring(L"help"),
 		std::wstring(L"exit")
 	};
@@ -55,8 +57,9 @@ private:
 	void handleQueueOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handlePrintOutcome();
 	void handleStartOutcome();
-	void handleHelpOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
-	void handleExitOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	void handleSaveOutcome(const std::wstring& playlistTitle);
+	void handleHelpOutcome();
+	void handleExitOutcome();
 
 	IOHandler m_io;
 	FileSystem m_fileSystem;

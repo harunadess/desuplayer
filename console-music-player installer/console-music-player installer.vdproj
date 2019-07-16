@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:console-music-player installer"
+"ProjectName" = "8:Music Player Desu Installer"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -68,6 +68,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -257,7 +265,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:console-music-player"
+        "ProductName" = "8:Music Player Desu"
         "ProductCode" = "8:{6460DAA6-8F13-458A-A193-C28258D955D6}"
         "PackageCode" = "8:{B41E0E66-092E-4CDD-8F05-C0A26F0B07B9}"
         "UpgradeCode" = "8:{79CB5DCE-E344-404F-BCCC-9A8E72F50DAB}"
@@ -270,11 +278,11 @@
         "Manufacturer" = "8:haruna-desu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:console-music-player installer"
+        "Title" = "8:Music Player Desu Installer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:haruna-desu"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Installer for the console-music-player program."
+        "ARPCOMMENTS" = "8:Music Player Desu Installer"
         "ARPURLINFOABOUT" = "8:https://github.com/jordanjohnston"
         "ARPPRODUCTICON" = "8:_9F56ABB7E6BF4B70824B7830C9B192CB"
         "ARPIconIndex" = "3:0"
@@ -794,7 +802,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A5D519C424B54929B0A414FCFAE7CF9A"
             {
-            "SourcePath" = "8:..\\x64\\Release\\console-music-player.exe"
+            "SourcePath" = "8:..\\x64\\Debug\\Music Player Desu.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_52F5B58464404DE48B4062EE9B5667B8"

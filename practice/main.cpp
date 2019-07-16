@@ -16,24 +16,12 @@ using std::wstring;
 
 /*
 	TODO list:
-	* Need a display interface
-		* Display things in library
-			* Artists
-				* Albums
-				* Songs
-			* Playlists
-		* Way to add things to play
-	
-	* Need a control interface
-		* Way to control player in a more reasonable manner
-			* Media keys???
-
 	* If you're planning on having a non-blocking console, what you need is:
-			* One thread for the menu
-			* One for the player/a console output
+		* One thread for the menu
+		* One for the player/a console output
 
 	* Need a better way to handle errors, as currently I don't really do that
-		# void bois out in fashion
+		* void bois out in fashion
 
 	* Find better font (LOOKS)
 */
@@ -59,10 +47,23 @@ void configConsole()
 
 void miscTest()
 {
-	while (!_kbhit())
+	int index = 0;
+	int total = 5000;
+	float currentPercentage = 0.0f;
+	float lastPercentage = 0.01f;
+
+	wcout << L"Beginning..." << endl;
+	for (int i = 0; i < total; i++)
 	{
+		++index;
+		currentPercentage = ((float)index / total);
+		if ((((int)(currentPercentage * 100) % 5) == 0) && ((int)(currentPercentage * 100) > (int)(lastPercentage * 100)))
+		{
+			lastPercentage = currentPercentage;
+			wcout << (int)(lastPercentage * 100) << L"%.." << std::flush;
+		}
 	}
-	wprintf(L"\nKey struck was '%d'\n", _getch());
+	wcout << L" Done" << endl;
 }
 
 //todo: need to fix non-initial program startup

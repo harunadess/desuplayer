@@ -26,11 +26,10 @@ public:
 	void setArtistMap(const std::map<std::wstring, Artist>& artists);
 	void setAlbumMap(const std::map<std::wstring, Album>& albums);
 	void setSongMap(const std::map<std::wstring, Song>& songs);
-	Artist getArtistName(const std::wstring& artistName) const;
-	Album getAlbumName(const std::wstring& albumName) const;
-	Song getSong(const std::wstring& songTitle) const;
+	void savePlaylist(const Playlist& playlist);
 	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
 	bool populate(std::wstring& baseDir);
+	bool hasPlaylist(const std::wstring& playlistTitle);
 	
 	template<class Archive>
 	void save(Archive& archive) const
@@ -48,6 +47,7 @@ private:
 	std::vector<Artist> searchArtists(const std::wstring& searchTerms) const;
 	std::vector<Album> searchAlbums(const std::wstring& searchTerms) const;
 	std::vector<Song> searchSongs(const std::wstring& searchTerms) const;
+	std::vector<Playlist> searchPlaylists(const std::wstring& searchTerms) const;
 
 	std::map<std::wstring, Artist> m_artistMap;
 	std::map<std::wstring, Album> m_albumMap;

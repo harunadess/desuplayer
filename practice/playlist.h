@@ -26,6 +26,7 @@ public:
 	bool hasNext();
 	bool getPrevious();
 	void clear();
+	unsigned int getIndex();
 
 	template<class Archive>
 	void save(Archive& archive) const

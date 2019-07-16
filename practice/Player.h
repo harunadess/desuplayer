@@ -28,6 +28,7 @@ private:
 	void createStream(const char* songLocation);
 	void playSound();
 	int corePlayLoop();
+	void handleKeyPress(int& exitCode);
 	void systemUpdate();
 	void getVolume(float& volume);
 	void setVolume(float& volume);
@@ -48,6 +49,8 @@ private:
 	//extra driver data of audio subsystem
 	void* m_extraDriverData = nullptr;
 	PlayerIOHandler *m_io;
+
+	float m_currentVolume = 1.0f;
 
 	const float MAX_VOLUME = 1.0f;
 	const float MIN_VOLUME = 0.0f;

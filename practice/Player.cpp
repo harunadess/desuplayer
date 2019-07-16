@@ -9,8 +9,6 @@ using std::cin;
 using std::flush;
 using std::endl;
 
-#define MAX_PATH 260
-
 Player::Player()
 {
 }
@@ -40,6 +38,7 @@ int Player::play(std::string filePath)
 
 	//Actually play the file
 	playSound();
+	m_channel->setVolume(m_currentVolume);
 	int exitCode = corePlayLoop();
 
 	//Shut down once file finishes
@@ -122,62 +121,10 @@ int Player::corePlayLoop()
 		//check if there is keyboard input, if there is, do some stuff
 		if (_kbhit())
 		{
-			m_io->processInput();
+			handleKeyPress(exitCode);
 
-			if (m_io->isPauseKey())
-			{
-				bool paused;
-				m_result = m_channel->getPaused(&paused);
-				ERRCHECK_fn(m_result, __FILE__, __LINE__);
-				m_result = m_channel->setPaused(!paused);
-			}
-
-			if (m_io->isExitKey())
-			{
-				exitCode = 1;
+			if (exitCode != 0)
 				break;
-			}
-			
-
-			if (m_io->isSkipForwardKey())
-			{
-				exitCode = 2;
-				break;
-			}
-
-			if (m_io->isSkipBackKey())
-			{
-				exitCode = 3;
-				break;
-			}
-
-			if (m_io->isVolumeUpKey())
-			{
-				float volume = 1.f;
-				getVolume(volume);
-				
-				if (volume < MAX_VOLUME)
-				{
-					volume += VOLUME_INCREMENT;
-					setVolume(volume);
-
-					std::wcout << L"Set volume to " << (int)(volume*100) << L"%" << std::endl;
-				}
-			}
-
-			if (m_io->isVolumeDownKey())
-			{
-				float volume = 1.f;
-				getVolume(volume);
-
-				if (volume > MIN_VOLUME)
-				{
-					volume -= VOLUME_INCREMENT;
-					setVolume(volume);
-
-					std::wcout << L"Set volume to " << (int)(volume*100) << L"%" << std::endl;
-				}
-			}
 		}
 
 		{
@@ -207,6 +154,62 @@ void Player::systemUpdate()
 {
 	m_result = m_system->update();
 	ERRCHECK_fn(m_result, __FILE__, __LINE__);
+}
+
+void Player::handleKeyPress(int& exitCode)
+{
+	m_io->processInput();
+
+	if (m_io->isPauseKey())
+	{
+		bool paused;
+		m_result = m_channel->getPaused(&paused);
+		ERRCHECK_fn(m_result, __FILE__, __LINE__);
+		m_result = m_channel->setPaused(!paused);
+	}
+
+	if (m_io->isExitKey())
+	{
+		exitCode = 1;
+		return;
+	}
+
+	if (m_io->isSkipForwardKey())
+	{
+		exitCode = 2;
+		return;
+	}
+	if (m_io->isSkipBackKey())
+	{
+		exitCode = 3;
+		return;
+	}
+
+	if (m_io->isVolumeUpKey())
+	{
+		getVolume(m_currentVolume);
+
+		if (m_currentVolume < MAX_VOLUME)
+		{
+			m_currentVolume += VOLUME_INCREMENT;
+			setVolume(m_currentVolume);
+
+			std::wcout << L"Set volume to " << (int)(m_currentVolume * 100) << L"%" << std::endl;
+		}
+	}
+
+	if (m_io->isVolumeDownKey())
+	{
+		getVolume(m_currentVolume);
+
+		if (m_currentVolume > MIN_VOLUME)
+		{
+			m_currentVolume -= VOLUME_INCREMENT;
+			setVolume(m_currentVolume);
+
+			std::wcout << L"Set volume to " << (int)(m_currentVolume * 100) << L"%" << std::endl;
+		}
+	}
 }
 
 void Player::checkIsPlaying(bool& playing)

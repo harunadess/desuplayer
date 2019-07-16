@@ -13,6 +13,7 @@ public:
 	MediaPlayer();
 	~MediaPlayer();
 
+	//todo: convert these to return an int/size_t of how many items were queued.
 	void addToPlaybackQueue(const Song& song);
 	void addToPlaybackQueue(const Album& album);
 	void addToPlaybackQueue(const Artist& artist);

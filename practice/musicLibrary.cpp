@@ -36,43 +36,9 @@ void MusicLibrary::setSongMap(const map<wstring, Song>& songs)
 	m_songMap = songs;
 }
 
-Artist MusicLibrary::getArtistName(const wstring& artistName) const
+void MusicLibrary::savePlaylist(const Playlist& playlist)
 {
-	try
-	{
-		return m_artistMap.at(artistName);
-	}
-	catch (const std::out_of_range e)
-	{
-		std::wcerr << "Couldn't find artist " << e.what() << std::endl;
-		return Artist();
-	}
-}
-
-Album MusicLibrary::getAlbumName(const wstring& albumName) const
-{
-	try
-	{
-		return m_albumMap.at(albumName);
-	}
-	catch (const std::out_of_range e)
-	{
-		std::wcerr << "Couldn't find album " << e.what() << std::endl;
-		return Album();
-	}
-}
-
-Song MusicLibrary::getSong(const wstring& songTitle) const
-{
-	try
-	{
-		return m_songMap.at(songTitle);
-	}
-	catch (const std::out_of_range e)
-	{
-		std::wcerr << "Couldn't find song " << e.what() << std::endl;
-		return Song();
-	}
+	m_playlistList.push_back(playlist);
 }
 
 bool MusicLibrary::fullSearch(const wstring& searchTerms, SearchResults& searchResults) const
@@ -83,6 +49,7 @@ bool MusicLibrary::fullSearch(const wstring& searchTerms, SearchResults& searchR
 		searchResults.artists = searchArtists(nSearchTerms);
 		searchResults.albums = searchAlbums(nSearchTerms);
 		searchResults.songs = searchSongs(nSearchTerms);
+		searchResults.playlists = searchPlaylists(nSearchTerms);
 	}
 	catch (std::exception e)
 	{
@@ -144,6 +111,20 @@ vector<Song> MusicLibrary::searchSongs(const wstring& searchTerms) const
 	return res;
 }
 
+vector<Playlist> MusicLibrary::searchPlaylists(const wstring& searchTerms) const
+{
+	vector<Playlist> res;
+
+	for (Playlist p : m_playlistList)
+	{
+		wstring nTitle = wstringToLower(p.getTitle());
+		if (nTitle.find(searchTerms) != wstring::npos)
+			res.push_back(p);
+	}
+
+	return res;
+}
+
 bool MusicLibrary::populate(wstring& baseDir)
 {
 	bool populateSucc = m_songregator.populateLibrary(baseDir, m_artistMap, m_albumMap, m_songMap);
@@ -152,4 +133,13 @@ bool MusicLibrary::populate(wstring& baseDir)
 		m_baseDir = baseDir;
 
 	return populateSucc;
+}
+
+bool MusicLibrary::hasPlaylist(const wstring& playlistTitle)
+{
+	for (Playlist p : m_playlistList)
+		if (p.getTitle().compare(playlistTitle) == 0)
+			return true;
+
+	return false;
 }

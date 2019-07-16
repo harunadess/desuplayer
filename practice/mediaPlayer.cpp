@@ -87,7 +87,8 @@ void MediaPlayer::playLoop(Playlist &playlist)
 
 void MediaPlayer::playQueued()
 {
-	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." << std::endl;
+	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." 
+		<< L" Use W/S to adjust volume up/down." << std::endl;
 
 	if (m_playbackQueue->hasNext())
 		playLoop(*m_playbackQueue);

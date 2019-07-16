@@ -11,6 +11,7 @@ public:
 	std::vector<Album> albums;
 	std::vector<Artist> artists;
 	std::vector<Song> songs;
+	std::vector<Playlist> playlists;
 
 };
 

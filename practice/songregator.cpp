@@ -34,13 +34,16 @@ bool Songregator::populateLibrary(wstring& baseDir, std::map<std::wstring, Artis
 
 	if (filePaths.size() <= 0)
 		return false;
+	std::wcout << L"Validated" << std::endl;
 
 	std::wcout << L"Files found: " << filePaths.size() << std::endl;
-
+	
+	std::wcout << "Building library..." << std::endl;
 	map<wstring, Song> songMap;
 	map<wstring, Artist> artistMap;
 	map<wstring, Album> albumMap;
 
+	std::wcout << L"Building song data..." << std::endl;
 	int error = populateSongAndArtistMaps(songMap, artistMap, filePaths);
 	
 	if (error == 0)
@@ -48,27 +51,46 @@ bool Songregator::populateLibrary(wstring& baseDir, std::map<std::wstring, Artis
 	else
 		return false;
 
+	std::wcout << L"Buidling album data..." << std::flush;
 	error = populateAlbumMap(albumMap, songMap);
 	
 	if (error == 0)
 		albumMapOut = albumMap;
 	else
 		return false;
+	std::wcout << L" Done" << std::endl;
 
+	std::wcout << L"Building artist data..." << std::flush;
 	error = populateArtistsWithAlbums(artistMap, albumMap);
 
 	if (error == 0)
 		artistMapOut = artistMap;
 	else
 		return false;
+	std::wcout << L" Done" << std::endl;
+
+	std::wcout << L"Building library... Done" << std::endl;
 
 	return true;
 }
 
 int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstring, Artist>& artistMap, vector<FilePath> filePaths)
 {
+	int pathIndex = 0;
+	int totalPaths = filePaths.size();
+	float currentPercentage = 0.0f;
+	float lastPercentage = 0.01f;
+
 	for (const FilePath& fp : filePaths)
 	{
+		++pathIndex;
+		currentPercentage = ((float)pathIndex / totalPaths);
+		if ((((int)(currentPercentage * 100) % 5) == 0) && ((int)(currentPercentage * 100) > (int)(lastPercentage * 100)))
+		{
+			lastPercentage = currentPercentage;
+			std::wcout << (int)(lastPercentage * 100) << L"%.." << std::flush;
+		}
+
 		TagLib::FileRef fileRef = TagLib::FileRef(fp.wideFilePath.c_str());
 		if (!fileRef.isNull() && fileRef.tag())
 		{
@@ -97,6 +119,8 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 			}
 		}
 	}
+	std::wcout << std::endl << "Building song data... Done" << std::endl;
+
 	return 0;
 }
 
