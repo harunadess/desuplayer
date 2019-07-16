@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "console-music-player", "practice\practice.vcxproj", "{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "console-music-player installer", "console-music-player installer\console-music-player installer.vdproj", "{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "desuplayer", "practice\practice.vcxproj", "{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +21,6 @@ Global
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x64.Build.0 = Release|x64
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x86.ActiveCfg = Release|Win32
 		{9FBBD920-C24C-4B04-9CD0-4F6359AF8BC2}.Release|x86.Build.0 = Release|Win32
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Debug|x64.ActiveCfg = Debug
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Debug|x86.ActiveCfg = Debug
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Debug|x86.Build.0 = Debug
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Release|x64.ActiveCfg = Release
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Release|x64.Build.0 = Release
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Release|x86.ActiveCfg = Release
-		{9AD17B01-C5F9-46F3-A0A2-BEEDFB8D5D50}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
