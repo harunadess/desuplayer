@@ -10,8 +10,10 @@ Song::Song()
 	m_albumTitle = L"";
 }
 
-Song::Song(const unsigned int& trackNumber, const wstring& title, const wstring& artistName, const wstring& albumTitle, const FilePath& filePath)
-	:m_trackNumber(trackNumber), m_title(title), m_artistName(artistName), m_albumTitle(albumTitle), m_filePath(filePath)
+Song::Song(const unsigned int& trackNumber, const std::wstring& title, const std::wstring& artist, const std::wstring& album, 
+			const std::wstring& genre, const AudioProperties audioProperties, const FilePath& filePath)
+	:m_trackNumber(trackNumber), m_title(title), m_artistName(artist), m_albumTitle(album), m_genre(genre),
+		m_audioProperties(audioProperties), m_filePath(filePath)
 {
 }
 

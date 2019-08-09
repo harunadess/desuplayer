@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "songFormat.h"
+
 class FilePath
 {
 public:
@@ -13,17 +15,18 @@ public:
 	template <class Archive>
 	void save(Archive& archive) const
 	{
-		archive(wideFilePath, u8FilePath);
+		archive(wideFilePath, u8FilePath, format);
 	}
 
 	template <class Archive>
 	void load(Archive& archive)
 	{
-		archive(wideFilePath, u8FilePath);
+		archive(wideFilePath, u8FilePath, format);
 	}
 
 	std::wstring wideFilePath;
 	std::string u8FilePath;
+	SongFormat format;
 
 };
 

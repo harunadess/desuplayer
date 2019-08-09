@@ -13,14 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\fmod">
-      <UniqueIdentifier>{932e59b0-7366-4d6e-9e20-d28f353787f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\taglib">
       <UniqueIdentifier>{43b2f0ca-a256-4c05-b8d7-dd838da9e281}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\taglib">
-      <UniqueIdentifier>{78452b1d-0fe7-4187-b84d-5229aaea8ba9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\file">
       <UniqueIdentifier>{1de81bad-2e59-402e-84d2-6282d775e9cc}</UniqueIdentifier>
@@ -107,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="controller.cpp">
       <Filter>Source Files\console</Filter>
+    </ClCompile>
+    <ClCompile Include="m4a.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,14 +494,15 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64_vc.lib">
-      <Filter>Resource Files\fmod</Filter>
-    </Library>
-    <Library Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\lib\tag.lib">
-      <Filter>Resource Files\taglib</Filter>
-    </Library>
+    <ClInclude Include="m4a.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="songFormat.h">
+      <Filter>Header Files\data types</Filter>
+    </ClInclude>
+    <ClInclude Include="audioProperties.h">
+      <Filter>Header Files\data types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tlist.tcc">
@@ -512,15 +510,6 @@
     </None>
     <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\include\taglib\tmap.tcc">
       <Filter>Header Files\taglib</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\vcpkg\installed\x64-windows\bin\tag.dll">
-      <Filter>Resource Files\taglib</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod64.dll">
-      <Filter>Resource Files\fmod</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmodL64.dll">
-      <Filter>Resource Files\fmod</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

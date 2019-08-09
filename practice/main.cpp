@@ -47,23 +47,7 @@ void configConsole()
 
 void miscTest()
 {
-	int index = 0;
-	int total = 5000;
-	float currentPercentage = 0.0f;
-	float lastPercentage = 0.01f;
 
-	wcout << L"Beginning..." << endl;
-	for (int i = 0; i < total; i++)
-	{
-		++index;
-		currentPercentage = ((float)index / total);
-		if ((((int)(currentPercentage * 100) % 5) == 0) && ((int)(currentPercentage * 100) > (int)(lastPercentage * 100)))
-		{
-			lastPercentage = currentPercentage;
-			wcout << (int)(lastPercentage * 100) << L"%.." << std::flush;
-		}
-	}
-	wcout << L" Done" << endl;
 }
 
 //todo: need to fix non-initial program startup
@@ -75,7 +59,11 @@ void miscTest()
 
 //todo: player feel:tm:
 // -> fix controls of player to be nicer
-// -> add "save playlist/queue" functionality, which saves queue with specified name as playlist
+
+// -> how to play m4a files (is it even possible?)
+// -> need to honour disc numbers
+// -> need to add more fields to songs - genre, disc number(?), format
+
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();

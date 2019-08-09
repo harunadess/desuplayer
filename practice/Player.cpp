@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "m4a.h"
+
 using std::wcout;
 using std::cin;
 using std::flush;
@@ -66,6 +68,15 @@ void Player::systemCreate()
 {
 	m_result = FMOD::System_Create(&m_system);
 	ERRCHECK_fn(m_result, __FILE__, __LINE__);
+
+
+	// only do this if it's a m4a file...
+
+	/*FMOD_CODEC_DESCRIPTION *m4a = FMODGetCodecDescription();
+	unsigned int* handle = 0;
+
+	m_result = m_system->registerCodec(m4a, handle, 0);
+	ERRCHECK_fn(m_result, __FILE__, __LINE__);*/
 }
 
 void Player::checkFmodVersion()

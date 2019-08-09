@@ -77,19 +77,18 @@ bool Songregator::populateLibrary(wstring& baseDir, std::map<std::wstring, Artis
 int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstring, Artist>& artistMap, vector<FilePath> filePaths)
 {
 	int pathIndex = 0;
-	int totalPaths = filePaths.size();
-	float currentPercentage = 0.0f;
-	float lastPercentage = 0.01f;
+	int milestonesIndex = 0;
+	size_t milestones[11] = { 0 };
+	size_t tenth = filePaths.size() / 10;
+
+	for (int i = 1; i <= 10; i++)
+		milestones[i] = tenth * i;
 
 	for (const FilePath& fp : filePaths)
 	{
 		++pathIndex;
-		currentPercentage = ((float)pathIndex / totalPaths);
-		if ((((int)(currentPercentage * 100) % 5) == 0) && ((int)(currentPercentage * 100) > (int)(lastPercentage * 100)))
-		{
-			lastPercentage = currentPercentage;
-			std::wcout << (int)(lastPercentage * 100) << L"%.." << std::flush;
-		}
+		if(pathIndex >= milestones[milestonesIndex])
+			std::wcout << (milestonesIndex * 10) << L"%.." << std::flush;
 
 		TagLib::FileRef fileRef = TagLib::FileRef(fp.wideFilePath.c_str());
 		if (!fileRef.isNull() && fileRef.tag())
@@ -97,6 +96,8 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 			try
 			{
 				TagLib::Tag* tag = fileRef.tag();
+				TagLib::AudioProperties* audioProps = fileRef.audioProperties();
+
 				wstring artistName = tag->artist().toWString();
 				wstring normalisedArtistName = wstringToLower(artistName);
 
@@ -105,8 +106,7 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 					addArtistToList(artistName, normalisedArtistName, artistMap);
 
 				// create song, add to map
-				// should use song map/list to populate albums/artists with song deets
-				Song song = createSong(tag, fp);
+				Song song = createSong(tag, audioProps, fp);
 				std::pair<wstring, Song> songPair((wstringToLower(song.getTitle() + L"_" + song.getAlbumTitle())), song);
 				songMap.insert(songMap.begin(), songPair);
 			}
@@ -131,9 +131,13 @@ void Songregator::addArtistToList(const wstring& artistName, const wstring& norm
 	artistList.insert(artistList.begin(), insertPair);
 }
 
-Song Songregator::createSong(const TagLib::Tag* tag, const FilePath& filePath)
+Song Songregator::createSong(const TagLib::Tag* tag, const TagLib::AudioProperties* audioProperties, const FilePath& filePath)
 {
-	return Song(tag->track(), tag->title().toWString(), tag->artist().toWString(), tag->album().toWString(), filePath);
+	const AudioProperties ap(audioProperties->bitrate(), audioProperties->channels(), audioProperties->lengthInSeconds(),
+		audioProperties->lengthInMilliseconds(), audioProperties->sampleRate());
+
+	return Song(tag->track(), tag->title().toWString(), tag->artist().toWString(), 
+		tag->album().toWString(), tag->genre().toWString(), ap, filePath);
 }
 
 int Songregator::populateAlbumMap(map<wstring, Album>& albumMap, map<wstring, Song>& songMap)

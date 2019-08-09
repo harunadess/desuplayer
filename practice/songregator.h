@@ -20,7 +20,7 @@ public:
 
 private:
 	void addArtistToList(const std::wstring& artistName, const std::wstring& normalisedArtistName, std::map<std::wstring, Artist>& artistList);
-	Song createSong(const TagLib::Tag* tag, const FilePath& filePath);
+	Song createSong(const TagLib::Tag* tag, const TagLib::AudioProperties* audioProperties, const FilePath& filePath);
 	int populateSongAndArtistMaps(std::map<std::wstring, Song>& songMap, std::map<std::wstring, Artist>& artistMap, std::vector<FilePath> filePaths);
 	int populateAlbumMap(std::map<std::wstring, Album>& albumMap, std::map<std::wstring, Song>& songMap);
 	int populateArtistsWithAlbums(std::map<std::wstring, Artist>& artistMap, std::map<std::wstring, Album> albumMap);
