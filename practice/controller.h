@@ -3,18 +3,21 @@
 
 #include <string>
 #include <vector>
+#include <thread>
 
 #include "ioHandler.h"
 #include "FileSystem.h"
 #include "musicLibrary.h"
 #include "mediaPlayer.h"
+#include "mpControls.h"
+#include "ipc.h"
 
 constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 8;
 
 class Controller
 {
 public:
-	Controller();
+	Controller(MpControls& mpControls, IPC* ipc);
 	~Controller();
 
 	int init();
@@ -47,14 +50,18 @@ private:
 		std::wstring(L"exit")
 	};
 
+	int getMenuOp(std::wstring& responseStr);
 	int printSearchResults(SearchResults& searchResults);
 	void handleResponse(const std::wstring& response);
 	std::vector<std::wstring> parseResponse(const std::wstring& response) const;
 	InputOutcome checkResponse(const std::wstring& response) const;
 	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
+
+	// todo: refactor these
 	void handlePlayOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleSearchOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleQueueOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
+	
 	void handlePrintOutcome();
 	void handleStartOutcome();
 	void handleSaveOutcome(const std::wstring& playlistTitle);
@@ -65,8 +72,8 @@ private:
 	FileSystem m_fileSystem;
 	MusicLibrary m_musicLibrary;
 	MediaPlayer m_mediaPlayer;
+
+	std::thread* m_playerThread;
 };
-
-
 
 #endif // !FRONTEND_H

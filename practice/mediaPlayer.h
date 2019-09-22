@@ -10,7 +10,7 @@ class MediaPlayer
 	: public Player
 {
 public:
-	MediaPlayer();
+	MediaPlayer(MpControls& mpControls, IPC* ipc);
 	~MediaPlayer();
 
 	//todo: convert these to return an int/size_t of how many items were queued.
@@ -29,7 +29,7 @@ public:
 
 private:
 	void playLoop(Playlist &playlist);
-
+	
 	Playlist* m_playbackQueue;
 	Playlist* m_adhocPlayback;
 };

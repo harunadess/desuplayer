@@ -1,30 +1,28 @@
-﻿#include <iostream>
-#include <Windows.h>
+﻿#include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
 #include <locale.h>
-#include <algorithm>
+#include <thread>
 
+#include "mpControls.h"
 #include "controller.h"
 
-using std::wcout; //use "wide" cout and cin to allow for UTF-8 characters
-using std::wcin;
-using std::flush;
-using std::endl;
-
-using std::wstring;
-
-/*
-	TODO list:
-	* If you're planning on having a non-blocking console, what you need is:
-		* One thread for the menu
-		* One for the player/a console output
-
-	* Need a better way to handle errors, as currently I don't really do that
-		* void bois out in fashion
-
-	* Find better font (LOOKS)
-*/
+// piping
+HANDLE g_hChildStd_IN_Rd = NULL;
+HANDLE g_hChildStd_IN_Wr = NULL;
+// child process
+STARTUPINFOW si;
+PROCESS_INFORMATION pi;
+// kb hook
+HHOOK g_hKeyboard_LL = NULL;
+KBDLLHOOKSTRUCT g_kbdStruct;
+// thread for hooking
+HANDLE hKbhThread;
+std::thread kbhThread;
+// needed here so keyboardProc can manipulate it - ptr passed to mediaPlayer
+MpControls mpControls;
+// need to create IPC here so we can use global handles
+IPC ipc(&g_hChildStd_IN_Wr);
 
 void configConsole()
 {
@@ -45,33 +43,198 @@ void configConsole()
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &consoleFontInfo);
 }
 
-void miscTest()
-{
-
-}
-
 //todo: need to fix non-initial program startup
 // -> library scan to update library
-// -> have percentage of library building 
 
-//todo: general program workings
-// -> need to ensure that *ALL* output is wide. Otherwise it'll throw errors and stuff I think [ALL]
+// -> m4a files (is it even possible?)
+// -> honour disc numbers
+// -> more fields to songs - genre, disc number(? - not pulled with taglib???), format
 
-//todo: player feel:tm:
-// -> fix controls of player to be nicer
 
-// -> how to play m4a files (is it even possible?)
-// -> need to honour disc numbers
-// -> need to add more fields to songs - genre, disc number(?), format
+bool configPipe()
+{
+	bool succ = false;
+
+	// set pipe handles to be inherited
+	SECURITY_ATTRIBUTES saAttr;
+	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+	saAttr.bInheritHandle = TRUE;
+	saAttr.lpSecurityDescriptor = NULL;
+
+	// create pipe for child STDIN Rd
+	succ = CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0);
+
+	if (!succ)
+		return succ;
+
+	// don't want STD_IN Wr handle to be inherited 
+	succ = SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0);
+
+	return succ;
+}
+
+LRESULT CALLBACK keyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	if (nCode >= 0)
+	{
+		if (wParam == WM_KEYDOWN)
+		{
+			g_kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
+			if (g_kbdStruct.vkCode == VK_MEDIA_PLAY_PAUSE)
+				mpControls.pause.store(true);
+			else if (g_kbdStruct.vkCode == VK_MEDIA_NEXT_TRACK)
+				mpControls.next.store(true);
+			else if (g_kbdStruct.vkCode == VK_MEDIA_PREV_TRACK)
+				mpControls.prev.store(true);
+			else if (g_kbdStruct.vkCode == VK_MEDIA_STOP)
+				mpControls.stop.store(true);
+			else if (g_kbdStruct.vkCode == VK_VOLUME_UP || g_kbdStruct.vkCode == VK_F12)
+				mpControls.vol_up.store(true);
+			else if (g_kbdStruct.vkCode == VK_VOLUME_DOWN || g_kbdStruct.vkCode == VK_F12)
+				mpControls.vol_down.store(true);
+		}
+	}
+
+	return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+
+DWORD WINAPI threadProcMsgLoop()
+{
+	// thread running needs to create hook and use message loop
+	g_hKeyboard_LL = SetWindowsHookEx(WH_KEYBOARD_LL, keyboardProc, NULL, 0);
+	if (!g_hKeyboard_LL)
+		wprintf(L"failed to install keyboard hook\n");
+
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return 0;
+}
+
+bool configGlobalKbHook()
+{
+	hKbhThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&threadProcMsgLoop, NULL, 0, NULL);
+
+	return (hKbhThread != NULL);
+}
+
+bool createChildProcess()
+{
+	wchar_t cmdl[] = L"dess.exe";
+
+	bool succ = false;
+	
+	memset(&pi, 0, sizeof(PROCESS_INFORMATION));
+	memset(&si, 0, sizeof(STARTUPINFOW));
+	
+	si.cb = sizeof(STARTUPINFOW);
+	si.hStdInput = g_hChildStd_IN_Rd;		// use created pipe for input
+	si.dwFlags |= STARTF_USESTDHANDLES;
+
+	succ = CreateProcessW(
+		NULL,							//lpApplicationName
+		cmdl,							//lpCommandLine
+		NULL,							//lpProcessAttributes
+		NULL,							//lpThreadAttributes
+		TRUE,							//bInheritHandles - yes
+		CREATE_NEW_CONSOLE,				//dwCreationFlags - new console pls
+		NULL,							//lpEnvironment - use parent
+		NULL,							//lpCurrentDirectory - use parent
+		&si,							//lpStartupInfo
+		&pi								//lpProcessInformation
+	);
+
+	return succ;
+}
+
+/*
+	1. Create pipe to child process
+	2.Set up global keyboard hook (create thread w/ msg loop)
+	3. Create child process
+*/
+bool programSetup()
+{
+	bool succ = false;
+
+	succ = configPipe();
+	if (!succ)
+	{
+		wprintf(L"Error setting up IPC.\n");
+		return false;
+	}
+
+	succ = configGlobalKbHook();
+	if (!succ)
+	{
+		wprintf(L"Error creating keyboard hook.\n");
+		return false;
+	}
+
+	succ = createChildProcess();
+	if (!succ)
+	{
+		wprintf(L"Error creating child dess.\n");
+		return false;
+	}
+
+	return true;
+}
+
+bool cleanUp()
+{
+	bool succ = false;
+
+	// Close pipe handle so child process stops reading
+	succ = CloseHandle(g_hChildStd_IN_Wr);
+	
+	if (!succ)
+	{
+		wprintf(L"Error closing Std_IN_Wr handle.\n");
+
+		if (kbhThread.joinable())
+			kbhThread.join();
+
+		CloseHandle(hKbhThread);
+		return false;
+	}
+
+	// Close thread
+	if (kbhThread.joinable())
+		kbhThread.join();
+
+	succ = CloseHandle(hKbhThread);
+
+	if (!succ)
+	{
+		wprintf(L"Erorr closing hook thread handle.\n");
+		return false;
+	}
+
+	return true;
+}
 
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();
+
+	bool succ = programSetup();
+
+	if (!succ)
+		return 1;
+
+	Controller* controller = new Controller(mpControls, &ipc);
+	int controllerCode = controller->init();
+
+	if(controllerCode == 0)
+		controllerCode = controller->main();
 	
-	Controller* controller = new Controller();
-	int exitCode = controller->init();
+	succ = cleanUp();
 
-	delete controller;
+	if (!succ)
+		return 1;
 
-	return exitCode;
+	return controllerCode;
 }

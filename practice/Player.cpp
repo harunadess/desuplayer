@@ -4,14 +4,13 @@
 #include <iostream>
 #include <string>
 
-#include "m4a.h"
-
 using std::wcout;
 using std::cin;
 using std::flush;
 using std::endl;
 
-Player::Player()
+Player::Player(MpControls& mpControls, IPC* ipc)
+	:m_mpControls(&mpControls), m_ipc(ipc)
 {
 }
 
@@ -21,22 +20,29 @@ Player::~Player()
 	delete m_extraDriverData;
 }
 
-void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line)
+void Player::ERRCHECK_fn(FMOD_RESULT result, const char *file, int line)
 {
 	if (result != FMOD_OK)
 	{
-		wprintf(L"FMOD error! (%d) %hs\n", result, FMOD_ErrorString(result));
+		std::wstring str = L"FMOD error! (";
+		str += (int)result;
+		str += L")";
+		str += (const wchar_t*)FMOD_ErrorString(result);
+		str += L"\n";
+
+		m_ipc->writeToPipe(str);
 	}
 }
 
-int Player::play(std::string filePath)
+//int Player::play(std::string filePath)
+void Player::play(PlayDeets& playDeets)
 {
 	//Initialize
 	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); //initialize windows api
 
 	//Create stream for the file we want to use
 	initialize();
- 	createStream(filePath.c_str());
+ 	createStream(playDeets.filePath.c_str());
 
 	//Actually play the file
 	playSound();
@@ -50,7 +56,7 @@ int Player::play(std::string filePath)
 
 	CoUninitialize(); //uninitialize the stream
 
-	return exitCode;
+	playDeets.exitCode = exitCode;
 }
 
 void Player::initialize()
@@ -84,7 +90,7 @@ void Player::checkFmodVersion()
 	//ensure library version matches files
 	if (m_version < FMOD_VERSION)
 	{
-		wcout << ("FMOD lib version %08x doesn't match header version %08x", m_version, FMOD_VERSION) << endl;
+		m_ipc->writeToPipe(L"FMOD lib version doesn't match header version");
 		exit(1);
 	}
 }
@@ -130,13 +136,11 @@ int Player::corePlayLoop()
 		systemUpdate();
 
 		//check if there is keyboard input, if there is, do some stuff
-		if (_kbhit())
-		{
-			handleKeyPress(exitCode);
+		// if (_kbhit())
+		checkForInput(exitCode);
 
-			if (exitCode != 0)
-				break;
-		}
+		if (exitCode != 0)
+			break;
 
 		{
 			if (m_channel)
@@ -167,24 +171,18 @@ void Player::systemUpdate()
 	ERRCHECK_fn(m_result, __FILE__, __LINE__);
 }
 
-void Player::handleKeyPress(int& exitCode)
+void Player::checkForInput(int& exitCode)
 {
-	m_io->processInput();
+	// can't use this anymore - _getch()...
+	//m_io->processInput();
 
-	if (m_io->isPauseKey())
+	/*if (m_io->isPauseKey())
 	{
 		bool paused;
 		m_result = m_channel->getPaused(&paused);
 		ERRCHECK_fn(m_result, __FILE__, __LINE__);
 		m_result = m_channel->setPaused(!paused);
 	}
-
-	if (m_io->isExitKey())
-	{
-		exitCode = 1;
-		return;
-	}
-
 	if (m_io->isSkipForwardKey())
 	{
 		exitCode = 2;
@@ -194,9 +192,29 @@ void Player::handleKeyPress(int& exitCode)
 	{
 		exitCode = 3;
 		return;
-	}
+	}*/
 
-	if (m_io->isVolumeUpKey())
+	if (m_mpControls->pause.load())
+	{
+		bool paused;
+		m_result = m_channel->getPaused(&paused);
+		ERRCHECK_fn(m_result, __FILE__, __LINE__);
+		m_result = m_channel->setPaused(!paused);
+		m_mpControls->pause.store(false);
+		
+		exitCode = 0;
+	}
+	else if (m_mpControls->stop)
+	{
+		exitCode = 1;
+		m_mpControls->stop.store(false);
+	}
+	else if (m_mpControls->next)
+	{
+		exitCode = 2;
+		m_mpControls->next.store(false);
+	}
+	else if (m_mpControls->vol_up.load())
 	{
 		getVolume(m_currentVolume);
 
@@ -205,11 +223,16 @@ void Player::handleKeyPress(int& exitCode)
 			m_currentVolume += VOLUME_INCREMENT;
 			setVolume(m_currentVolume);
 
-			std::wcout << L"Set volume to " << (int)(m_currentVolume * 100) << L"%" << std::endl;
-		}
-	}
+			std::wstring str = L"Set volume to ";
+			str += (int)(m_currentVolume * 100);
+			str += L"%";
 
-	if (m_io->isVolumeDownKey())
+			m_ipc->writeToPipe(str);
+			m_mpControls->vol_up.store(false);
+		}
+		exitCode = 0;
+	}
+	else if (m_mpControls->vol_down.load())
 	{
 		getVolume(m_currentVolume);
 
@@ -218,8 +241,14 @@ void Player::handleKeyPress(int& exitCode)
 			m_currentVolume -= VOLUME_INCREMENT;
 			setVolume(m_currentVolume);
 
-			std::wcout << L"Set volume to " << (int)(m_currentVolume * 100) << L"%" << std::endl;
+			std::wstring str = L"Set volume to ";
+			str += (int)(m_currentVolume * 100);
+			str += L"%";
+
+			m_ipc->writeToPipe(str);
+			m_mpControls->vol_down.store(false);
 		}
+		exitCode = 0;
 	}
 }
 

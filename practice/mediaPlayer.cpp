@@ -1,6 +1,7 @@
 #include "mediaPlayer.h"
 
-MediaPlayer::MediaPlayer()
+MediaPlayer::MediaPlayer(MpControls& mpControls, IPC* ipc) 
+	: Player(mpControls, ipc)
 {
 	m_playbackQueue = new Playlist(L"playback queue");
 	m_adhocPlayback = new Playlist(L"adhoc playback queue");
@@ -57,28 +58,30 @@ void MediaPlayer::playLoop(Playlist &playlist)
 	Song current;
 	while (playlist.getNext(current))
 	{
-		//todo: use m_io
-		std::wcout << L"Now playing: " << current.getTitle() << L" - " << current.getArtistName() << std::endl;
-		int exitCode = play(current.getFilePath().u8FilePath);
+		m_ipc->writeToPipe((L"Now playing: " + current.getTitle() + L" - " + current.getArtistName()));
+
+		PlayDeets playDeets;
+		playDeets.filePath = current.getFilePath().u8FilePath;
+		play(playDeets);
+
+		int exitCode = playDeets.exitCode;
 		if (exitCode != 0)
 		{
 			if (exitCode == 1)
 			{
 				m_adhocPlayback->clear();
 				m_playbackQueue->clear();
-				std::wcout << std::endl << "Cleared queue." << std::endl;
+				m_ipc->writeToPipe(L"Cleared queue.");
 				break;
 			}
-
-			if (exitCode == 2)
+			else if (exitCode == 2)
 			{
-				std::wcout << L"Skipping forward..." << std::endl;
-				continue;
+				m_ipc->writeToPipe(L"Skipping forward...");
+				//continue;
 			}
-
-			if (exitCode == 3)
+			else if (exitCode == 3)
 			{
-				std::wcout << L"Skipping back..." << std::endl;
+				m_ipc->writeToPipe(L"Skipping back...");
 				playlist.getPrevious();
 			}
 		}
@@ -87,26 +90,24 @@ void MediaPlayer::playLoop(Playlist &playlist)
 
 void MediaPlayer::playQueued()
 {
-	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." 
-		<< L" Use W/S to adjust volume up/down." << std::endl;
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nW/S adjust volume up/down.");
 
 	if (m_playbackQueue->hasNext())
 		playLoop(*m_playbackQueue);
 	else
-		std::wcout << L"Queue empty" << std::endl;
+		m_ipc->writeToPipe(L"Queue empty");
 
 	m_playbackQueue->clear();
 }
 
 void MediaPlayer::playImmediate()
 {
-	std::wcout << L"Use <F3> to Pause/Play. Use <F2>/<F4> to skip back/forward. Use ESC to stop and clear the queue." << std::endl;
-
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nW/S adjust volume up/down.");
 
 	if (m_adhocPlayback->hasNext())
 		playLoop(*m_adhocPlayback);
 	else
-		std::wcout << L"No item to play" << std::endl;
+		m_ipc->writeToPipe(L"No item to play");
 
 	m_adhocPlayback->clear();
 }

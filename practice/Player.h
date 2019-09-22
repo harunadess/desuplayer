@@ -6,18 +6,25 @@
 #include "ThirdParty/lowlevel/inc/fmod_common.h"
 
 #include "playerIOHandler.h"
+#include "mpControls.h"
+#include "ipc.h"
+#include "playerThreadProcObj.h"
 
 class Player
 {
 public:
-	Player();
+	Player(MpControls& mpControls, IPC* ipc);
 	~Player();
 
-	int play(std::string filePath);
+	//int play(std::string filePath);
+	void play(PlayDeets& playDeets);
 	void checkIsPlaying(bool& playing);
 	void checkIsPaused(bool& paused);
 	void getSeekPosition(unsigned int& ms);
 	void getLength(unsigned int& ms);
+
+protected:
+	IPC* m_ipc;
 
 private:
 	void initialize();
@@ -28,13 +35,15 @@ private:
 	void createStream(const char* songLocation);
 	void playSound();
 	int corePlayLoop();
-	void handleKeyPress(int& exitCode);
+	void checkForInput(int& exitCode);
 	void systemUpdate();
 	void getVolume(float& volume);
 	void setVolume(float& volume);
 	void soundRelease();
 	void systemClose();
 	void systemRelease();
+
+	void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line);
 
 	//system obj: will play sound
 	FMOD::System* m_system;
@@ -50,11 +59,14 @@ private:
 	void* m_extraDriverData = nullptr;
 	PlayerIOHandler *m_io;
 
+
 	float m_currentVolume = 1.0f;
 
 	const float MAX_VOLUME = 1.0f;
 	const float MIN_VOLUME = 0.0f;
 	const float VOLUME_INCREMENT = 0.05f;
+
+	MpControls* m_mpControls;
 };
 
 #endif // !PLAYER_H

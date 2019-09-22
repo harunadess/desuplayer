@@ -146,7 +146,7 @@
     <ClCompile Include="fileSystem.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="ioHandler.cpp" />
-    <ClCompile Include="m4a.cpp" />
+    <ClCompile Include="ipc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mediaPlayer.cpp" />
     <ClCompile Include="musicFileFinder.cpp" />
@@ -268,13 +268,15 @@
     <ClInclude Include="fileSystem.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="ioHandler.h" />
+    <ClInclude Include="ipc.h" />
     <ClInclude Include="keycodes.h" />
-    <ClInclude Include="m4a.h" />
     <ClInclude Include="mediaPlayer.h" />
+    <ClInclude Include="mpControls.h" />
     <ClInclude Include="musicFileFinder.h" />
     <ClInclude Include="musicLibrary.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerIOHandler.h" />
+    <ClInclude Include="playerThreadProcObj.h" />
     <ClInclude Include="playlist.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="searchResults.h" />

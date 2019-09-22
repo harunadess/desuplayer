@@ -102,8 +102,8 @@
     <ClCompile Include="controller.cpp">
       <Filter>Source Files\console</Filter>
     </ClCompile>
-    <ClCompile Include="m4a.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ipc.cpp">
+      <Filter>Source Files\io</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,13 +494,19 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m4a.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="songFormat.h">
       <Filter>Header Files\data types</Filter>
     </ClInclude>
     <ClInclude Include="audioProperties.h">
+      <Filter>Header Files\data types</Filter>
+    </ClInclude>
+    <ClInclude Include="mpControls.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="playerThreadProcObj.h">
       <Filter>Header Files\data types</Filter>
     </ClInclude>
   </ItemGroup>

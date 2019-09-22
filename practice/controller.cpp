@@ -9,7 +9,8 @@ using std::endl;
 using std::flush;
 using std::getline;
 
-Controller::Controller()
+Controller::Controller(MpControls& mpControls, IPC* ipc)
+	:m_mediaPlayer(mpControls, ipc)
 {
 }
 
@@ -18,45 +19,49 @@ Controller::~Controller()
 	m_fileSystem.saveMusicLibrary(m_musicLibrary);
 }
 
-//This should find out if the library file exists
-// Use FileSystem to check if the file exists
-// If it does, load it, call main
-// If it does not exist,
-// Do the initialisation code (Songregator)
+int Controller::getMenuOp(wstring& responseStr)
+{
+	bool validResponse = false;
+	int nResponse = -1;
+
+	while (!validResponse)
+	{
+		m_io.outputTextInline(L">> ");
+		getline(wcin, responseStr);
+
+		try
+		{
+			nResponse = std::stoi(responseStr);
+			validResponse = true;
+		}
+		catch (std::exception e)
+		{
+			m_io.outputText(L"Invalid option received.");
+			m_io.outputTextInline(L">> ");
+			
+			nResponse = -1;
+			validResponse = false;
+		}
+	}
+
+	return nResponse;
+}
 
 // Note: MusicLibrary should contain a Songregator, directory path and stuff.
+// ^ how old is this... does it still apply?
 int Controller::init()
 {
 	bool libLoadSucc = m_fileSystem.loadMusicLibrary(m_musicLibrary);
 	if (libLoadSucc)
 	{
 		m_io.outputText(L"Successfully loaded library!");
-		return main();
+		return 0;
 	}
 	else
 	{
 		m_io.outputText(L"Unable to find library file. Perform first time setup?\n1. Yes\n2. No (exit)");
 		wstring response = L"";
-		int nResponse = -1;
-		bool validResponse = false;
-
-		while (!validResponse)
-		{
-			m_io.outputTextInline(L">> ");
-			getline(wcin, response);
-
-			try
-			{
-				nResponse = std::stoi(response);
-				validResponse = true;
-			}
-			catch (std::exception e)
-			{
-				m_io.outputText(L"Invalid option received.");
-				m_io.outputTextInline(L">> ");
-				nResponse = -1;
-			}
-		}
+		int nResponse = getMenuOp(response);
 
 		if (nResponse == 1)
 		{
@@ -65,18 +70,24 @@ int Controller::init()
 			if (setupSucc)
 			{
 				m_io.outputTextWithSpacing(L"Setup success!");
-				return main();
+				return 0;
 			}
 			else
 			{
-				m_io.outputTextWithSpacing(L"Setup failed...");
-				return 1;
-				//print error, retry.
+				m_io.outputTextWithSpacing(L"Setup failed...\n");
+				m_io.outputText(L"Retry?\n1. Yes\n2. No (exit)");
+				
+				nResponse = getMenuOp(response);
+
+				if(nResponse == 1)
+					return init();
+				else
+					return 2;
 			}
 		}
 		else
 		{
-			exit(0);
+			return 2;
 		}
 	}
 }
@@ -123,7 +134,7 @@ int Controller::main()
 	return 0;
 }
 
-void Controller::handleResponse(const wstring& response) //todo: convert handle<x>Outcome functions to use m_io 
+void Controller::handleResponse(const wstring& response)
 {
 	vector<wstring> parsedResponse = parseResponse(response);
 	InputOutcome outcome = checkResponse(parsedResponse[0]);
@@ -254,7 +265,16 @@ void Controller::handlePlayOutcome(const wstring& searchTerms, SearchResults& se
 	if (searchResults.playlists.size() > 0 && nChosen <= searchResults.playlists.size())
 		m_mediaPlayer.addToAdHocQueue(searchResults.playlists.at(--nChosen));
 
-	m_mediaPlayer.playImmediate();
+	if (m_playerThread)
+	{
+		// might want to stop the mediaplayer first first..
+		CloseHandle(m_playerThread->native_handle()); // yikes
+	}
+	m_playerThread = new std::thread(&MediaPlayer::playImmediate, m_mediaPlayer);
+
+	m_io.outputText(L"playing items..");
+	handleHelpOutcome();
+	//m_mediaPlayer.playImmediate();
 }
 
 void Controller::handleSearchOutcome(const wstring& searchTerms, SearchResults& searchResults)
@@ -340,7 +360,14 @@ void Controller::handlePrintOutcome()
 void Controller::handleStartOutcome()
 {
 	m_io.outputText(L"Playing queued items...");
-	m_mediaPlayer.playQueued();
+
+	if (m_playerThread)
+	{
+		// might want to stop the mediaplayer first first..
+		CloseHandle(m_playerThread->native_handle()); // yikes
+	}
+	m_playerThread = new std::thread(&MediaPlayer::playQueued, &m_mediaPlayer);
+	//m_mediaPlayer.playQueued();
 }
 
 void Controller::handleSaveOutcome(const wstring& playlistTitle)
