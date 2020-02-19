@@ -47,8 +47,6 @@ int Controller::getMenuOp(wstring& responseStr)
 	return nResponse;
 }
 
-// Note: MusicLibrary should contain a Songregator, directory path and stuff.
-// ^ how old is this... does it still apply?
 int Controller::init()
 {
 	bool libLoadSucc = m_fileSystem.loadMusicLibrary(m_musicLibrary);

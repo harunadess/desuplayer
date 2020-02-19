@@ -194,7 +194,7 @@ void Player::checkForInput(int& exitCode)
 		return;
 	}*/
 
-	if (m_mpControls->pause.load())
+	if (m_mpControls->pause)
 	{
 		bool paused;
 		m_result = m_channel->getPaused(&paused);
@@ -202,19 +202,30 @@ void Player::checkForInput(int& exitCode)
 		m_result = m_channel->setPaused(!paused);
 		m_mpControls->pause.store(false);
 		
-		exitCode = 0;
+		exitCode = NORMAL;
 	}
 	else if (m_mpControls->stop)
 	{
-		exitCode = 1;
+		exitCode = STOP;
 		m_mpControls->stop.store(false);
+		m_mpControls->pause.store(true); // we don't want to immediately play after stopping and continuing
 	}
 	else if (m_mpControls->next)
 	{
-		exitCode = 2;
+		exitCode = NEXT;
 		m_mpControls->next.store(false);
 	}
-	else if (m_mpControls->vol_up.load())
+	else if (m_mpControls->prev)
+	{
+		exitCode = PREVIOUS;
+		m_mpControls->prev.store(false);
+	}
+	else if (m_mpControls->exit)
+	{
+		exitCode = EXIT;
+		m_mpControls->exit.store(false);
+	}
+	else if (m_mpControls->vol_up)
 	{
 		getVolume(m_currentVolume);
 
@@ -224,15 +235,15 @@ void Player::checkForInput(int& exitCode)
 			setVolume(m_currentVolume);
 
 			std::wstring str = L"Set volume to ";
-			str += (int)(m_currentVolume * 100);
+			str += std::to_wstring((int)(m_currentVolume * 100));
 			str += L"%";
 
 			m_ipc->writeToPipe(str);
 			m_mpControls->vol_up.store(false);
 		}
-		exitCode = 0;
+		exitCode = NORMAL;
 	}
-	else if (m_mpControls->vol_down.load())
+	else if (m_mpControls->vol_down)
 	{
 		getVolume(m_currentVolume);
 
@@ -242,13 +253,13 @@ void Player::checkForInput(int& exitCode)
 			setVolume(m_currentVolume);
 
 			std::wstring str = L"Set volume to ";
-			str += (int)(m_currentVolume * 100);
+			str += std::to_wstring((int)(m_currentVolume * 100));
 			str += L"%";
 
 			m_ipc->writeToPipe(str);
 			m_mpControls->vol_down.store(false);
 		}
-		exitCode = 0;
+		exitCode = NORMAL;
 	}
 }
 

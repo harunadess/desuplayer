@@ -80,6 +80,34 @@ LRESULT CALLBACK keyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 		if (wParam == WM_KEYDOWN)
 		{
 			g_kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
+			switch (g_kbdStruct.vkCode)
+			{
+			case VK_MEDIA_PLAY_PAUSE:
+				mpControls.pause.store(true);
+				break;
+			case VK_MEDIA_NEXT_TRACK:
+				mpControls.next.store(true);
+				break;
+			case VK_MEDIA_PREV_TRACK:
+				mpControls.prev.store(true);
+				break;
+			case VK_MEDIA_STOP:
+				mpControls.stop.store(true);
+				break;
+			case VK_F12:
+				if (!(GetAsyncKeyState(VK_CONTROL) & 0x8000))
+					break;
+			case VK_VOLUME_UP:
+				mpControls.vol_up.store(true);
+				break;
+			case VK_F11:
+				if (!(GetAsyncKeyState(VK_CONTROL) & 0x8000))
+					break;
+			case VK_VOLUME_DOWN:
+				mpControls.vol_down.store(true);
+				break;
+			}
+			/*g_kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
 			if (g_kbdStruct.vkCode == VK_MEDIA_PLAY_PAUSE)
 				mpControls.pause.store(true);
 			else if (g_kbdStruct.vkCode == VK_MEDIA_NEXT_TRACK)
@@ -88,10 +116,14 @@ LRESULT CALLBACK keyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 				mpControls.prev.store(true);
 			else if (g_kbdStruct.vkCode == VK_MEDIA_STOP)
 				mpControls.stop.store(true);
-			else if (g_kbdStruct.vkCode == VK_VOLUME_UP || g_kbdStruct.vkCode == VK_F12)
+			else if (g_kbdStruct.vkCode == VK_VOLUME_UP ||
+				((GetAsyncKeyState(VK_CONTROL) & 0x8000) && g_kbdStruct.vkCode == VK_F12))
 				mpControls.vol_up.store(true);
-			else if (g_kbdStruct.vkCode == VK_VOLUME_DOWN || g_kbdStruct.vkCode == VK_F12)
+			else if (g_kbdStruct.vkCode == VK_VOLUME_DOWN ||
+				((GetAsyncKeyState(VK_CONTROL) & 0x8000) && g_kbdStruct.vkCode == VK_F11))
 				mpControls.vol_down.store(true);
+			else if (g_kbdStruct.vkCode == VK_ESCAPE)
+				mpControls.exit.store(true);*/
 		}
 	}
 
@@ -209,13 +241,27 @@ bool cleanUp()
 
 	if (!succ)
 	{
-		wprintf(L"Erorr closing hook thread handle.\n");
+		wprintf(L"Error closing hook thread handle.\n");
+		return false;
+	}
+
+	succ = CloseHandle(pi.hProcess);
+
+	if (!succ)
+	{
+		wprintf(L"Error closing hook thread handle.\n");
 		return false;
 	}
 
 	return true;
 }
 
+
+/**
+	TODO:
+		- test volume controls (Ctrl + F11/F12)
+		- figure out how to do an update library function (re-scan)
+*/
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();

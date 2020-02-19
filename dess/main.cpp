@@ -45,40 +45,6 @@ int wmain(int argc, wchar_t* argv[])
 		return 1;
 	}
 
-	/*HANDLE hFileA;
-	hFileA = CreateFileA(
-		"D:\\Jorta\\Downloads\\ascii.txt",
-		GENERIC_WRITE,
-		0,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	HANDLE hFileW;
-	hFileW = CreateFileW(
-		L"D:\\Jorta\\Downloads\\unicode.txt",
-		GENERIC_WRITE,
-		0,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	char cbuf[] = "ascii text";
-	DWORD c, w;
-	wchar_t wbuf[] = L"オトナのオモチャ";
-
-	succ = WriteFile(hFileA, cbuf, sizeof(cbuf), &c, NULL);
-	CloseHandle(hFileA);
-	succ = WriteFile(hFileW, wbuf, (sizeof(wbuf)*sizeof(wchar_t)), &w, NULL);
-	CloseHandle(hFileW);
-
-	wprintf(L"%ld\n", c);
-	wprintf(L"%ld\n", w);
-
-	wprintf(L"write = written %ld\n", (sizeof(wbuf)*(sizeof(wchar_t)) == w));*/
-
 	wchar_t chBuf[BUFFER_SIZE];
 	wchar_t* msg;
 	while (true)
@@ -98,7 +64,6 @@ int wmain(int argc, wchar_t* argv[])
 		msg = new wchar_t[len];
 		lstrcpynW(msg, &chBuf[fp], len);
 
-		//WriteFile(hStdOut, chBuf, dwRead, &dwWritten, NULL);	// <- how you're supposed to get the data
 		wprintf(msg);
 
 		if (!succ)

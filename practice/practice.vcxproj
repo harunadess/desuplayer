@@ -276,7 +276,7 @@
     <ClInclude Include="musicLibrary.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerIOHandler.h" />
-    <ClInclude Include="playerThreadProcObj.h" />
+    <ClInclude Include="playDeets.h" />
     <ClInclude Include="playlist.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="searchResults.h" />

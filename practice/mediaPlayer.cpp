@@ -65,24 +65,27 @@ void MediaPlayer::playLoop(Playlist &playlist)
 		play(playDeets);
 
 		int exitCode = playDeets.exitCode;
-		if (exitCode != 0)
+		if (exitCode != NORMAL)
 		{
-			if (exitCode == 1)
+			if (exitCode == EXIT)
 			{
 				m_adhocPlayback->clear();
 				m_playbackQueue->clear();
-				m_ipc->writeToPipe(L"Cleared queue.");
+				m_ipc->writeToPipe(L"Stopped, and cleared queue.");
 				break;
 			}
-			else if (exitCode == 2)
+			else if (exitCode == NEXT)
 			{
 				m_ipc->writeToPipe(L"Skipping forward...");
-				//continue;
 			}
-			else if (exitCode == 3)
+			else if (exitCode == PREVIOUS)
 			{
 				m_ipc->writeToPipe(L"Skipping back...");
 				playlist.getPrevious();
+			}
+			else if (exitCode == STOP)
+			{
+				m_ipc->writeToPipe(L"Stopping playback...");
 			}
 		}
 	}
@@ -90,7 +93,7 @@ void MediaPlayer::playLoop(Playlist &playlist)
 
 void MediaPlayer::playQueued()
 {
-	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nW/S adjust volume up/down.");
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nUse F11/F12 to adjust volume down/up.");
 
 	if (m_playbackQueue->hasNext())
 		playLoop(*m_playbackQueue);
@@ -102,7 +105,7 @@ void MediaPlayer::playQueued()
 
 void MediaPlayer::playImmediate()
 {
-	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nW/S adjust volume up/down.");
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nUse F11/F12 to adjust volume down/up.");
 
 	if (m_adhocPlayback->hasNext())
 		playLoop(*m_adhocPlayback);

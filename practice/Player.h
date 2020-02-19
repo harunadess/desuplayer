@@ -8,7 +8,7 @@
 #include "playerIOHandler.h"
 #include "mpControls.h"
 #include "ipc.h"
-#include "playerThreadProcObj.h"
+#include "playDeets.h"
 
 class Player
 {
@@ -22,6 +22,14 @@ public:
 	void checkIsPaused(bool& paused);
 	void getSeekPosition(unsigned int& ms);
 	void getLength(unsigned int& ms);
+
+	enum ExitCode {
+		NORMAL,
+		EXIT,
+		NEXT,
+		PREVIOUS,
+		STOP
+	};
 
 protected:
 	IPC* m_ipc;
@@ -57,7 +65,7 @@ private:
 	unsigned int m_version;
 	//extra driver data of audio subsystem
 	void* m_extraDriverData = nullptr;
-	PlayerIOHandler *m_io;
+	PlayerIOHandler* m_io;
 
 
 	float m_currentVolume = 1.0f;

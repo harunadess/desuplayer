@@ -506,7 +506,7 @@
     <ClInclude Include="ipc.h">
       <Filter>Header Files\io</Filter>
     </ClInclude>
-    <ClInclude Include="playerThreadProcObj.h">
+    <ClInclude Include="playDeets.h">
       <Filter>Header Files\data types</Filter>
     </ClInclude>
   </ItemGroup>

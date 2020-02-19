@@ -10,6 +10,7 @@ struct MpControls {
 	std::atomic_bool stop = false;
 	std::atomic_bool vol_up = false;
 	std::atomic_bool vol_down = false;
+	std::atomic_bool exit = false;
 };
 
 #endif // !MP_CONTROLS_H
