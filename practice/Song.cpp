@@ -13,8 +13,12 @@ Song::Song()
 Song::Song(const unsigned int& trackNumber, const std::wstring& title, const std::wstring& artist, const std::wstring& album, 
 			const std::wstring& genre, const AudioProperties audioProperties, const FilePath& filePath)
 	:m_trackNumber(trackNumber), m_title(title), m_artistName(artist), m_albumTitle(album), m_genre(genre),
-		m_audioProperties(audioProperties), m_filePath(filePath)
+		m_audioProperties(audioProperties), m_filePath(filePath), m_fileName(filePath.fileName)
 {
+	if (m_title.length() == 0)
+		m_title = m_fileName;
+	if (m_genre.length() == 0)
+		m_genre = L"Unknown";
 }
 
 Song::~Song()
@@ -70,4 +74,14 @@ FilePath Song::getFilePath() const
 void Song::setFilePath(const FilePath& filePath)
 {
 	m_filePath = filePath;
+}
+
+wstring Song::getFileName() const
+{
+	return m_fileName;
+}
+
+void Song::setFileName(const wstring& fileName)
+{
+	m_fileName = fileName;
 }

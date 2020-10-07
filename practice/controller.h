@@ -12,7 +12,7 @@
 #include "mpControls.h"
 #include "ipc.h"
 
-constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 8;
+constexpr unsigned short POSSIBLE_ACTIONS_LENGTH = 10;
 
 class Controller
 {
@@ -25,27 +25,32 @@ public:
 	int main();
 
 private:
+	// todo: this needs refactored - there has to be a better way to map from strings to numbers
 	enum InputOutcome
 	{
-		UNRECOGNISED,
 		PLAY,
 		SEARCH,
 		QUEUE,
 		PRINT,
 		START,
+		VOLUME,
 		SAVE,
+		INITIALISE,
 		HELP,
-		EXIT
+		EXIT,
+		UNRECOGNISED
 	};
 
-	const std::wstring POSSIBLE_ACTIONS[POSSIBLE_ACTIONS_LENGTH] = 
+	const std::wstring POSSIBLE_ACTIONS[POSSIBLE_ACTIONS_LENGTH] =
 	{
 		std::wstring(L"play"),
 		std::wstring(L"search"),
 		std::wstring(L"queue"),
 		std::wstring(L"print"),
 		std::wstring(L"start"),
+		std::wstring(L"volume"),
 		std::wstring(L"save"),
+		std::wstring(L"init"),
 		std::wstring(L"help"),
 		std::wstring(L"exit")
 	};
@@ -57,14 +62,16 @@ private:
 	InputOutcome checkResponse(const std::wstring& response) const;
 	bool fullSearch(const std::wstring& searchTerms, SearchResults& searchResults) const;
 
-	// todo: refactor these
+	// todo: refactor these (maybe)
 	void handlePlayOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleSearchOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	void handleQueueOutcome(const std::wstring& searchTerms, SearchResults& searchResults);
 	
 	void handlePrintOutcome();
 	void handleStartOutcome();
+	void handleVolumeOutcome(const std::wstring& volumeArgs);
 	void handleSaveOutcome(const std::wstring& playlistTitle);
+	void handleInitialiseOutcome();
 	void handleHelpOutcome();
 	void handleExitOutcome();
 

@@ -18,7 +18,7 @@ bool MusicFileFinder::isMusicFile(string extension)
 {
 	for (unsigned int i = 0; i < INCLUDE_LIST_LENGTH; i++)
 	{
-		if (extension.find(m_INCLUDE_LIST[i]) != string::npos)
+		if (extension.find(SongExtensions[i]) != string::npos)
 		{
 			return true;
 		}
@@ -62,6 +62,10 @@ vector<FilePath> MusicFileFinder::scanForNewFiles(wstring& baseDir)
 				if (isMusicFile(dirEntry.path().extension().u8string().c_str()))
 				{
 					FilePath fpObj(dirEntry.path().wstring(), dirEntry.path().u8string());
+					wstring fileName = dirEntry.path().filename().wstring();
+					const size_t extensionLen = dirEntry.path().extension().wstring().length();
+					fpObj.fileName = fileName.replace((fileName.end() - extensionLen), fileName.end(), L"");
+
 					foundFiles.push_back(fpObj);
 				}
 			}

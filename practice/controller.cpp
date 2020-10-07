@@ -90,7 +90,6 @@ int Controller::init()
 	}
 }
 
-//todo: how do you populate/add things/view playlists??
 const wstring getMainMenuText()
 {
 	wstring s = L"\n\n";
@@ -99,7 +98,9 @@ const wstring getMainMenuText()
 	s += L"Type \"queue\" followed by search terms to add the item to add the song/artist/album/playlist to the queue.\n";
 	s += L"Type \"print\" to show what is currently in the queue.\n";
 	s += L"Type \"start\" to play what is in the queue.\n";
+	s += L"Type \"volume\" and a percentage between 0 and 100 to set the volume to that amount.\n";
 	s += L"Type \"save\" followed by a title to save the current queue as a playlist.\n";
+	s += L"Type \"init\" to reinitialise the library, and scan for files again.\n";
 	s += L"Type \"help\" to print this text.\n";
 	s += L"Type \"exit\" to exit the application.\n";
 
@@ -140,8 +141,18 @@ void Controller::handleResponse(const wstring& response)
 	size_t parsedResponseLen = parsedResponse[0].length();
 
 	wstring outcomeArgs = response;
-	if (outcome == PLAY || outcome == SEARCH || outcome == QUEUE || outcome == SAVE)
-		outcomeArgs = outcomeArgs.replace(outcomeArgs.begin(), (outcomeArgs.begin() + parsedResponseLen + 1), L"");
+	if (outcome == PLAY || outcome == SEARCH || outcome == QUEUE || outcome == SAVE || outcome == VOLUME)
+	{
+		if (parsedResponse.size() > 1)
+		{
+			outcomeArgs = outcomeArgs.replace(outcomeArgs.begin(), (outcomeArgs.begin() + parsedResponseLen + 1), L"");
+		}
+		else
+		{
+			m_io.outputText(L"Please add arguments dess.");
+			return;
+		}
+	}
 	
 	SearchResults searchResults;
 
@@ -155,8 +166,12 @@ void Controller::handleResponse(const wstring& response)
 		handlePrintOutcome();
 	else if (outcome == START)
 		handleStartOutcome();
+	else if (outcome == VOLUME)
+		handleVolumeOutcome(outcomeArgs);
 	else if (outcome == SAVE)
 		handleSaveOutcome(outcomeArgs);
+	else if (outcome == INITIALISE)
+		handleInitialiseOutcome();
 	else if (outcome == HELP)
 		handleHelpOutcome();
 	else if (outcome == EXIT)
@@ -192,24 +207,34 @@ vector<wstring> Controller::parseResponse(const wstring& response) const
 
 Controller::InputOutcome Controller::checkResponse(const wstring& response) const
 {
-	if (response == POSSIBLE_ACTIONS[0])
+	/*if (response == POSSIBLE_ACTIONS[PLAY])
 		return PLAY;
-	else if (response == POSSIBLE_ACTIONS[1])
+	else if (response == POSSIBLE_ACTIONS[SEARCH])
 		return SEARCH;
-	else if (response == POSSIBLE_ACTIONS[2])
+	else if (response == POSSIBLE_ACTIONS[QUEUE])
 		return QUEUE;
-	else if (response == POSSIBLE_ACTIONS[3])
+	else if (response == POSSIBLE_ACTIONS[PRINT])
 		return PRINT;
-	else if (response == POSSIBLE_ACTIONS[4])
+	else if (response == POSSIBLE_ACTIONS[START])
 		return START;
-	else if (response == POSSIBLE_ACTIONS[5])
+	else if (response == POSSIBLE_ACTIONS[VOLUME])
+		return VOLUME;
+	else if (response == POSSIBLE_ACTIONS[SAVE])
 		return SAVE;
-	else if (response == POSSIBLE_ACTIONS[6])
+	else if (response == POSSIBLE_ACTIONS[INITIALISE])
+		return INITIALISE;
+	else if (response == POSSIBLE_ACTIONS[HELP])
 		return HELP;
-	else if (response == POSSIBLE_ACTIONS[7])
+	else if (response == POSSIBLE_ACTIONS[EXIT])
 		return EXIT;
 	else
-		return UNRECOGNISED;
+		return UNRECOGNISED;*/
+
+	for (int i = 0; i < POSSIBLE_ACTIONS_LENGTH; ++i)
+		if (response.find(POSSIBLE_ACTIONS[i]) != std::wstring::npos)
+			return InputOutcome(i);
+
+	return UNRECOGNISED;
 }
 
 void Controller::handlePlayOutcome(const wstring& searchTerms, SearchResults& searchResults)
@@ -270,9 +295,12 @@ void Controller::handlePlayOutcome(const wstring& searchTerms, SearchResults& se
 	}
 	m_playerThread = new std::thread(&MediaPlayer::playImmediate, m_mediaPlayer);
 
-	m_io.outputText(L"playing items..");
+	if (m_mediaPlayer.getAdhocPlayback()->getSongList().size() >= 1)
+		m_io.outputText(L"playing items..");
+	else
+		m_io.outputText(L"nothing to play..");
+
 	handleHelpOutcome();
-	//m_mediaPlayer.playImmediate();
 }
 
 void Controller::handleSearchOutcome(const wstring& searchTerms, SearchResults& searchResults)
@@ -320,25 +348,29 @@ void Controller::handleQueueOutcome(const wstring& searchTerms, SearchResults& s
 		}
 	}
 
+	size_t itemsAdded = 0;
 	if (searchResults.artists.size() > 0 && nChosen <= searchResults.artists.size())
-		m_mediaPlayer.addToPlaybackQueue(searchResults.artists.at(--nChosen));
+		itemsAdded = m_mediaPlayer.addToPlaybackQueue(searchResults.artists.at(--nChosen));
 	
 	nChosen -= searchResults.artists.size();
 
 	if (searchResults.albums.size() > 0 && nChosen <= searchResults.albums.size())
-		m_mediaPlayer.addToPlaybackQueue(searchResults.albums.at(--nChosen));
+		itemsAdded = m_mediaPlayer.addToPlaybackQueue(searchResults.albums.at(--nChosen));
 	
 	nChosen -= searchResults.albums.size();
 
 	if (searchResults.songs.size() > 0 && nChosen <= searchResults.songs.size())
-		m_mediaPlayer.addToPlaybackQueue(searchResults.songs.at(--nChosen));
+		itemsAdded = m_mediaPlayer.addToPlaybackQueue(searchResults.songs.at(--nChosen));
 
 	nChosen -= searchResults.songs.size();
 
 	if (searchResults.playlists.size() > 0 && nChosen <= searchResults.playlists.size())
-		m_mediaPlayer.addToPlaybackQueue(searchResults.playlists.at(--nChosen));
+		itemsAdded = m_mediaPlayer.addToPlaybackQueue(searchResults.playlists.at(--nChosen));
 
-	m_io.outputText(L"Successfully queued item(s)");
+	wstring str = L"Successfully queued ";
+	str += std::to_wstring(itemsAdded);
+	str += L" items(s)";
+	m_io.outputText(str);
 }
 
 void Controller::handlePrintOutcome()
@@ -366,6 +398,28 @@ void Controller::handleStartOutcome()
 	}
 	m_playerThread = new std::thread(&MediaPlayer::playQueued, &m_mediaPlayer);
 	//m_mediaPlayer.playQueued();
+}
+
+void Controller::handleVolumeOutcome(const wstring& volumeArgs)
+{
+	const int volume = std::stoi(volumeArgs);
+
+	if (volume < 0)
+	{
+		m_io.outputText(L"volume cannot be less than 0 dess.");
+		return;
+	}
+	else if (volume > 100)
+	{
+		m_io.outputText(L"volume cannot be greater than 100 dess.");
+		return;
+	}
+	m_mediaPlayer.setVolume(volume);
+
+	wstring str = L"Set volume to ";
+	str += std::to_wstring(volume);
+	str += L"%";
+	m_io.outputText(str);
 }
 
 void Controller::handleSaveOutcome(const wstring& playlistTitle)
@@ -402,6 +456,39 @@ void Controller::handleSaveOutcome(const wstring& playlistTitle)
 	queue->setTitle(playlistTitle);
 	m_musicLibrary.savePlaylist(*queue);
 	m_io.outputTextInline(L"Done\n");
+}
+
+void Controller::handleInitialiseOutcome()
+{
+	m_io.outputTextWithSpacing(L"Performing library initialisation..");
+	wstring response = L"";
+	int nResponse = -1;
+
+	bool setupSucc = firstTimeSetup();
+	if (setupSucc)
+	{
+		m_io.outputTextWithSpacing(L"Setup success!");
+		handleHelpOutcome();
+		return;
+	}
+	else
+	{
+		m_io.outputTextWithSpacing(L"Setup failed...\n");
+		m_io.outputText(L"Retry?\n1. Yes\n2. No (exit)");
+
+		nResponse = getMenuOp(response);
+
+		if (nResponse == 1)
+		{
+			handleInitialiseOutcome();
+			return;
+		}
+		else
+		{
+			handleHelpOutcome();
+			return;
+		}
+	}
 }
 
 void Controller::handleHelpOutcome()

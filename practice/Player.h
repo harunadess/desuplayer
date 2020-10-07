@@ -22,6 +22,8 @@ public:
 	void checkIsPaused(bool& paused);
 	void getSeekPosition(unsigned int& ms);
 	void getLength(unsigned int& ms);
+	int getVolume();
+	void setVolume(const int& volume);
 
 	enum ExitCode {
 		NORMAL,
@@ -45,8 +47,8 @@ private:
 	int corePlayLoop();
 	void checkForInput(int& exitCode);
 	void systemUpdate();
-	void getVolume(float& volume);
-	void setVolume(float& volume);
+	void getVolumeInternal(float& volume);
+	void setVolumeInternal(float& volume);
 	void soundRelease();
 	void systemClose();
 	void systemRelease();
@@ -68,11 +70,11 @@ private:
 	PlayerIOHandler* m_io;
 
 
-	float m_currentVolume = 1.0f;
+	float* m_currentVolume = nullptr;
 
 	const float MAX_VOLUME = 1.0f;
 	const float MIN_VOLUME = 0.0f;
-	const float VOLUME_INCREMENT = 0.05f;
+	const float DEFAULT_VOLUME = 0.5f;
 
 	MpControls* m_mpControls;
 };

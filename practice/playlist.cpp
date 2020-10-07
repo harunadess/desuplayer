@@ -80,6 +80,9 @@ void Playlist::addContentsToList(const Playlist& playlist)
 
 bool Playlist::getNext(Song &song)
 {
+	if (m_songList.size() < 1)
+		return false;
+
 	if (m_listIndex >= 0 && m_listIndex < m_songList.size())
 	{
 		song = m_songList.at(m_listIndex++);

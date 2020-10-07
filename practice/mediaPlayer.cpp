@@ -13,44 +13,76 @@ MediaPlayer::~MediaPlayer()
 	delete m_adhocPlayback;
 }
 
-void MediaPlayer::addToPlaybackQueue(const Song& song)
+size_t MediaPlayer::addToPlaybackQueue(const Song& song)
 {
+	const size_t sizeBefore = m_playbackQueue->getSongList().size();
 	m_playbackQueue->addSongToList(song);
+	const size_t sizeAfter = m_playbackQueue->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToPlaybackQueue(const Album& album)
+size_t MediaPlayer::addToPlaybackQueue(const Album& album)
 {
+	const size_t sizeBefore = m_playbackQueue->getSongList().size();
 	m_playbackQueue->addContentsToList(album);
+	const size_t sizeAfter = m_playbackQueue->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToPlaybackQueue(const Artist& artist)
+size_t MediaPlayer::addToPlaybackQueue(const Artist& artist)
 {
+	const size_t sizeBefore = m_playbackQueue->getSongList().size();
 	m_playbackQueue->addContentsToList(artist);
+	const size_t sizeAfter = m_playbackQueue->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToPlaybackQueue(const Playlist& playlist)
+size_t MediaPlayer::addToPlaybackQueue(const Playlist& playlist)
 {
+	const size_t sizeBefore = m_playbackQueue->getSongList().size();
 	m_playbackQueue->addContentsToList(playlist);
+	const size_t sizeAfter = m_playbackQueue->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToAdHocQueue(const Song& song)
+size_t MediaPlayer::addToAdHocQueue(const Song& song)
 {
+	const size_t sizeBefore = m_adhocPlayback->getSongList().size();
 	m_adhocPlayback->addSongToList(song);
+	const size_t sizeAfter = m_adhocPlayback->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToAdHocQueue(const Album& album)
+size_t MediaPlayer::addToAdHocQueue(const Album& album)
 {
+	const size_t sizeBefore = m_adhocPlayback->getSongList().size();
 	m_adhocPlayback->addContentsToList(album);
+	const size_t sizeAfter = m_adhocPlayback->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToAdHocQueue(const Artist& artist)
+size_t MediaPlayer::addToAdHocQueue(const Artist& artist)
 {
+	const size_t sizeBefore = m_adhocPlayback->getSongList().size();
 	m_adhocPlayback->addContentsToList(artist);
+	const size_t sizeAfter = m_adhocPlayback->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
-void MediaPlayer::addToAdHocQueue(const Playlist& playlist)
+size_t MediaPlayer::addToAdHocQueue(const Playlist& playlist)
 {
+	const size_t sizeBefore = m_adhocPlayback->getSongList().size();
 	m_adhocPlayback->addContentsToList(playlist);
+	const size_t sizeAfter = m_adhocPlayback->getSongList().size();
+
+	return sizeAfter - sizeBefore;
 }
 
 void MediaPlayer::playLoop(Playlist &playlist)
@@ -93,7 +125,7 @@ void MediaPlayer::playLoop(Playlist &playlist)
 
 void MediaPlayer::playQueued()
 {
-	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nUse F11/F12 to adjust volume down/up.");
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\n");
 
 	if (m_playbackQueue->hasNext())
 		playLoop(*m_playbackQueue);
@@ -105,7 +137,7 @@ void MediaPlayer::playQueued()
 
 void MediaPlayer::playImmediate()
 {
-	m_ipc->writeToPipe(L"ESC - stop and clear queue.\nUse F11/F12 to adjust volume down/up.");
+	m_ipc->writeToPipe(L"ESC - stop and clear queue.\n.");
 
 	if (m_adhocPlayback->hasNext())
 		playLoop(*m_adhocPlayback);

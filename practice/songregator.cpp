@@ -25,7 +25,6 @@ bool artistNotInList(const map<wstring, Artist>& artistList, const wstring& arti
 	return true;
 }
 
-
 bool Songregator::populateLibrary(wstring& baseDir, std::map<std::wstring, Artist>& artistMapOut, 
 	std::map<std::wstring, Album>& albumMapOut, std::map<std::wstring, Song>& songMapOut)
 {
@@ -87,8 +86,11 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 	for (const FilePath& fp : filePaths)
 	{
 		++pathIndex;
-		if(pathIndex >= milestones[milestonesIndex])
-			std::wcout << (milestonesIndex * 10) << L"%.." << std::flush;
+		if (pathIndex >= milestones[milestonesIndex])
+		{
+			std::wcout << (milestonesIndex * 10) << L"%..\n" << std::flush;
+			++milestonesIndex;
+		}
 
 		TagLib::FileRef fileRef = TagLib::FileRef(fp.wideFilePath.c_str());
 		if (!fileRef.isNull() && fileRef.tag())
@@ -99,6 +101,8 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 				TagLib::AudioProperties* audioProps = fileRef.audioProperties();
 
 				wstring artistName = tag->artist().toWString();
+				if (artistName.find(L"Ayame") != wstring::npos)
+					std::wcout << "here";
 				wstring normalisedArtistName = wstringToLower(artistName);
 
 				// create artist with only name, other vars empty

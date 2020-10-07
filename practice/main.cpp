@@ -94,36 +94,10 @@ LRESULT CALLBACK keyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 			case VK_MEDIA_STOP:
 				mpControls.stop.store(true);
 				break;
-			case VK_F12:
-				if (!(GetAsyncKeyState(VK_CONTROL) & 0x8000))
-					break;
-			case VK_VOLUME_UP:
-				mpControls.vol_up.store(true);
-				break;
-			case VK_F11:
-				if (!(GetAsyncKeyState(VK_CONTROL) & 0x8000))
-					break;
-			case VK_VOLUME_DOWN:
-				mpControls.vol_down.store(true);
+			case VK_ESCAPE:
+				mpControls.exit.store(true);
 				break;
 			}
-			/*g_kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
-			if (g_kbdStruct.vkCode == VK_MEDIA_PLAY_PAUSE)
-				mpControls.pause.store(true);
-			else if (g_kbdStruct.vkCode == VK_MEDIA_NEXT_TRACK)
-				mpControls.next.store(true);
-			else if (g_kbdStruct.vkCode == VK_MEDIA_PREV_TRACK)
-				mpControls.prev.store(true);
-			else if (g_kbdStruct.vkCode == VK_MEDIA_STOP)
-				mpControls.stop.store(true);
-			else if (g_kbdStruct.vkCode == VK_VOLUME_UP ||
-				((GetAsyncKeyState(VK_CONTROL) & 0x8000) && g_kbdStruct.vkCode == VK_F12))
-				mpControls.vol_up.store(true);
-			else if (g_kbdStruct.vkCode == VK_VOLUME_DOWN ||
-				((GetAsyncKeyState(VK_CONTROL) & 0x8000) && g_kbdStruct.vkCode == VK_F11))
-				mpControls.vol_down.store(true);
-			else if (g_kbdStruct.vkCode == VK_ESCAPE)
-				mpControls.exit.store(true);*/
 		}
 	}
 
@@ -259,9 +233,11 @@ bool cleanUp()
 
 /**
 	TODO:
-		- test volume controls (Ctrl + F11/F12)
-		- figure out how to do an update library function (re-scan)
+		- fix release version
+			- icon
+			- signage (laptop)
 */
+
 int wmain(int argc, wchar_t* argv[])
 {
 	configConsole();

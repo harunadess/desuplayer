@@ -6,11 +6,8 @@ FilePath::FilePath()
 
 SongFormat determineFormat(std::string u8FilePath)
 {
-	const int FORMATS = 4;
-	std::string formats[4] = { ".mp3", ".flac", ".aac", ".ogg" };
-
-	for (int i = 0; i < FORMATS; i++)
-		if (u8FilePath.find(formats[i]) != std::string::npos)
+	for (int i = 0; i < NUM_EXTENSIONS; i++)
+		if (u8FilePath.find(SongExtensions[i]) != std::string::npos)
 			return SongFormat(i);
 
 	return MP3;

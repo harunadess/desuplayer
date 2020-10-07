@@ -14,7 +14,6 @@ public:
 		const std::wstring& genre, const AudioProperties audioProperties, const FilePath& filePath);
 	~Song();
 
-	//todo: sets and gets
 	unsigned int getTrackNumber() const;
 	void setTrackNumber(const unsigned int& trackNumber);
 	std::wstring getTitle() const;
@@ -25,17 +24,19 @@ public:
 	void setAlbumTitle(const std::wstring& album);
 	FilePath getFilePath() const;
 	void setFilePath(const FilePath& filePath);
+	std::wstring getFileName() const;
+	void setFileName(const std::wstring& fileName);
 
 	template<class Archive>
 	void save(Archive& archive) const
 	{
-		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_genre, m_audioProperties, m_filePath);
+		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_genre, m_audioProperties, m_filePath, m_fileName);
 	}
 
 	template<class Archive>
 	void load(Archive& archive)
 	{
-		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_genre, m_audioProperties, m_filePath);
+		archive(m_trackNumber, m_title, m_artistName, m_albumTitle, m_genre, m_audioProperties, m_filePath, m_fileName);
 	}
 
 private:
@@ -46,6 +47,7 @@ private:
 	std::wstring m_genre;
 	AudioProperties m_audioProperties;
 	FilePath m_filePath;
+	std::wstring m_fileName;
 
 };
 

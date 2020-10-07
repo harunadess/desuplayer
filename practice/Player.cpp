@@ -12,11 +12,14 @@ using std::endl;
 Player::Player(MpControls& mpControls, IPC* ipc)
 	:m_mpControls(&mpControls), m_ipc(ipc)
 {
+	m_currentVolume = new float[1];
+	*m_currentVolume = DEFAULT_VOLUME;
 }
 
 
 Player::~Player()
 {
+	delete m_currentVolume;
 	delete m_extraDriverData;
 }
 
@@ -46,7 +49,7 @@ void Player::play(PlayDeets& playDeets)
 
 	//Actually play the file
 	playSound();
-	m_channel->setVolume(m_currentVolume);
+	m_channel->setVolume(*m_currentVolume);
 	int exitCode = corePlayLoop();
 
 	//Shut down once file finishes
@@ -150,6 +153,14 @@ int Player::corePlayLoop()
 				getSeekPosition(ms);
 				getLength(lenms);
 
+				if (m_mpControls->vol_up || m_mpControls->vol_down)
+				{
+					setVolumeInternal(*m_currentVolume);
+					getVolumeInternal(*m_currentVolume);
+					m_mpControls->vol_down.store(false);
+					m_mpControls->vol_up.store(false);
+				}
+
 				if ((!playing && !paused) && (ms == 0))
 				{
 					return exitCode;
@@ -173,33 +184,19 @@ void Player::systemUpdate()
 
 void Player::checkForInput(int& exitCode)
 {
-	// can't use this anymore - _getch()...
-	//m_io->processInput();
-
-	/*if (m_io->isPauseKey())
-	{
-		bool paused;
-		m_result = m_channel->getPaused(&paused);
-		ERRCHECK_fn(m_result, __FILE__, __LINE__);
-		m_result = m_channel->setPaused(!paused);
-	}
-	if (m_io->isSkipForwardKey())
-	{
-		exitCode = 2;
-		return;
-	}
-	if (m_io->isSkipBackKey())
-	{
-		exitCode = 3;
-		return;
-	}*/
-
 	if (m_mpControls->pause)
 	{
 		bool paused;
 		m_result = m_channel->getPaused(&paused);
+
+		if (paused)
+			m_ipc->writeToPipe(L"Paused");
+		else
+			m_ipc->writeToPipe(L"Resume");
+
 		ERRCHECK_fn(m_result, __FILE__, __LINE__);
 		m_result = m_channel->setPaused(!paused);
+		ERRCHECK_fn(m_result, __FILE__, __LINE__);
 		m_mpControls->pause.store(false);
 		
 		exitCode = NORMAL;
@@ -225,42 +222,6 @@ void Player::checkForInput(int& exitCode)
 		exitCode = EXIT;
 		m_mpControls->exit.store(false);
 	}
-	else if (m_mpControls->vol_up)
-	{
-		getVolume(m_currentVolume);
-
-		if (m_currentVolume < MAX_VOLUME)
-		{
-			m_currentVolume += VOLUME_INCREMENT;
-			setVolume(m_currentVolume);
-
-			std::wstring str = L"Set volume to ";
-			str += std::to_wstring((int)(m_currentVolume * 100));
-			str += L"%";
-
-			m_ipc->writeToPipe(str);
-			m_mpControls->vol_up.store(false);
-		}
-		exitCode = NORMAL;
-	}
-	else if (m_mpControls->vol_down)
-	{
-		getVolume(m_currentVolume);
-
-		if (m_currentVolume > MIN_VOLUME)
-		{
-			m_currentVolume -= VOLUME_INCREMENT;
-			setVolume(m_currentVolume);
-
-			std::wstring str = L"Set volume to ";
-			str += std::to_wstring((int)(m_currentVolume * 100));
-			str += L"%";
-
-			m_ipc->writeToPipe(str);
-			m_mpControls->vol_down.store(false);
-		}
-		exitCode = NORMAL;
-	}
 }
 
 void Player::checkIsPlaying(bool& playing)
@@ -281,7 +242,7 @@ void Player::checkIsPaused(bool& paused)
 	}
 }
 
-void Player::getVolume(float& volume)
+void Player::getVolumeInternal(float& volume)
 {
 	m_result = m_channel->getVolume(&volume);
 	if ((m_result != FMOD_OK) && (m_result != FMOD_ERR_INVALID_HANDLE))
@@ -290,7 +251,7 @@ void Player::getVolume(float& volume)
 	}
 }
 
-void Player::setVolume(float& volume)
+void Player::setVolumeInternal(float& volume)
 {
 	m_result = m_channel->setVolume(volume);
 	if ((m_result != FMOD_OK) && (m_result != FMOD_ERR_INVALID_HANDLE))
@@ -315,6 +276,25 @@ void Player::getLength(unsigned int& lenms)
 	{
 		ERRCHECK_fn(m_result, __FILE__, __LINE__);
 	}
+}
+
+int Player::getVolume()
+{
+	float currentVolume = 0.0f;
+	getVolumeInternal(currentVolume);
+	return (int)(currentVolume * 100);
+}
+
+void Player::setVolume(const int& volume)
+{
+	const float prevVol = *m_currentVolume;
+	const float volumeF = (float)(volume) / 100;
+	*m_currentVolume = volumeF;
+
+	if (prevVol < volumeF)
+		m_mpControls->vol_up.store(true);
+	else if (prevVol >= volumeF)
+		m_mpControls->vol_down.store(true);
 }
 
 //release parent sound, not the one that was retrieved with getSubSound

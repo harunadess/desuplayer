@@ -14,14 +14,14 @@ public:
 	~MediaPlayer();
 
 	//todo: convert these to return an int/size_t of how many items were queued.
-	void addToPlaybackQueue(const Song& song);
-	void addToPlaybackQueue(const Album& album);
-	void addToPlaybackQueue(const Artist& artist);
-	void addToPlaybackQueue(const Playlist& playlist);
-	void addToAdHocQueue(const Song& song);
-	void addToAdHocQueue(const Album& album);
-	void addToAdHocQueue(const Artist& artist);
-	void addToAdHocQueue(const Playlist& playlist);
+	size_t addToPlaybackQueue(const Song& song);
+	size_t addToPlaybackQueue(const Album& album);
+	size_t addToPlaybackQueue(const Artist& artist);
+	size_t addToPlaybackQueue(const Playlist& playlist);
+	size_t addToAdHocQueue(const Song& song);
+	size_t addToAdHocQueue(const Album& album);
+	size_t addToAdHocQueue(const Artist& artist);
+	size_t addToAdHocQueue(const Playlist& playlist);
 	Playlist* getPlaybackQueue();
 	Playlist* getAdhocPlayback();
 	void playImmediate();
