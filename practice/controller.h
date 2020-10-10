@@ -56,7 +56,7 @@ private:
 	};
 
 	int getMenuOp(std::wstring& responseStr);
-	int printSearchResults(SearchResults& searchResults);
+	void printSearchResults(SearchResults& searchResults, size_t& printOffset);
 	void handleResponse(const std::wstring& response);
 	std::vector<std::wstring> parseResponse(const std::wstring& response) const;
 	InputOutcome checkResponse(const std::wstring& response) const;

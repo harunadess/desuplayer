@@ -189,7 +189,7 @@ void Player::checkForInput(int& exitCode)
 		bool paused;
 		m_result = m_channel->getPaused(&paused);
 
-		if (paused)
+		if (!paused)
 			m_ipc->writeToPipe(L"Paused");
 		else
 			m_ipc->writeToPipe(L"Resume");

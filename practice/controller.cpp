@@ -207,29 +207,6 @@ vector<wstring> Controller::parseResponse(const wstring& response) const
 
 Controller::InputOutcome Controller::checkResponse(const wstring& response) const
 {
-	/*if (response == POSSIBLE_ACTIONS[PLAY])
-		return PLAY;
-	else if (response == POSSIBLE_ACTIONS[SEARCH])
-		return SEARCH;
-	else if (response == POSSIBLE_ACTIONS[QUEUE])
-		return QUEUE;
-	else if (response == POSSIBLE_ACTIONS[PRINT])
-		return PRINT;
-	else if (response == POSSIBLE_ACTIONS[START])
-		return START;
-	else if (response == POSSIBLE_ACTIONS[VOLUME])
-		return VOLUME;
-	else if (response == POSSIBLE_ACTIONS[SAVE])
-		return SAVE;
-	else if (response == POSSIBLE_ACTIONS[INITIALISE])
-		return INITIALISE;
-	else if (response == POSSIBLE_ACTIONS[HELP])
-		return HELP;
-	else if (response == POSSIBLE_ACTIONS[EXIT])
-		return EXIT;
-	else
-		return UNRECOGNISED;*/
-
 	for (int i = 0; i < POSSIBLE_ACTIONS_LENGTH; ++i)
 		if (response.find(POSSIBLE_ACTIONS[i]) != std::wstring::npos)
 			return InputOutcome(i);
@@ -246,19 +223,31 @@ void Controller::handlePlayOutcome(const wstring& searchTerms, SearchResults& se
 		return;
 	}
 	
-	int maxOption = printSearchResults(searchResults);
+	// todo: change how search results are displayed -
+	// only show first 25 results
+	// if response is x, print next 25
+	// if response is -1, exit
+	const size_t maxOption = searchResults.getTotal();
+	size_t printOffset = 0;
+	
 	wstring chosen = L"";
 
 	size_t nChosen = -1;
-	m_io.outputTextInline(L"Enter a number from the search results, or -1 to exit.\n>> ");
+	m_io.outputTextInline(L"Enter a number from the search results, n for next page, or -1 to exit.\n");
 
 	while (nChosen <= 0 || nChosen > maxOption)
 	{
 		try
 		{
-			getline(wcin, chosen);
-			nChosen = std::stoi(chosen);
+			printSearchResults(searchResults, printOffset);
 
+			m_io.outputTextInline(L">> ");
+			getline(wcin, chosen);
+			
+			if (chosen == L"n")
+				continue;
+
+			nChosen = std::stoi(chosen);
 			if (nChosen == -1)
 				return;
 		}
@@ -312,7 +301,10 @@ void Controller::handleSearchOutcome(const wstring& searchTerms, SearchResults& 
 		return;
 	}
 
-	printSearchResults(searchResults);
+	const size_t numItems = searchResults.getTotal();
+	size_t printOffset = 0;
+	while(printOffset < numItems)
+		printSearchResults(searchResults, printOffset);
 }
 
 void Controller::handleQueueOutcome(const wstring& searchTerms, SearchResults& searchResults)
@@ -324,7 +316,8 @@ void Controller::handleQueueOutcome(const wstring& searchTerms, SearchResults& s
 		return;
 	}
 
-	int maxOption = printSearchResults(searchResults);
+	const size_t maxOption = searchResults.getTotal();
+	size_t printOffset = 0;
 	wstring chosen = L"";
 
 	size_t nChosen = -1;
@@ -334,6 +327,7 @@ void Controller::handleQueueOutcome(const wstring& searchTerms, SearchResults& s
 	{
 		try
 		{
+			printSearchResults(searchResults, printOffset);
 			getline(wcin, chosen);
 			nChosen = std::stoi(chosen);
 
@@ -389,6 +383,7 @@ void Controller::handlePrintOutcome()
 
 void Controller::handleStartOutcome()
 {
+	//todo: print how many items are in the queue
 	m_io.outputText(L"Playing queued items...");
 
 	if (m_playerThread)
@@ -507,45 +502,98 @@ bool Controller::fullSearch(const wstring& searchTerms, SearchResults& searchRes
 	return m_musicLibrary.fullSearch(searchTerms, searchResults);
 }
 
-int Controller::printSearchResults(SearchResults& searchResults)
+void Controller::printSearchResults(SearchResults& searchResults, size_t& printOffset)
 {
-	int maxOption = 0;
+	// what we need to know is:
+	// what is it we are iterating through
+	// i.e. do we print the "arists found" bit
+	// if where we start from
+	const size_t numArtists = searchResults.artists.size();
+	const size_t numAlbums = searchResults.albums.size();
+	const size_t numSongs = searchResults.songs.size();
+	const size_t numPlaylists = searchResults.playlists.size();
 
-	m_io.outputTextWithSpacing(L"Artists Found: " + std::to_wstring(searchResults.artists.size()));
-	for (Artist a : searchResults.artists)
-		m_io.outputText(std::to_wstring(++maxOption) + L". " +
-			a.getName());
+	size_t offset = printOffset;
+	size_t numPrinted = 0;
+	if (printOffset == 0)
+	{
+		m_io.outputTextWithSpacing(L"Artists Found: " + std::to_wstring(searchResults.artists.size()));
+	}
+	if (offset < numArtists)
+	{
+		for (offset; offset < numArtists; ++offset)
+		{
+			m_io.outputText(std::to_wstring(++printOffset) + L". " +
+				searchResults.artists.at(offset).getName());
 
+			if (++numPrinted == 25)
+				return;
+		}
+	}
 	if (searchResults.artists.size() <= 0)
 		m_io.outputText(L"<---  No results  --->");
-
-	m_io.outputTextWithSpacing(L"Albums Found: " + std::to_wstring(searchResults.albums.size()));
-	for (Album a : searchResults.albums)
-		m_io.outputText(std::to_wstring(++maxOption) + L". " +
-			a.getTitle() + L" - " + a.getArtistName());
+	
+	offset -= numArtists;
+	if (printOffset == numArtists)
+	{
+		m_io.outputTextWithSpacing(L"Albums Found: " + std::to_wstring(numAlbums));
+	}
+	if (offset < numAlbums)
+	{
+		for (offset; offset < numAlbums; ++offset)
+		{
+			m_io.outputText(std::to_wstring(++printOffset) + L". " +
+				searchResults.albums.at(offset).getTitle() + L" - " + searchResults.albums.at(offset).getArtistName());
+			
+			if (++numPrinted == 25)
+				return;
+		}
+	}
 
 	if (searchResults.albums.size() <= 0)
 		m_io.outputText(L"<---  No results  --->");
 	
-	m_io.outputTextWithSpacing(L"Songs Found: " + std::to_wstring(searchResults.songs.size()));
-	for (Song s : searchResults.songs)
-		m_io.outputText(std::to_wstring(++maxOption) + L". " +
-			s.getTitle() + L" (" + s.getAlbumTitle() + L") - " + s.getArtistName());
+	offset -= numAlbums;
+	if (printOffset == numArtists + numAlbums)
+	{
+		m_io.outputTextWithSpacing(L"Songs Found: " + std::to_wstring(numSongs));
+	}
+	if (offset < numSongs)
+	{
+		for (offset; offset < numSongs; ++offset)
+		{
+			m_io.outputText(std::to_wstring(++printOffset) + L". " +
+				searchResults.songs.at(offset).getTitle() + L" (" + searchResults.songs.at(offset).getAlbumTitle() + L") - " + searchResults.songs.at(offset).getArtistName());
+
+			if (++numPrinted == 25)
+				return;
+		}
+	}
 
 	if (searchResults.songs.size() <= 0)
 		m_io.outputText(L"<---  No results  --->");
 
-	m_io.outputTextWithSpacing(L"Playlists Found: " + std::to_wstring(searchResults.playlists.size()));
-	for (Playlist p : searchResults.playlists)
-		m_io.outputText(std::to_wstring(++maxOption) + L". " +
-			p.getTitle() + L" (Songs: " + std::to_wstring(p.getSongList().size()) + L")");
+	offset -= numSongs;
+	if (printOffset == searchResults.artists.size() + searchResults.albums.size() + searchResults.songs.size())
+	{
+		m_io.outputTextWithSpacing(L"Playlists Found: " + std::to_wstring(searchResults.playlists.size()));
+	}
+	if (offset < numPlaylists)
+	{
+		for (offset; offset < searchResults.playlists.size(); ++offset)
+		{
+			m_io.outputText(std::to_wstring(++printOffset) + L". " +
+				searchResults.playlists.at(offset).getTitle() + L" (Songs: " + std::to_wstring(searchResults.playlists.at(offset).getSongList().size()) + L")");
+
+			if (++numPrinted == 25)
+				return;
+		}
+	}
 
 	if (searchResults.playlists.size() <= 0)
 		m_io.outputText(L"<---  No results  --->");
 
 	m_io.outputNewline();
-
-	return maxOption;
 }
 
 bool Controller::firstTimeSetup()

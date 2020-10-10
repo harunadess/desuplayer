@@ -101,8 +101,6 @@ int Songregator::populateSongAndArtistMaps(map<wstring, Song>& songMap, map<wstr
 				TagLib::AudioProperties* audioProps = fileRef.audioProperties();
 
 				wstring artistName = tag->artist().toWString();
-				if (artistName.find(L"Ayame") != wstring::npos)
-					std::wcout << "here";
 				wstring normalisedArtistName = wstringToLower(artistName);
 
 				// create artist with only name, other vars empty

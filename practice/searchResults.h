@@ -13,6 +13,10 @@ public:
 	std::vector<Song> songs;
 	std::vector<Playlist> playlists;
 
+	inline size_t getTotal() const
+	{
+		return albums.size() + artists.size() + songs.size() + playlists.size();
+	}
 };
 
 #endif // !SEARCH_RESULTS_H
